@@ -6,7 +6,7 @@
 composer create-project sunrise/awesome-skeleton app
 ```
 
-## Useful links
+## Based on the following packages
 
 * https://github.com/doctrine/orm
 * https://github.com/middlewares
