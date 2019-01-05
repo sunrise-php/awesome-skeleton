@@ -6,17 +6,12 @@
 composer create-project sunrise/awesome-skeleton app
 ```
 
-## Filling the database
-
-```bash
-php vendor/bin/doctrine orm:schema-tool:update --force
-```
-
 ## Useful links
 
-* http://php-di.org/
+* https://github.com/doctrine/orm
+* https://github.com/middlewares
+* https://github.com/PHP-DI/PHP-DI
 * https://github.com/Seldaek/monolog
 * https://github.com/sunrise-php/http-router
-* https://github.com/middlewares
-* https://www.doctrine-project.org/
+* https://github.com/symfony/validator
 * https://www.php-fig.org/
