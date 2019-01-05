@@ -5,7 +5,6 @@ namespace App\Http\Controller;
 /**
  * Import classes
  */
-use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -18,15 +17,8 @@ use Psr\Http\Server\RequestHandlerInterface;
  *   methods={"GET"}
  * )
  */
-class HomeController extends AbstractController implements MiddlewareInterface
+class HomeController implements MiddlewareInterface
 {
-
-	/**
-	 * @Inject
-	 *
-	 * @var LoggerInterface
-	 */
-	protected $logger;
 
 	/**
 	 * @param ServerRequestInterface $request
@@ -36,8 +28,6 @@ class HomeController extends AbstractController implements MiddlewareInterface
 	 */
 	public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
 	{
-		$this->logger->debug(__METHOD__);
-
 		$response = $handler->handle($request);
 
 		$response->getBody()->write('Welcome');

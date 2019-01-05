@@ -17,5 +17,6 @@ php vendor/bin/doctrine orm:schema-tool:update --force
 * http://php-di.org/
 * https://github.com/Seldaek/monolog
 * https://github.com/sunrise-php/http-router
+* https://github.com/middlewares
 * https://www.doctrine-project.org/
 * https://www.php-fig.org/
