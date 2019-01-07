@@ -1,5 +1,9 @@
 # Awesome Skeleton for modern development on PHP 7.1+
 
+## Documentation
+
+[Open](https://github.com/sunrise-php/awesome-skeleton/wiki)
+
 ## Installation (via composer)
 
 ```bash
