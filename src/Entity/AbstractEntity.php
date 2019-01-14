@@ -12,41 +12,37 @@ use Symfony\Component\Validator\Validation;
 abstract class AbstractEntity
 {
 
-	/**
-	 * The entity validator
-	 *
-	 * @var null|ValidatorInterface
-	 */
-	protected $validator;
+    /**
+     * The entity validator
+     *
+     * @var null|ValidatorInterface
+     */
+    protected $validator;
 
-	/**
-	 * Gets the entity validator
-	 *
-	 * @return ValidatorInterface
-	 */
-	public function getValidator() : ValidatorInterface
-	{
-		if (empty($this->validator))
-		{
-			$builder = Validation::createValidatorBuilder();
+    /**
+     * Gets the entity validator
+     *
+     * @return ValidatorInterface
+     */
+    public function getValidator() : ValidatorInterface
+    {
+        if (empty($this->validator)) {
+            $this->validator = Validation::createValidatorBuilder()
+            ->enableAnnotationMapping()
+            ->getValidator();
+        }
 
-			$builder->enableAnnotationMapping();
+        return $this->validator;
+    }
 
-			$this->validator = $builder->getValidator();
-		}
-
-		return $this->validator;
-	}
-
-	/**
-	 * Validates the entity
-	 *
-	 * @return ConstraintViolationListInterface
-	 */
-	public function validate() : ConstraintViolationListInterface
-	{
-		$validator = $this->getValidator();
-
-		return $validator->validate($this);
-	}
+    /**
+     * Validates the entity
+     *
+     * @return ConstraintViolationListInterface
+     */
+    public function validate() : ConstraintViolationListInterface
+    {
+        return $this->getValidator()
+        ->validate($this);
+    }
 }

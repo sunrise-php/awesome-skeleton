@@ -18,70 +18,66 @@ use Sunrise\Http\Router\RouterInterface;
 class App
 {
 
-	/**
-	 * The application router
-	 *
-	 * @var RouterInterface
-	 *
-	 * @Inject
-	 */
-	protected $router;
+    /**
+     * The application router
+     *
+     * @var RouterInterface
+     *
+     * @Inject
+     */
+    protected $router;
 
-	/**
-	 * Runs the application
-	 *
-	 * @param ServerRequestInterface $request
-	 *
-	 * @return void
-	 */
-	public function run(ServerRequestInterface $request) : void
-	{
-		try
-		{
-			$response = $this->router->handle($request);
-		}
-		catch (MethodNotAllowedException $e)
-		{
-			$response = (new ResponseFactory)->createResponse(405)
-			->withHeader('allow', implode(', ', $e->getAllowedMethods()));
+    /**
+     * Runs the application
+     *
+     * @param ServerRequestInterface $request
+     *
+     * @return void
+     */
+    public function run(ServerRequestInterface $request) : void
+    {
+        try {
+            $response = $this->router->handle($request);
+        } catch (RouteNotFoundException $e) {
+            $response = (new ResponseFactory)->createResponse(404);
+            $response->getBody()->write($response->getReasonPhrase());
+        } catch (MethodNotAllowedException $e) {
+            $response = (new ResponseFactory)->createResponse(405)
+            ->withHeader('allow', implode(', ', $e->getAllowedMethods()));
+            $response->getBody()->write($response->getReasonPhrase());
+        }
 
-			$response->getBody()->write($response->getReasonPhrase());
-		}
-		catch (RouteNotFoundException $e)
-		{
-			$response = (new ResponseFactory)->createResponse(404);
+        $this->emit($response);
+    }
 
-			$response->getBody()->write($response->getReasonPhrase());
-		}
+    /**
+     * Emits the given response
+     *
+     * @param ResponseInterface $response
+     *
+     * @return void
+     */
+    public function emit(ResponseInterface $response) : void
+    {
+        $headers = $response->getHeaders();
 
-		$this->emit($response);
-	}
+        foreach ($headers as $name => $values) {
+            foreach ($values as $value) {
+                \header(\sprintf(
+                    '%s: %s',
+                    $name,
+                    $value
+                ), false);
+            }
+        }
 
-	/**
-	 * Emits the given response
-	 *
-	 * @param ResponseInterface $response
-	 *
-	 * @return void
-	 */
-	public function emit(ResponseInterface $response) : void
-	{
-		$headers = $response->getHeaders();
+        \header(\sprintf(
+            'HTTP/%s %d %s',
+            $response->getProtocolVersion(),
+            $response->getStatusCode(),
+            $response->getReasonPhrase()
+        ), true);
 
-		foreach ($headers as $name => $values)
-		{
-			foreach ($values as $value)
-			{
-				\header(\sprintf('%s: %s', $name, $value), false);
-			}
-		}
-
-		\header(\sprintf('HTTP/%s %d %s',
-			$response->getProtocolVersion(),
-			$response->getStatusCode(),
-			$response->getReasonPhrase()
-		), true);
-
-		echo $response->getBody();
-	}
+        echo $response->getBody();
+    }
 }

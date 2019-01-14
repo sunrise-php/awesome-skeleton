@@ -11,27 +11,23 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 /**
- * @Route(
- *   id="home",
- *   path="/",
- *   methods={"GET"}
- * )
+ * @Route(id="home", path="/", methods={"GET"})
  */
 class HomeController implements MiddlewareInterface
 {
 
-	/**
-	 * @param ServerRequestInterface $request
-	 * @param RequestHandlerInterface $handler
-	 *
-	 * @return ResponseInterface
-	 */
-	public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
-	{
-		$response = $handler->handle($request);
+    /**
+     * @param ServerRequestInterface $request
+     * @param RequestHandlerInterface $handler
+     *
+     * @return ResponseInterface
+     */
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+    {
+        $response = $handler->handle($request);
 
-		$response->getBody()->write('Welcome');
+        $response->getBody()->write('Welcome');
 
-		return $response;
-	}
+        return $response;
+    }
 }
