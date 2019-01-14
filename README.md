@@ -1,14 +1,20 @@
 # Awesome Skeleton for modern development on PHP 7.1+
 
-## Documentation
-
-[Open](https://github.com/sunrise-php/awesome-skeleton/wiki)
-
 ## Installation (via composer)
 
 ```bash
 composer create-project sunrise/awesome-skeleton app
 ```
+
+## Run application
+
+```bash
+composer serve
+```
+
+## Documentation
+
+[Open](https://github.com/sunrise-php/awesome-skeleton/wiki)
 
 ## Based on the following packages
 
