@@ -12,20 +12,20 @@
     }],
     "require": {
         "php": "^7.1",
-        "doctrine/annotations": "^1.6",
-        "doctrine/orm": "^2.6",
-        "middlewares/payload": "^2.1",
-        "middlewares/response-time": "^1.1",
-        "middlewares/whoops": "^1.2",
-        "monolog/monolog": "^1.24",
-        "php-di/php-di": "^6.0",
-        "sunrise/http-factory": "^1.0",
-        "sunrise/http-router": "^1.0",
-        "sunrise/http-router-annotations-support": "^1.0",
-        "symfony/validator": "^4.2"
+        "doctrine/annotations": "1.6.0",
+        "doctrine/orm": "2.6.3",
+        "middlewares/payload": "2.1.1",
+        "middlewares/response-time": "1.1.0",
+        "middlewares/whoops": "1.2.0",
+        "monolog/monolog": "1.24.0",
+        "php-di/php-di": "6.0.5",
+        "sunrise/http-factory": "1.0.4",
+        "sunrise/http-router": "1.0.9",
+        "sunrise/http-router-annotations-support": "1.0.0",
+        "symfony/validator": "4.2.2"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7.5"
+        "phpunit/phpunit": "7.5.18"
     },
     "autoload": {
         "psr-4": {
