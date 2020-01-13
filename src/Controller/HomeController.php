@@ -15,32 +15,19 @@ use Sunrise\Http\Message\ResponseFactory;
  * @Route(
  *   name="home",
  *   path="/",
- *   methods={"get"}
+ *   methods={"GET"},
  * )
  *
  * @OpenApi\Operation(
  *   summary="Home page",
  *   responses={
  *     200: @OpenApi\Response(
- *       description="All Okay",
- *       content={
- *         "application/json": @OpenApi\MediaType(
- *         schema=@OpenApi\Schema(
- *             type="object",
- *             properties={
- *               "status": @OpenApi\Schema(
- *                 type="string",
- *                 enum={"ok"},
- *               ),
- *             },
- *           ),
- *         ),
- *       },
+ *       description="OK",
  *     ),
  *   },
  * )
  */
-class HomeController implements RequestHandlerInterface
+final class HomeController implements RequestHandlerInterface
 {
     use ContainerAwareTrait;
 
@@ -53,8 +40,10 @@ class HomeController implements RequestHandlerInterface
      */
     public function handle(ServerRequestInterface $request) : ResponseInterface
     {
-        return (new ResponseFactory)->createJsonResponse(200, [
-            'status' => 'ok',
-        ]);
+        $response = (new ResponseFactory)->createResponse(200);
+
+        $response->getBody()->write($this->container->get('twig')->load('welcome.html')->render());
+
+        return $response;
     }
 }

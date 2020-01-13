@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "46b21f11d432f9473f1548539b634260",
+    "content-hash": "7b645a0a0520a1214a06696a9938b991",
     "packages": [
         {
             "name": "arus/doctrine-repository-factory",
@@ -5020,7 +5020,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.1"
+        "php": "^7.3"
     },
     "platform-dev": []
 }

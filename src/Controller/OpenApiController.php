@@ -17,10 +17,19 @@ use Sunrise\Http\Router\OpenApi\OpenApi;
  * @Route(
  *   name="openapi",
  *   path="/openapi",
- *   methods={"get"}
+ *   methods={"GET"},
+ * )
+ *
+ * @OpenApi\Operation(
+ *   summary="OpenApi doc",
+ *   responses={
+ *     200: @OpenApi\Response(
+ *       description="OK",
+ *     ),
+ *   },
  * )
  */
-class OpenApiController implements RequestHandlerInterface
+final class OpenApiController implements RequestHandlerInterface
 {
     use ContainerAwareTrait;
 

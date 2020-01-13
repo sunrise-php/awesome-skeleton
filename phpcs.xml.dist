@@ -2,7 +2,6 @@
 <ruleset name="Sunrise Coding Standard">
     <rule ref="./vendor/sunrise/coding-standard/ruleset.xml"/>
 
-    <file>benchmarks</file>
     <file>src</file>
     <file>tests</file>
 </ruleset>

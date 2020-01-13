@@ -43,6 +43,9 @@
             "phpunit --colors=always --coverage-text",
             "phpcs --ignore=src/Migration"
         ],
+        "bench": [
+            "phpbench run --report='generator: \"table\", cols: [\"groups\", \"subject\", \"mean\", \"diff\"], sort: {mean: \"asc\"}'"
+        ],
         "serve": "php -S 0.0.0.0:3000 -t public/"
     }
 }

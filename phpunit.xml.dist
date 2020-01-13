@@ -9,6 +9,9 @@
         <whitelist>
             <directory>./src</directory>
             <exclude>
+                <directory>./src/Benchmark</directory>
+            </exclude>
+            <exclude>
                 <directory>./src/Migration</directory>
             </exclude>
         </whitelist>
