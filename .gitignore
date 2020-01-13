@@ -1,3 +1,6 @@
 .php_cs.cache
-app.log
+phpbench.json
+phpcs.xml
+phpunit.xml
+config/definitions/*.php.local
 vendor/

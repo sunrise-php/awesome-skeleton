@@ -1,13 +1,21 @@
 <?php declare(strict_types=1);
 
-use App\Http\App;
-use Sunrise\Http\Factory\ServerRequestFactory;
+use Sunrise\Http\Router\RequestHandler\QueueableRequestHandler;
+use Sunrise\Http\ServerRequest\ServerRequestFactory;
+use function Sunrise\Http\Router\emit;
 
-chdir(dirname(__DIR__));
-require_once 'vendor/autoload.php';
-$container = require 'config/container.php';
+require __DIR__ . '/../config/bootstrap.php';
 
-$application = $container->get(App::class);
-$application->run(ServerRequestFactory::fromGlobals());
+$container = require __DIR__ . '/../config/container.php';
 
-exit(1);
+$router = $container->get('router');
+$middlewares = $container->get('middlewares');
+
+$handler = new QueueableRequestHandler($router);
+$handler->add(...$middlewares);
+
+$request = ServerRequestFactory::fromGlobals();
+
+emit($handler->handle($request));
+
+exit(0);

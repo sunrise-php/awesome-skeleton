@@ -1,9 +1,19 @@
 <?php declare(strict_types=1);
 
-$containerBuilder = new DI\ContainerBuilder();
-$containerBuilder->useAnnotations(true);
+use DI\ContainerBuilder;
+use Symfony\Component\Dotenv\Dotenv;
 
-$containerBuilder->addDefinitions(__DIR__ . '/definitions.php');
-$containerBuilder->addDefinitions(__DIR__ . '/environment.php');
+(new Dotenv(true))->load(__DIR__ . '/../.env');
 
-return $containerBuilder->build();
+$env = getenv('APP_ENV') ?: 'dev';
+
+$builder = new ContainerBuilder();
+$builder->useAnnotations(true);
+
+$builder->addDefinitions(
+    ...glob(__DIR__ . '/definitions/*.php'),
+    ...glob(__DIR__ . '/definitions/*.php.' . $env),
+    ...glob(__DIR__ . '/definitions/*.php.local')
+);
+
+return $builder->build();

@@ -1,0 +1,9 @@
+rpc:
+  listen: tcp://127.0.0.1:6000
+http:
+  address: 127.0.0.1:3000
+  workers:
+    command: "php bin/roadrunner-worker pipes"
+    pool:
+      numWorkers: 4
+      maxJobs: 0
