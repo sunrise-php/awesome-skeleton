@@ -30,9 +30,12 @@ class PostService
      *   properties={
      *     "title"=@OpenApi\Schema(
      *       type="string",
+     *       minLength=3,
+     *       maxLength=128,
      *     ),
      *     "description"=@OpenApi\Schema(
      *       type="string",
+     *       maxLength=1024,
      *     ),
      *     "tags"=@OpenApi\SchemaReference(
      *       class="App\Service\PostService",

@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 
 use function DI\autowire;
+use function DI\create;
 use function DI\env;
 use function DI\string;
 
@@ -45,7 +46,7 @@ return [
      * The application commands
      */
     'commands' => [
-        autowire(App\Command\GenerateRoadRunnerSystemdUnitCommand::class),
+        create(App\Command\GenerateRoadRunnerSystemdUnitCommand::class),
     ],
 
     /**
@@ -53,5 +54,8 @@ return [
      */
     'middlewares' => [
         autowire(App\Middleware\ErrorHandlingMiddleware::class),
+        autowire(App\Middleware\DoctrinePersistentEntityManagerMiddleware::class),
+        create(Middlewares\JsonPayload::class),
+        create(Middlewares\UrlEncodePayload::class),
     ],
 ];

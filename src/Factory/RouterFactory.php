@@ -11,8 +11,10 @@ use Sunrise\Http\Router\Router;
 
 /**
  * RouterFactory
+ *
+ * Don't use this factory outside the container!
  */
-class RouterFactory
+final class RouterFactory
 {
 
     /**

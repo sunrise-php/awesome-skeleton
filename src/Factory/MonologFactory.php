@@ -10,8 +10,10 @@ use Psr\Log\LoggerInterface;
 
 /**
  * MonologFactory
+ *
+ * Don't use this factory outside the container!
  */
-class MonologFactory
+final class MonologFactory
 {
 
     /**

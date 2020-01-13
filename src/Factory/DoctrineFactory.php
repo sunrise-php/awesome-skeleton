@@ -14,8 +14,10 @@ use Psr\Container\ContainerInterface;
 
 /**
  * DoctrineFactory
+ *
+ * Don't use this factory outside the container!
  */
-class DoctrineFactory
+final class DoctrineFactory
 {
 
     /**

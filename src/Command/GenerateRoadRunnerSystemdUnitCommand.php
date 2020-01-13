@@ -5,7 +5,6 @@ namespace App\Command;
 /**
  * Import classes
  */
-use App\ContainerAwareTrait;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -21,17 +20,16 @@ use function trim;
 /**
  * GenerateRoadRunnerSystemdUnitCommand
  *
- * @link https://wiki.debian.org/systemd
  * @link https://wiki.debian.org/systemd/Services
+ * @link https://manpages.debian.org/buster/systemd/systemd.service.5.en.html
  */
-class GenerateRoadRunnerSystemdUnitCommand extends Command
+final class GenerateRoadRunnerSystemdUnitCommand extends Command
 {
-    use ContainerAwareTrait;
 
     /**
      * @var string
      */
-    protected const TEMPLATE = <<<'EOT'
+    private const TEMPLATE = <<<'EOT'
 [Unit]
 After=network.target
 

@@ -20,8 +20,10 @@ use const PHP_SAPI;
 
 /**
  * DoctrinePersistentEntityManagerMiddleware
+ *
+ * This middleware is for long-running applications only!
  */
-class DoctrinePersistentEntityManagerMiddleware implements MiddlewareInterface
+final class DoctrinePersistentEntityManagerMiddleware implements MiddlewareInterface
 {
     use ContainerAwareTrait;
 
