@@ -1,0 +1,9 @@
+<h1>{{ message }}</h1>
+
+{% if violations %}
+    <ol>
+        {% for violation in violations %}
+            <li><b>{{ violation.property }}</b> {{ violation.message }}</li>
+        {% endfor %}
+    </ol>
+{% endif %}
