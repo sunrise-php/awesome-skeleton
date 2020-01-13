@@ -25,7 +25,8 @@
         "spiral/roadrunner": "^1.5",
         "middlewares/payload": "^3.0",
         "justinrainbow/json-schema": "^5.2",
-        "filp/whoops": "^2.7"
+        "filp/whoops": "^2.7",
+        "twig/twig": "^3.0"
     },
     "require-dev": {
         "phpunit/phpunit": "7.5.20",
@@ -40,7 +41,7 @@
     "scripts": {
         "test": [
             "phpunit --colors=always --coverage-text",
-            "phpcs"
+            "phpcs --ignore=src/Migration"
         ],
         "serve": "php -S 0.0.0.0:3000 -t public/"
     }
