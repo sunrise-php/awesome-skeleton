@@ -10,7 +10,7 @@
         "skeleton"
     ],
     "require": {
-        "php": "^7.1",
+        "php": "^7.3",
         "php-di/php-di": "^6.0",
         "monolog/monolog": "^2.0",
         "sunrise/http-factory": "^1.0",
