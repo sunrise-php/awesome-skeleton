@@ -26,6 +26,7 @@ use Throwable;
  * Import functions
  */
 use function implode;
+use function stripos;
 
 /**
  * ErrorHandlingMiddleware
@@ -35,7 +36,17 @@ final class ErrorHandlingMiddleware implements MiddlewareInterface
     use ContainerAwareTrait;
 
     /**
-     * @var array
+     * @var string[]
+     */
+    private $supportedMediaTypes = [
+        'application/json',
+        'application/xml',
+        'text/plain',
+        'text/html',
+    ];
+
+    /**
+     * @var string[]
      */
     private $whoopsHandlersMap = [
         'application/json' => JsonResponseHandler::class,
@@ -52,8 +63,10 @@ final class ErrorHandlingMiddleware implements MiddlewareInterface
      *
      * @return ResponseInterface
      */
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
-    {
+    public function process(
+        ServerRequestInterface $request,
+        RequestHandlerInterface $handler
+    ) : ResponseInterface {
         try {
             return $handler->handle($request);
         } catch (RouteNotFoundException $exception) {
@@ -107,20 +120,19 @@ final class ErrorHandlingMiddleware implements MiddlewareInterface
         ServerRequestInterface $request,
         BadRequestException $exception
     ) : ResponseInterface {
-        $mediaType = $this->fetchMediaType($request);
-
-        if ('application/json' === $mediaType) {
-            return (new ResponseFactory)->createJsonResponse(400, [
-                'status' => 'error',
-                'message' => $exception->getMessage(),
-                'violations' => $exception->getViolations(),
-            ]);
-        }
-
-        return $this->createHtmlResponse(400, 'errors/bad-request.html', [
+        $context = [
+            'status' => 'error',
             'message' => $exception->getMessage(),
             'violations' => $exception->getViolations(),
-        ]);
+        ];
+
+        if ($this->checkMediaType($request, 'application/json')) {
+            return (new ResponseFactory)->createJsonResponse(400, $context);
+        } elseif ($this->checkMediaType($request, 'application/xml')) {
+            return $this->createXmlResponse(400, $context);
+        }
+
+        return $this->createHtmlResponse(400, 'errors/bad-request.html', $context);
     }
 
     /**
@@ -133,24 +145,21 @@ final class ErrorHandlingMiddleware implements MiddlewareInterface
         ServerRequestInterface $request,
         RouteNotFoundException $exception
     ) : ResponseInterface {
-        $mediaType = $this->fetchMediaType($request);
+        $context = [
+            'status' => 'error',
+            'message' => $exception->getMessage(),
+        ];
 
-        if ('application/json' === $mediaType) {
-            return (new ResponseFactory)->createJsonResponse(404, [
-                'status' => 'error',
-                'message' => $exception->getMessage(),
-            ]);
+        if ($this->checkMediaType($request, 'application/json')) {
+            return (new ResponseFactory)->createJsonResponse(404, $context);
+        } elseif ($this->checkMediaType($request, 'application/xml')) {
+            return $this->createXmlResponse(404, $context);
         }
 
-        return $this->createHtmlResponse(404, 'errors/page-not-found.html', [
-            'message' => $exception->getMessage(),
-            'violations' => [],
-        ]);
+        return $this->createHtmlResponse(404, 'errors/page-not-found.html', $context);
     }
 
     /**
-     * Handlers the given exception via Whoops library
-     *
      * @param ServerRequestInterface $request
      * @param Throwable $exception
      *
@@ -158,8 +167,10 @@ final class ErrorHandlingMiddleware implements MiddlewareInterface
      *
      * @link https://github.com/filp/whoops
      */
-    private function handleException(ServerRequestInterface $request, Throwable $exception) : ResponseInterface
-    {
+    private function handleException(
+        ServerRequestInterface $request,
+        Throwable $exception
+    ) : ResponseInterface {
         $this->container->get('logger')->error($exception->getMessage(), [
             'exception' => $exception,
         ]);
@@ -182,8 +193,22 @@ final class ErrorHandlingMiddleware implements MiddlewareInterface
     }
 
     /**
-     * Creates HTML response via Twig template engine
+     * @param int $status
+     * @param array $context
      *
+     * @return ResponseInterface
+     */
+    private function createXmlResponse(int $status, array $context) : ResponseInterface
+    {
+        $response = (new ResponseFactory)->createResponse($status)
+            ->withHeader('Content-Type', 'application/xml');
+
+        $response->getBody()->write('');
+
+        return $response;
+    }
+
+    /**
      * @param int $status
      * @param string $template
      * @param array $context
@@ -195,17 +220,29 @@ final class ErrorHandlingMiddleware implements MiddlewareInterface
         $response = (new ResponseFactory)->createResponse($status)
             ->withHeader('Content-Type', 'text/html');
 
-        $response->getBody()->write($this->container->get('twig')
-            ->load($template)
-            ->render($context)
-        );
+        $response->getBody()->write($this->container->get('twig')->load($template)->render($context));
 
         return $response;
     }
 
     /**
-     * Fetches an expected media type from the given request for the client
+     * @param ServerRequestInterface $request
+     * @param string $mediaType
      *
+     * @return string
+     */
+    private function checkMediaType(ServerRequestInterface $request, string $mediaType) : bool
+    {
+        $accept = $request->getHeaderLine('Accept');
+
+        if (false === stripos($accept, $mediaType)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * @param ServerRequestInterface $request
      *
      * @return string
@@ -214,19 +251,10 @@ final class ErrorHandlingMiddleware implements MiddlewareInterface
     {
         $accept = $request->getHeaderLine('Accept');
 
-        $suspect = 'application/json';
-        if (false !== stripos($accept, $suspect)) {
-            return $suspect;
-        }
-
-        $suspect = 'application/xml';
-        if (false !== stripos($accept, $suspect)) {
-            return $suspect;
-        }
-
-        $suspect = 'text/plain';
-        if (false !== stripos($accept, $suspect)) {
-            return $suspect;
+        foreach ($this->supportedMediaTypes as $suspect) {
+            if (false !== stripos($accept, $suspect)) {
+                return $suspect;
+            }
         }
 
         return 'text/html';
