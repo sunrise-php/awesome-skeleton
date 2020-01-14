@@ -1,22 +1,25 @@
 <?php declare(strict_types=1);
 
-namespace App\Controller\Tag;
+namespace App\Controller\Entry;
 
-use App\Service\TagService;
+/**
+ * Import classes
+ */
+use App\Http\AbstractRequestHandler;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Sunrise\Http\Message\ResponseFactory;
 
 /**
  * @Route(
- *   name="tag.list",
- *   path="/tag",
+ *   name="api.entry.list",
+ *   path="/api/v1/entry",
  *   methods={"GET"},
  * )
  *
  * @OpenApi\Operation(
- *   summary="Tag list",
+ *   tags={"Entry"},
+ *   summary="Entries list",
  *   responses={
  *     200: @OpenApi\Response(
  *       description="OK",
@@ -24,18 +27,17 @@ use Sunrise\Http\Message\ResponseFactory;
  *         "application/json": @OpenApi\MediaType(
  *           schema=@OpenApi\Schema(
  *             type="object",
- *             required={
- *               "status",
- *               "data",
- *             },
+ *             required={"status", "data"},
  *             properties={
  *               "status": @OpenApi\Schema(
  *                 type="string",
  *                 enum={"ok"},
  *               ),
- *               "data": @OpenApi\SchemaReference(
- *                 class="App\Service\TagService",
- *                 method="list",
+ *               "data": @OpenApi\Schema(
+ *                 type="array",
+ *                 items=@OpenApi\SchemaReference(
+ *                   class="App\Entity\Entry",
+ *                 ),
  *               ),
  *             },
  *           ),
@@ -45,19 +47,20 @@ use Sunrise\Http\Message\ResponseFactory;
  *   },
  * )
  */
-final class TagListController implements RequestHandlerInterface
+final class ListController extends AbstractRequestHandler implements RequestHandlerInterface
 {
 
     /**
+     * {@inheritDoc}
+     *
      * @param ServerRequestInterface $request
      *
      * @return ResponseInterface
      */
     public function handle(ServerRequestInterface $request) : ResponseInterface
     {
-        return (new ResponseFactory)->createJsonResponse(200, [
-            'status' => 'ok',
-            'data' => (new TagService)->list(),
-        ])->withHeader('Access-Control-Allow-Origin', '*');
+        $service = $this->container->get('entryService');
+
+        return $this->ok($service->getAll());
     }
 }

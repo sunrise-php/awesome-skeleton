@@ -58,4 +58,9 @@ return [
         create(Middlewares\JsonPayload::class),
         create(Middlewares\UrlEncodePayload::class),
     ],
+
+    /**
+     * The application services
+     */
+    'entryService' => autowire(App\Service\EntryService::class),
 ];

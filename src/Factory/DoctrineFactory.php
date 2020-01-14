@@ -6,7 +6,6 @@ namespace App\Factory;
  * Import classes
  */
 use Arus\Doctrine\RepositoryFactory\InjectableRepositoryFactory;
-use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -30,9 +29,7 @@ final class DoctrineFactory
      */
     public function createEntityManager(array $params, ContainerInterface $container) : EntityManagerInterface
     {
-        $cache = $params['cache'] ?? new ArrayCache();
-
-        $configuration = Setup::createConfiguration(false, $params['proxyDir'], $cache);
+        $configuration = Setup::createConfiguration(false, $params['proxyDir'], $params['cache']);
 
         $configuration->setMetadataDriverImpl(
             $configuration->newDefaultAnnotationDriver($params['metadata']['sources'], true)

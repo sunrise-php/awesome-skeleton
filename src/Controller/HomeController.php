@@ -5,11 +5,10 @@ namespace App\Controller;
 /**
  * Import classes
  */
-use App\ContainerAwareTrait;
+use App\Http\AbstractRequestHandler;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Sunrise\Http\Message\ResponseFactory;
 
 /**
  * @Route(
@@ -27,9 +26,8 @@ use Sunrise\Http\Message\ResponseFactory;
  *   },
  * )
  */
-final class HomeController implements RequestHandlerInterface
+final class HomeController extends AbstractRequestHandler implements RequestHandlerInterface
 {
-    use ContainerAwareTrait;
 
     /**
      * {@inheritDoc}
@@ -40,13 +38,6 @@ final class HomeController implements RequestHandlerInterface
      */
     public function handle(ServerRequestInterface $request) : ResponseInterface
     {
-        $response = (new ResponseFactory)->createResponse(200)
-            ->withHeader('Content-Type', 'text/html; charset=UTF-8');
-
-        $response->getBody()->write(
-            $this->container->get('twig')->load('welcome.html')->render()
-        );
-
-        return $response;
+        return $this->view('welcome.html');
     }
 }

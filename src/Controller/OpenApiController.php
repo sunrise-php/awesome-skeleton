@@ -5,11 +5,10 @@ namespace App\Controller;
 /**
  * Import classes
  */
-use App\ContainerAwareTrait;
+use App\Http\AbstractRequestHandler;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Sunrise\Http\Message\ResponseFactory;
 use Sunrise\Http\Router\OpenApi\Object\Info;
 use Sunrise\Http\Router\OpenApi\OpenApi;
 
@@ -29,9 +28,8 @@ use Sunrise\Http\Router\OpenApi\OpenApi;
  *   },
  * )
  */
-final class OpenApiController implements RequestHandlerInterface
+final class OpenApiController extends AbstractRequestHandler implements RequestHandlerInterface
 {
-    use ContainerAwareTrait;
 
     /**
      * {@inheritDoc}
@@ -51,7 +49,7 @@ final class OpenApiController implements RequestHandlerInterface
 
         $openapi->addRoute(...$this->container->get('router')->getRoutes());
 
-        return (new ResponseFactory)->createJsonResponse(200, $openapi->toArray())
+        return $this->json($openapi->toArray())
             ->withHeader('Access-Control-Allow-Origin', '*');
     }
 }

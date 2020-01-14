@@ -47,7 +47,7 @@ final class DoctrinePersistentEntityManagerMiddleware implements MiddlewareInter
     }
 
     /**
-     * Checks if the application is running CLI mode
+     * Checks if the application is running in CLI mode
      *
      * @return bool
      */

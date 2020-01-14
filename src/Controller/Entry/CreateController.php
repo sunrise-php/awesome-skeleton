@@ -1,16 +1,19 @@
 <?php declare(strict_types=1);
 
-namespace App\Controller\Tag;
+namespace App\Controller\Entry;
 
+/**
+ * Import classes
+ */
+use App\Http\AbstractRequestHandler;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Sunrise\Http\Message\ResponseFactory;
 
 /**
  * @Route(
- *   name="tag.create",
- *   path="/tag",
+ *   name="api.entry.create",
+ *   path="/api/v1/entry",
  *   methods={"POST"},
  *   middlewares={
  *     "App\Middleware\RequestBodyValidationMiddleware",
@@ -18,19 +21,20 @@ use Sunrise\Http\Message\ResponseFactory;
  * )
  *
  * @OpenApi\Operation(
- *   summary="Create a tag",
+ *   tags={"Entry"},
+ *   summary="Create an entry",
  *   requestBody=@OpenApi\RequestBody(
  *     content={
  *       "application/json": @OpenApi\MediaType(
- *         schema=@OpenApi\SchemaReference(
- *           class="App\Service\TagService",
- *           method="create",
- *         ),
- *       ),
- *       "application/x-www-form-urlencoded": @OpenApi\MediaType(
- *         schema=@OpenApi\SchemaReference(
- *           class="App\Service\TagService",
- *           method="create",
+ *         schema=@OpenApi\Schema(
+ *           type="object",
+ *           required={"name"},
+ *           properties={
+ *             "name"=@OpenApi\SchemaReference(
+ *               class="App\Entity\Entry",
+ *               property="name",
+ *             ),
+ *           },
  *         ),
  *       ),
  *     },
@@ -55,18 +59,22 @@ use Sunrise\Http\Message\ResponseFactory;
  *   },
  * )
  */
-final class TagCreateController implements RequestHandlerInterface
+final class CreateController extends AbstractRequestHandler implements RequestHandlerInterface
 {
 
     /**
+     * {@inheritDoc}
+     *
      * @param ServerRequestInterface $request
      *
      * @return ResponseInterface
      */
     public function handle(ServerRequestInterface $request) : ResponseInterface
     {
-        return (new ResponseFactory)->createJsonResponse(201, [
-            'status' => 'ok',
-        ]);
+        $service = $this->container->get('entryService');
+
+        $service->create($request->getParsedBody());
+
+        return $this->ok([], 201);
     }
 }

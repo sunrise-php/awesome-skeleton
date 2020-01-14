@@ -5,7 +5,7 @@ namespace App\Middleware;
 /**
  * Import classes
  */
-use App\ContainerAwareTrait;
+use App\Http\AbstractRequestHandler;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -28,9 +28,8 @@ use function stripos;
 /**
  * ErrorHandlingMiddleware
  */
-final class ErrorHandlingMiddleware implements MiddlewareInterface
+final class ErrorHandlingMiddleware extends AbstractRequestHandler implements MiddlewareInterface
 {
-    use ContainerAwareTrait;
 
     /**
      * {@inheritDoc}
@@ -69,11 +68,7 @@ final class ErrorHandlingMiddleware implements MiddlewareInterface
         ServerRequestInterface $request,
         BadRequestException $exception
     ) : ResponseInterface {
-        return (new ResponseFactory)->createJsonResponse(400, [
-            'status' => 'error',
-            'message' => $exception->getMessage(),
-            'violations' => $exception->getViolations(),
-        ]);
+        return $this->error($exception->getMessage(), $exception->getViolations(), 400);
     }
 
     /**
@@ -86,10 +81,8 @@ final class ErrorHandlingMiddleware implements MiddlewareInterface
         ServerRequestInterface $request,
         MethodNotAllowedException $exception
     ) : ResponseInterface {
-        return (new ResponseFactory)->createJsonResponse(405, [
-            'status' => 'error',
-            'message' => $exception->getMessage(),
-        ])->withHeader('Allow', implode(',', $exception->getAllowedMethods()));
+        return $this->error($exception->getMessage(), [], 405)
+            ->withHeader('Allow', implode(',', $exception->getAllowedMethods()));
     }
 
     /**
@@ -102,10 +95,7 @@ final class ErrorHandlingMiddleware implements MiddlewareInterface
         ServerRequestInterface $request,
         RouteNotFoundException $exception
     ) : ResponseInterface {
-        return (new ResponseFactory)->createJsonResponse(404, [
-            'status' => 'error',
-            'message' => $exception->getMessage(),
-        ]);
+        return $this->error($exception->getMessage(), [], 404);
     }
 
     /**
@@ -118,10 +108,8 @@ final class ErrorHandlingMiddleware implements MiddlewareInterface
         ServerRequestInterface $request,
         UnsupportedMediaTypeException $exception
     ) : ResponseInterface {
-        return (new ResponseFactory)->createJsonResponse(415, [
-            'status' => 'error',
-            'message' => $exception->getMessage(),
-        ])->withHeader('Accept', implode(',', $exception->getSupportedTypes()));
+        return $this->error($exception->getMessage(), [], 415)
+            ->withHeader('Accept', implode(',', $exception->getSupportedTypes()));
     }
 
     /**
@@ -150,11 +138,6 @@ final class ErrorHandlingMiddleware implements MiddlewareInterface
         $whoops->writeToOutput(false);
         $whoops->pushHandler(new PrettyPageHandler());
 
-        $response = (new ResponseFactory)->createResponse(500)
-            ->withHeader('Content-Type', 'text/html');
-
-        $response->getBody()->write($whoops->handleException($exception));
-
-        return $response;
+        return $this->html($whoops->handleException($exception), 500);
     }
 }

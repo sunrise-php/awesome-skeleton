@@ -1,7 +1,9 @@
 <?php declare(strict_types=1);
 
 use App\Factory\DoctrineFactory;
+use Doctrine\Common\Cache\ArrayCache;
 
+use function DI\create;
 use function DI\factory;
 use function DI\get;
 use function DI\string;
@@ -29,5 +31,5 @@ return [
 
     'doctrine.configuration.proxyDir' => null,
 
-    'doctrine.configuration.cache' => null,
+    'doctrine.configuration.cache' => create(ArrayCache::class),
 ];
