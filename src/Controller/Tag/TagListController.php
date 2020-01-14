@@ -2,7 +2,7 @@
 
 namespace App\Controller\Tag;
 
-use App\Repository\TagRepository;
+use App\Service\TagService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -24,13 +24,17 @@ use Sunrise\Http\Message\ResponseFactory;
  *         "application/json": @OpenApi\MediaType(
  *           schema=@OpenApi\Schema(
  *             type="object",
+ *             required={
+ *               "status",
+ *               "data",
+ *             },
  *             properties={
  *               "status": @OpenApi\Schema(
  *                 type="string",
  *                 enum={"ok"},
  *               ),
  *               "data": @OpenApi\SchemaReference(
- *                 class="App\Repository\TagRepository",
+ *                 class="App\Service\TagService",
  *                 method="list",
  *               ),
  *             },
@@ -53,7 +57,7 @@ final class TagListController implements RequestHandlerInterface
     {
         return (new ResponseFactory)->createJsonResponse(200, [
             'status' => 'ok',
-            'data' => (new TagRepository)->list(),
-        ]);
+            'data' => (new TagService)->list(),
+        ])->withHeader('Access-Control-Allow-Origin', '*');
     }
 }

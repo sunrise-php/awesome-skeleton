@@ -40,9 +40,12 @@ final class HomeController implements RequestHandlerInterface
      */
     public function handle(ServerRequestInterface $request) : ResponseInterface
     {
-        $response = (new ResponseFactory)->createResponse(200);
+        $response = (new ResponseFactory)->createResponse(200)
+            ->withHeader('Content-Type', 'text/html; charset=UTF-8');
 
-        $response->getBody()->write($this->container->get('twig')->load('welcome.html')->render());
+        $response->getBody()->write(
+            $this->container->get('twig')->load('welcome.html')->render()
+        );
 
         return $response;
     }

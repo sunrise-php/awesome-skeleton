@@ -6,6 +6,10 @@ namespace App\Entity;
  * @OpenApi\Schema(
  *   refName="Tag",
  *   type="object",
+ *   required={
+ *     "id",
+ *     "name",
+ *   },
  *   properties={
  *     "id": @OpenApi\SchemaReference(
  *       class="App\Entity\Tag",

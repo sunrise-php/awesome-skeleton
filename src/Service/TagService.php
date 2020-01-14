@@ -26,4 +26,31 @@ final class TagService
     public function create()
     {
     }
+
+    /**
+     * @OpenApi\Schema(
+     *   type="array",
+     *   minItems=1,
+     *   items=@OpenApi\SchemaReference(
+     *     class="App\Entity\Tag",
+     *   ),
+     * )
+     */
+    public function list()
+    {
+        return [
+            [
+                'id' => 1,
+                'name' => 'foo',
+            ],
+            [
+                'id' => 2,
+                'name' => 'bar',
+            ],
+            [
+                'id' => 3,
+                'name' => 'baz',
+            ],
+        ];
+    }
 }
