@@ -100,7 +100,7 @@ abstract class AbstractRequestHandler
      *
      * @return ResponseInterface
      */
-    final protected function emptyOk($data, int $status = 200) : ResponseInterface
+    final protected function emptyOk(int $status = 200) : ResponseInterface
     {
         return $this->ok([], $status);
     }
