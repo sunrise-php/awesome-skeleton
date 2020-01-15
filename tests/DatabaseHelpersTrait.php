@@ -24,7 +24,13 @@ trait DatabaseHelpersTrait
     private function createSchema(EntityManagerInterface $entityManager) : void
     {
         $schema = new SchemaTool($entityManager);
-        $schema->dropSchema($entityManager->getMetadataFactory()->getAllMetadata());
-        $schema->createSchema($entityManager->getMetadataFactory()->getAllMetadata());
+
+        $schema->dropSchema(
+            $entityManager->getMetadataFactory()->getAllMetadata()
+        );
+
+        $schema->createSchema(
+            $entityManager->getMetadataFactory()->getAllMetadata()
+        );
     }
 }

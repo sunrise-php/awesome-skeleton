@@ -187,21 +187,4 @@ abstract class AbstractRequestHandler
 
         return $response;
     }
-
-    /**
-     * Returns HTML response with rendered view
-     *
-     * @param string $name
-     * @param array $context
-     * @param int $status
-     *
-     * @return ResponseInterface
-     */
-    final protected function view(string $name, array $context = [], int $status = 200) : ResponseInterface
-    {
-        $twig = $this->container->get('twig');
-        $body = $twig->render($name, $context);
-
-        return $this->html($body, $status);
-    }
 }

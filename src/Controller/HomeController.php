@@ -38,6 +38,6 @@ final class HomeController extends AbstractRequestHandler implements RequestHand
      */
     public function handle(ServerRequestInterface $request) : ResponseInterface
     {
-        return $this->view('welcome.html');
+        return $this->html($this->container->get('twig')->render('welcome.html'));
     }
 }
