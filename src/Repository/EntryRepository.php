@@ -22,7 +22,7 @@ final class EntryRepository extends EntityRepository
 {
 
     /**
-     * Gets all entries from the storage
+     * Gets all entries
      *
      * @return EntryInterface[]
      */
@@ -32,6 +32,24 @@ final class EntryRepository extends EntityRepository
 
         $query = $this->getEntityManager()
             ->createQuery($dql);
+
+        return $query->getResult();
+    }
+
+    /**
+     * Finds entries by the given ID(s)
+     *
+     * @param int ...$ids
+     *
+     * @return EntryInterface[]
+     */
+    public function findByIds(int ...$ids) : array
+    {
+        $dql = sprintf('select t from %s t where t.id in (:ids)', Entry::class);
+
+        $query = $this->getEntityManager()
+            ->createQuery($dql)
+            ->setParameter('ids', $ids);
 
         return $query->getResult();
     }

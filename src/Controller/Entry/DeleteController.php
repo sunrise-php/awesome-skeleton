@@ -12,35 +12,16 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 /**
  * @Route(
- *   name="api.entry.create",
- *   path="/api/v1/entry",
- *   methods={"POST"},
- *   middlewares={
- *     "App\Middleware\RequestBodyValidationMiddleware",
- *   },
+ *   name="api.entry.delete",
+ *   path="/api/v1/entry/{id<\d+>}",
+ *   methods={"DELETE"},
  * )
  *
  * @OpenApi\Operation(
  *   tags={"Entry"},
- *   summary="Create an entry",
- *   requestBody=@OpenApi\RequestBody(
- *     content={
- *       "application/json": @OpenApi\MediaType(
- *         schema=@OpenApi\Schema(
- *           type="object",
- *           required={"name"},
- *           properties={
- *             "name"=@OpenApi\SchemaReference(
- *               class="App\Entity\Entry",
- *               property="name",
- *             ),
- *           },
- *         ),
- *       ),
- *     },
- *   ),
+ *   summary="Delete an entry",
  *   responses={
- *     201: @OpenApi\ResponseReference(
+ *     200: @OpenApi\ResponseReference(
  *       class="App\Http\AbstractRequestHandler",
  *       method="emptyOk",
  *     ),
@@ -51,7 +32,7 @@ use Psr\Http\Server\RequestHandlerInterface;
  *   },
  * )
  */
-final class CreateController extends AbstractRequestHandler implements RequestHandlerInterface
+final class DeleteController extends AbstractRequestHandler implements RequestHandlerInterface
 {
 
     /**
@@ -63,10 +44,16 @@ final class CreateController extends AbstractRequestHandler implements RequestHa
      */
     public function handle(ServerRequestInterface $request) : ResponseInterface
     {
+        $id = (int) $request->getAttribute('id');
+
         $service = $this->container->get('service.entry');
 
-        $service->create($request->getParsedBody());
+        if (!$service->existsById($id)) {
+            return $this->error('The requested entry was not found.', [], 404);
+        }
 
-        return $this->emptyOk(201);
+        $service->deleteById($id, $request->getParsedBody());
+
+        return $this->emptyOk(200);
     }
 }

@@ -29,17 +29,21 @@ use Psr\Http\Server\RequestHandlerInterface;
  *             type="object",
  *             required={"status", "data"},
  *             properties={
- *               "status": @OpenApi\Schema(
- *                 type="string",
- *                 enum={"ok"},
+ *               "status": @OpenApi\SchemaReference(
+ *                 class="App\Http\AbstractRequestHandler",
+ *                 method="ok",
  *               ),
  *               "data": @OpenApi\SchemaReference(
- *                 class="App\Entity\Entry"
+ *                 class="App\Entity\Entry",
  *               ),
  *             },
  *           ),
  *         ),
  *       },
+ *     ),
+ *     "default": @OpenApi\ResponseReference(
+ *       class="App\Http\AbstractRequestHandler",
+ *       method="error",
  *     ),
  *   },
  * )
@@ -60,10 +64,10 @@ final class ReadController extends AbstractRequestHandler implements RequestHand
 
         $service = $this->container->get('service.entry');
 
-        if (!$service->exists($id)) {
+        if (!$service->existsById($id)) {
             return $this->error('The requested entry was not found.', [], 404);
         }
 
-        return $this->ok($service->read($id));
+        return $this->ok($service->readById($id), 200);
     }
 }

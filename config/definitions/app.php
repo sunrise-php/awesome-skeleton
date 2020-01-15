@@ -60,6 +60,7 @@ return [
     'middlewares' => [
         autowire(App\Middleware\ErrorHandlingMiddleware::class),
         autowire(App\Middleware\DoctrinePersistentEntityManagerMiddleware::class),
+        autowire(App\Middleware\CrossOriginResourceSharingMiddleware::class),
         create(Middlewares\JsonPayload::class),
         create(Middlewares\UrlEncodePayload::class),
     ],

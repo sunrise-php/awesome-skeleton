@@ -12,29 +12,32 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 /**
  * @Route(
- *   name="api.entry.create",
+ *   name="api.entry.multiple.create",
  *   path="/api/v1/entry",
- *   methods={"POST"},
+ *   methods={"PUT"},
  *   middlewares={
  *     "App\Middleware\RequestBodyValidationMiddleware",
  *   },
  * )
  *
  * @OpenApi\Operation(
- *   tags={"Entry"},
- *   summary="Create an entry",
+ *   tags={"Entry", "Multiple Entry"},
+ *   summary="Multiple creation of entries",
  *   requestBody=@OpenApi\RequestBody(
  *     content={
  *       "application/json": @OpenApi\MediaType(
  *         schema=@OpenApi\Schema(
- *           type="object",
- *           required={"name"},
- *           properties={
- *             "name"=@OpenApi\SchemaReference(
- *               class="App\Entity\Entry",
- *               property="name",
- *             ),
- *           },
+ *           type="array",
+ *           items=@OpenApi\Schema(
+ *             type="object",
+ *             required={"name"},
+ *             properties={
+ *               "name"=@OpenApi\SchemaReference(
+ *                 class="App\Entity\Entry",
+ *                 property="name",
+ *               ),
+ *             },
+ *           ),
  *         ),
  *       ),
  *     },
@@ -51,7 +54,7 @@ use Psr\Http\Server\RequestHandlerInterface;
  *   },
  * )
  */
-final class CreateController extends AbstractRequestHandler implements RequestHandlerInterface
+final class MultipleCreateController extends AbstractRequestHandler implements RequestHandlerInterface
 {
 
     /**
@@ -65,7 +68,7 @@ final class CreateController extends AbstractRequestHandler implements RequestHa
     {
         $service = $this->container->get('service.entry');
 
-        $service->create($request->getParsedBody());
+        $service->multipleCreate(...$request->getParsedBody());
 
         return $this->emptyOk(201);
     }

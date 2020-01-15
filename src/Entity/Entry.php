@@ -54,7 +54,7 @@ final class Entry implements EntryInterface
      * )
      *
      * @OpenApi\Schema(
-     *   refName="Entry.id",
+     *   refName="EntryId",
      *   type="integer",
      *   format="int32",
      *   minimum=1,
@@ -77,7 +77,7 @@ final class Entry implements EntryInterface
      * )
      *
      * @OpenApi\Schema(
-     *   refName="Entry.name",
+     *   refName="EntryName",
      *   type="string",
      *   minLength=1,
      *   maxLength=255,

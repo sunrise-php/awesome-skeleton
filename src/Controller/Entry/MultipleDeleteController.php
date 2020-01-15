@@ -12,35 +12,33 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 /**
  * @Route(
- *   name="api.entry.create",
+ *   name="api.entry.multiple.delete",
  *   path="/api/v1/entry",
- *   methods={"POST"},
+ *   methods={"DELETE"},
  *   middlewares={
  *     "App\Middleware\RequestBodyValidationMiddleware",
  *   },
  * )
  *
  * @OpenApi\Operation(
- *   tags={"Entry"},
- *   summary="Create an entry",
+ *   tags={"Entry", "Multiple Entry"},
+ *   summary="Multiple deletion of entries",
  *   requestBody=@OpenApi\RequestBody(
  *     content={
  *       "application/json": @OpenApi\MediaType(
  *         schema=@OpenApi\Schema(
- *           type="object",
- *           required={"name"},
- *           properties={
- *             "name"=@OpenApi\SchemaReference(
- *               class="App\Entity\Entry",
- *               property="name",
- *             ),
- *           },
+ *           type="array",
+ *           minItems=1,
+ *           items=@OpenApi\SchemaReference(
+ *             class="App\Entity\Entry",
+ *             property="id",
+ *           ),
  *         ),
  *       ),
  *     },
  *   ),
  *   responses={
- *     201: @OpenApi\ResponseReference(
+ *     200: @OpenApi\ResponseReference(
  *       class="App\Http\AbstractRequestHandler",
  *       method="emptyOk",
  *     ),
@@ -51,7 +49,7 @@ use Psr\Http\Server\RequestHandlerInterface;
  *   },
  * )
  */
-final class CreateController extends AbstractRequestHandler implements RequestHandlerInterface
+final class MultipleDeleteController extends AbstractRequestHandler implements RequestHandlerInterface
 {
 
     /**
@@ -65,8 +63,8 @@ final class CreateController extends AbstractRequestHandler implements RequestHa
     {
         $service = $this->container->get('service.entry');
 
-        $service->create($request->getParsedBody());
+        $service->multipleDelete(...$request->getParsedBody());
 
-        return $this->emptyOk(201);
+        return $this->emptyOk(200);
     }
 }

@@ -12,9 +12,9 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 /**
  * @Route(
- *   name="api.entry.create",
- *   path="/api/v1/entry",
- *   methods={"POST"},
+ *   name="api.entry.update",
+ *   path="/api/v1/entry/{id<\d+>}",
+ *   methods={"PATCH"},
  *   middlewares={
  *     "App\Middleware\RequestBodyValidationMiddleware",
  *   },
@@ -22,13 +22,12 @@ use Psr\Http\Server\RequestHandlerInterface;
  *
  * @OpenApi\Operation(
  *   tags={"Entry"},
- *   summary="Create an entry",
+ *   summary="Update an entry",
  *   requestBody=@OpenApi\RequestBody(
  *     content={
  *       "application/json": @OpenApi\MediaType(
  *         schema=@OpenApi\Schema(
  *           type="object",
- *           required={"name"},
  *           properties={
  *             "name"=@OpenApi\SchemaReference(
  *               class="App\Entity\Entry",
@@ -40,7 +39,7 @@ use Psr\Http\Server\RequestHandlerInterface;
  *     },
  *   ),
  *   responses={
- *     201: @OpenApi\ResponseReference(
+ *     200: @OpenApi\ResponseReference(
  *       class="App\Http\AbstractRequestHandler",
  *       method="emptyOk",
  *     ),
@@ -51,7 +50,7 @@ use Psr\Http\Server\RequestHandlerInterface;
  *   },
  * )
  */
-final class CreateController extends AbstractRequestHandler implements RequestHandlerInterface
+final class UpdateController extends AbstractRequestHandler implements RequestHandlerInterface
 {
 
     /**
@@ -63,10 +62,16 @@ final class CreateController extends AbstractRequestHandler implements RequestHa
      */
     public function handle(ServerRequestInterface $request) : ResponseInterface
     {
+        $id = (int) $request->getAttribute('id');
+
         $service = $this->container->get('service.entry');
 
-        $service->create($request->getParsedBody());
+        if (!$service->existsById($id)) {
+            return $this->error('The requested entry was not found.', [], 404);
+        }
 
-        return $this->emptyOk(201);
+        $service->updateById($id, $request->getParsedBody());
+
+        return $this->emptyOk(200);
     }
 }

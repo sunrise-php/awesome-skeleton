@@ -49,7 +49,6 @@ final class OpenApiController extends AbstractRequestHandler implements RequestH
 
         $openapi->addRoute(...$this->container->get('router')->getRoutes());
 
-        return $this->json($openapi->toArray())
-            ->withHeader('Access-Control-Allow-Origin', '*');
+        return $this->json($openapi->toArray());
     }
 }

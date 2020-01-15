@@ -57,6 +57,8 @@ final class ErrorHandlingMiddleware extends AbstractRequestHandler implements Mi
     }
 
     /**
+     * Returns a response with the given processed exception
+     *
      * @param ServerRequestInterface $request
      * @param BadRequestException $exception
      *
@@ -70,6 +72,8 @@ final class ErrorHandlingMiddleware extends AbstractRequestHandler implements Mi
     }
 
     /**
+     * Returns a response with the given processed exception
+     *
      * @param ServerRequestInterface $request
      * @param MethodNotAllowedException $exception
      *
@@ -84,6 +88,8 @@ final class ErrorHandlingMiddleware extends AbstractRequestHandler implements Mi
     }
 
     /**
+     * Returns a response with the given processed exception
+     *
      * @param ServerRequestInterface $request
      * @param RouteNotFoundException $exception
      *
@@ -97,6 +103,8 @@ final class ErrorHandlingMiddleware extends AbstractRequestHandler implements Mi
     }
 
     /**
+     * Returns a response with the given processed exception
+     *
      * @param ServerRequestInterface $request
      * @param UnsupportedMediaTypeException $exception
      *
@@ -111,6 +119,8 @@ final class ErrorHandlingMiddleware extends AbstractRequestHandler implements Mi
     }
 
     /**
+     * Returns a response with the given processed exception
+     *
      * @param ServerRequestInterface $request
      * @param Throwable $exception
      *

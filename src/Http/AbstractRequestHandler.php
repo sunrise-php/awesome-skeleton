@@ -48,7 +48,7 @@ abstract class AbstractRequestHandler
      *   refName="StatusOk",
      *   type="string",
      *   nullable=false,
-     *   enum={"ok"},
+     *   pattern="^ok$",
      * )
      *
      * @param mixed $data
@@ -65,16 +65,58 @@ abstract class AbstractRequestHandler
     }
 
     /**
+     * Returns empty JSON response to inform the client about success
+     *
+     * @OpenApi\Schema(
+     *   refName="FullEmptyStatusOk",
+     *   type="object",
+     *   required={"status", "data"},
+     *   properties={
+     *     "status": @OpenApi\SchemaReference(
+     *       class="App\Http\AbstractRequestHandler",
+     *       method="ok",
+     *     ),
+     *     "data": @OpenApi\Schema(
+     *       type="array",
+     *       items=@OpenApi\Schema(),
+     *     ),
+     *   },
+     * )
+     *
+     * @OpenApi\Response(
+     *   refName="ResponseEmptyOk",
+     *   description="OK",
+     *   content={
+     *     "application/json": @OpenApi\MediaType(
+     *       schema=@OpenApi\SchemaReference(
+     *         class="App\Http\AbstractRequestHandler",
+     *         method="emptyOk",
+     *       ),
+     *     ),
+     *   },
+     * )
+     *
+     * @param int $status
+     *
+     * @return ResponseInterface
+     */
+    final protected function emptyOk($data, int $status = 200) : ResponseInterface
+    {
+        return $this->ok([], $status);
+    }
+
+    /**
      * Returns JSON response to inform the client about error
      *
      * @OpenApi\Schema(
-     *   refName="StatusError",
+     *   refName="FullStatusError",
      *   type="object",
+     *   required={"status", "message", "errors"},
      *   properties={
      *     "status": @OpenApi\Schema(
      *       type="string",
      *       nullable=false,
-     *       enum={"error"},
+     *       pattern="^error$",
      *     ),
      *     "message": @OpenApi\Schema(
      *       type="string",
@@ -83,7 +125,31 @@ abstract class AbstractRequestHandler
      *     "errors": @OpenApi\Schema(
      *       type="array",
      *       items=@OpenApi\Schema(
-     *         type="array",
+     *         type="object",
+     *         required={"property", "message"},
+     *         properties={
+     *           "property": @OpenApi\Schema(
+     *             type="string",
+     *             nullable=false,
+     *           ),
+     *           "message": @OpenApi\Schema(
+     *             type="string",
+     *             nullable=false,
+     *           ),
+     *         },
+     *       ),
+     *     ),
+     *   },
+     * )
+     *
+     * @OpenApi\Response(
+     *   refName="ResponseError",
+     *   description="Some error",
+     *   content={
+     *     "application/json": @OpenApi\MediaType(
+     *       schema=@OpenApi\SchemaReference(
+     *         class="App\Http\AbstractRequestHandler",
+     *         method="error",
      *       ),
      *     ),
      *   },

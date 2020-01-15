@@ -29,9 +29,9 @@ use Psr\Http\Server\RequestHandlerInterface;
  *             type="object",
  *             required={"status", "data"},
  *             properties={
- *               "status": @OpenApi\Schema(
- *                 type="string",
- *                 enum={"ok"},
+ *               "status": @OpenApi\SchemaReference(
+ *                 class="App\Http\AbstractRequestHandler",
+ *                 method="ok",
  *               ),
  *               "data": @OpenApi\Schema(
  *                 type="array",
@@ -43,6 +43,10 @@ use Psr\Http\Server\RequestHandlerInterface;
  *           ),
  *         ),
  *       },
+ *     ),
+ *     "default": @OpenApi\ResponseReference(
+ *       class="App\Http\AbstractRequestHandler",
+ *       method="error",
  *     ),
  *   },
  * )
@@ -61,6 +65,6 @@ final class ListController extends AbstractRequestHandler implements RequestHand
     {
         $service = $this->container->get('service.entry');
 
-        return $this->ok($service->getAll());
+        return $this->ok($service->getAll(), 200);
     }
 }
