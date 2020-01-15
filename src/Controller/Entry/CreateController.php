@@ -71,7 +71,7 @@ final class CreateController extends AbstractRequestHandler implements RequestHa
      */
     public function handle(ServerRequestInterface $request) : ResponseInterface
     {
-        $service = $this->container->get('entryService');
+        $service = $this->container->get('service.entry');
 
         $service->create($request->getParsedBody());
 

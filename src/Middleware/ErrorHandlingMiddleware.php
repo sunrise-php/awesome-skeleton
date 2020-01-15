@@ -10,7 +10,6 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Sunrise\Http\Message\ResponseFactory;
 use Sunrise\Http\Router\Exception\BadRequestException;
 use Sunrise\Http\Router\Exception\MethodNotAllowedException;
 use Sunrise\Http\Router\Exception\RouteNotFoundException;
@@ -23,7 +22,6 @@ use Throwable;
  * Import functions
  */
 use function implode;
-use function stripos;
 
 /**
  * ErrorHandlingMiddleware
@@ -128,8 +126,8 @@ final class ErrorHandlingMiddleware extends AbstractRequestHandler implements Mi
             'exception' => $exception,
         ]);
 
-        if (false === stripos($request->getHeaderLine('Accept'), 'text/html')) {
-            return (new ResponseFactory)->createResponse(500);
+        if (!$this->container->get('app.display_errors')) {
+            return $this->empty(500);
         }
 
         $whoops = new Whoops();

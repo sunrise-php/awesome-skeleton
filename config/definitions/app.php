@@ -43,6 +43,11 @@ return [
     'app.signature' => string('{app.name}@{app.version}.{app.env}'),
 
     /**
+     * If set to false, fatal errors will not be displayed
+     */
+    'app.display_errors' => env('APP_DISPLAY_ERRORS', true),
+
+    /**
      * The application commands
      */
     'commands' => [
@@ -62,5 +67,5 @@ return [
     /**
      * The application services
      */
-    'entryService' => autowire(App\Service\EntryService::class),
+    'service.entry' => autowire(App\Service\EntryService::class),
 ];

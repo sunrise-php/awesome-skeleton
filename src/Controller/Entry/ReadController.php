@@ -12,14 +12,14 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 /**
  * @Route(
- *   name="api.entry.list",
- *   path="/api/v1/entry",
+ *   name="api.entry.read",
+ *   path="/api/v1/entry/{id<\d+>}",
  *   methods={"GET"},
  * )
  *
  * @OpenApi\Operation(
  *   tags={"Entry"},
- *   summary="Entries list",
+ *   summary="Read an entry",
  *   responses={
  *     200: @OpenApi\Response(
  *       description="OK",
@@ -33,11 +33,8 @@ use Psr\Http\Server\RequestHandlerInterface;
  *                 type="string",
  *                 enum={"ok"},
  *               ),
- *               "data": @OpenApi\Schema(
- *                 type="array",
- *                 items=@OpenApi\SchemaReference(
- *                   class="App\Entity\Entry",
- *                 ),
+ *               "data": @OpenApi\SchemaReference(
+ *                 class="App\Entity\Entry"
  *               ),
  *             },
  *           ),
@@ -47,7 +44,7 @@ use Psr\Http\Server\RequestHandlerInterface;
  *   },
  * )
  */
-final class ListController extends AbstractRequestHandler implements RequestHandlerInterface
+final class ReadController extends AbstractRequestHandler implements RequestHandlerInterface
 {
 
     /**
@@ -59,8 +56,14 @@ final class ListController extends AbstractRequestHandler implements RequestHand
      */
     public function handle(ServerRequestInterface $request) : ResponseInterface
     {
+        $id = (int) $request->getAttribute('id');
+
         $service = $this->container->get('service.entry');
 
-        return $this->ok($service->getAll());
+        if (!$service->exists($id)) {
+            return $this->error('The requested entry was not found.', [], 404);
+        }
+
+        return $this->ok($service->read($id));
     }
 }

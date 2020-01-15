@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityRepository;
 /**
  * Import functions
  */
+use function current;
 use function sprintf;
 
 /**
@@ -29,8 +30,34 @@ final class EntryRepository extends EntityRepository
     {
         $dql = sprintf('select t from %s t', Entry::class);
 
-        $query = $this->getEntityManager()->createQuery($dql);
+        $query = $this->getEntityManager()
+            ->createQuery($dql);
 
         return $query->getResult();
+    }
+
+    /**
+     * Finds an entry by the given ID
+     *
+     * @param int $id
+     *
+     * @return null|EntryInterface
+     */
+    public function findById(int $id) : ?EntryInterface
+    {
+        $dql = sprintf('select t from %s t where t.id = :id', Entry::class);
+
+        $query = $this->getEntityManager()
+            ->createQuery($dql)
+            ->setParameter('id', $id)
+            ->setMaxResults(1);
+
+        $result = $query->getResult();
+
+        if (empty($result)) {
+            return null;
+        }
+
+        return current($result);
     }
 }

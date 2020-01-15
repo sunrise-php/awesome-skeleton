@@ -17,37 +17,19 @@ abstract class AbstractRequestHandler
     use ContainerAwareTrait;
 
     /**
-     * @param string $body
+     * Returns empty response
+     *
      * @param int $status
      *
      * @return ResponseInterface
      */
-    final protected function html(string $body, int $status = 200) : ResponseInterface
+    final protected function empty(int $status = 200) : ResponseInterface
     {
-        $response = (new ResponseFactory)->createResponse($status)
-            ->withHeader('Content-Type', 'text/html; charset=UTF-8');
-
-        $response->getBody()->write($body);
-
-        return $response;
+        return (new ResponseFactory)->createResponse($status);
     }
 
     /**
-     * Creates HTML response with a rendered view
-     *
-     * @param string $name
-     * @param array $context
-     * @param int $status
-     *
-     * @return ResponseInterface
-     */
-    final protected function view(string $name, array $context = [], int $status = 200) : ResponseInterface
-    {
-        return $this->html($this->container->get('twig')->render($name, $context), $status);
-    }
-
-    /**
-     * Creates JSON response with the given data
+     * Returns JSON response
      *
      * @param mixed $data
      * @param int $status
@@ -60,11 +42,12 @@ abstract class AbstractRequestHandler
     }
 
     /**
-     * Creates JSON response with the given data
+     * Returns JSON response to inform the client about success
      *
      * @OpenApi\Schema(
      *   refName="StatusOk",
      *   type="string",
+     *   nullable=false,
      *   enum={"ok"},
      * )
      *
@@ -82,12 +65,28 @@ abstract class AbstractRequestHandler
     }
 
     /**
-     * Creates JSON response with the given data
+     * Returns JSON response to inform the client about error
      *
      * @OpenApi\Schema(
      *   refName="StatusError",
-     *   type="string",
-     *   enum={"error"},
+     *   type="object",
+     *   properties={
+     *     "status": @OpenApi\Schema(
+     *       type="string",
+     *       nullable=false,
+     *       enum={"error"},
+     *     ),
+     *     "message": @OpenApi\Schema(
+     *       type="string",
+     *       nullable=false,
+     *     ),
+     *     "errors": @OpenApi\Schema(
+     *       type="array",
+     *       items=@OpenApi\Schema(
+     *         type="array",
+     *       ),
+     *     ),
+     *   },
      * )
      *
      * @param string $message
@@ -103,5 +102,40 @@ abstract class AbstractRequestHandler
             'message' => $message,
             'errors' => $errors,
         ], $status);
+    }
+
+    /**
+     * Returns HTML response
+     *
+     * @param string $body
+     * @param int $status
+     *
+     * @return ResponseInterface
+     */
+    final protected function html(string $body, int $status = 200) : ResponseInterface
+    {
+        $response = $this->empty($status)
+            ->withHeader('Content-Type', 'text/html; charset=UTF-8');
+
+        $response->getBody()->write($body);
+
+        return $response;
+    }
+
+    /**
+     * Returns HTML response with rendered view
+     *
+     * @param string $name
+     * @param array $context
+     * @param int $status
+     *
+     * @return ResponseInterface
+     */
+    final protected function view(string $name, array $context = [], int $status = 200) : ResponseInterface
+    {
+        $twig = $this->container->get('twig');
+        $body = $twig->render($name, $context);
+
+        return $this->html($body, $status);
     }
 }
