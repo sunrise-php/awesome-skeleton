@@ -22,6 +22,21 @@ final class EntryRepository extends EntityRepository
 {
 
     /**
+     * Gets the numbers of entries
+     *
+     * @return int
+     */
+    public function countAll() : int
+    {
+        $dql = sprintf('select count(t.id) from %s t', Entry::class);
+
+        $query = $this->getEntityManager()
+            ->createQuery($dql);
+
+        return (int) $query->getSingleScalarResult();
+    }
+
+    /**
      * Gets all entries
      *
      * @return EntryInterface[]

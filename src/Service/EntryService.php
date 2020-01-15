@@ -16,6 +16,19 @@ final class EntryService
     use ContainerAwareTrait;
 
     /**
+     * Gets the numbers of entries
+     *
+     * @return int
+     */
+    public function countAll() : int
+    {
+        $manager = $this->container->get('entityManager');
+        $repository = $manager->getRepository(Entry::class);
+
+        return $repository->countAll();
+    }
+
+    /**
      * Creates an entry
      *
      * @param array $data

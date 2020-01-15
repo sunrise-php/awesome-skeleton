@@ -18,7 +18,7 @@ trait ContainerAwareTrait
      *
      * @return ContainerInterface
      */
-    public function getContainer() : ContainerInterface
+    private function getContainer() : ContainerInterface
     {
         return require __DIR__ . '/../config/container.php';
     }
