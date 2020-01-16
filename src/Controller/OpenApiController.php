@@ -5,7 +5,8 @@ namespace App\Controller;
 /**
  * Import classes
  */
-use App\Http\AbstractRequestHandler;
+use App\ContainerAwareTrait;
+use App\Http\ResponseFactory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -28,8 +29,9 @@ use Sunrise\Http\Router\OpenApi\OpenApi;
  *   },
  * )
  */
-final class OpenApiController extends AbstractRequestHandler implements RequestHandlerInterface
+final class OpenApiController implements RequestHandlerInterface
 {
+    use ContainerAwareTrait;
 
     /**
      * {@inheritDoc}
@@ -49,6 +51,6 @@ final class OpenApiController extends AbstractRequestHandler implements RequestH
 
         $openapi->addRoute(...$this->container->get('router')->getRoutes());
 
-        return $this->json($openapi->toArray());
+        return (new ResponseFactory)->json($openapi->toArray(), 200);
     }
 }

@@ -5,7 +5,8 @@ namespace App\Controller\Entry;
 /**
  * Import classes
  */
-use App\Http\AbstractRequestHandler;
+use App\ContainerAwareTrait;
+use App\Http\ResponseFactory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -39,18 +40,19 @@ use Psr\Http\Server\RequestHandlerInterface;
  *   ),
  *   responses={
  *     200: @OpenApi\ResponseReference(
- *       class="App\Http\AbstractRequestHandler",
+ *       class="App\Http\ResponseFactory",
  *       method="emptyOk",
  *     ),
  *     "default": @OpenApi\ResponseReference(
- *       class="App\Http\AbstractRequestHandler",
+ *       class="App\Http\ResponseFactory",
  *       method="error",
  *     ),
  *   },
  * )
  */
-final class MultipleDeleteController extends AbstractRequestHandler implements RequestHandlerInterface
+final class MultipleDeleteController implements RequestHandlerInterface
 {
+    use ContainerAwareTrait;
 
     /**
      * {@inheritDoc}
@@ -65,6 +67,6 @@ final class MultipleDeleteController extends AbstractRequestHandler implements R
 
         $service->multipleDelete(...$request->getParsedBody());
 
-        return $this->emptyOk(200);
+        return (new ResponseFactory)->emptyOk(200);
     }
 }

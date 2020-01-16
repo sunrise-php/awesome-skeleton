@@ -5,7 +5,7 @@ namespace App\Controller;
 /**
  * Import classes
  */
-use App\Http\AbstractRequestHandler;
+use App\ContainerAwareTrait;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -27,8 +27,9 @@ use Psr\Http\Server\RequestHandlerInterface;
  *   },
  * )
  */
-final class HomeMirrorController extends AbstractRequestHandler implements RequestHandlerInterface
+final class HomeMirrorController implements RequestHandlerInterface
 {
+    use ContainerAwareTrait;
 
     /**
      * {@inheritDoc}

@@ -5,27 +5,31 @@ namespace App\Http;
 /**
  * Import classes
  */
-use App\ContainerAwareTrait;
 use Psr\Http\Message\ResponseInterface;
-use Sunrise\Http\Message\ResponseFactory;
+use Sunrise\Http\Message\ResponseFactory as BaseResponseFactory;
 
 /**
- * AbstractRequestHandler
+ * ResponseFactory
  */
-abstract class AbstractRequestHandler
+final class ResponseFactory extends BaseResponseFactory
 {
-    use ContainerAwareTrait;
 
     /**
-     * Returns empty response
+     * Returns HTML response
      *
+     * @param string $body
      * @param int $status
      *
      * @return ResponseInterface
      */
-    final protected function empty(int $status = 200) : ResponseInterface
+    public function html(string $body, int $status = 200) : ResponseInterface
     {
-        return (new ResponseFactory)->createResponse($status);
+        $response = $this->createResponse($status)
+            ->withHeader('Content-Type', 'text/html; charset=UTF-8');
+
+        $response->getBody()->write($body);
+
+        return $response;
     }
 
     /**
@@ -36,9 +40,9 @@ abstract class AbstractRequestHandler
      *
      * @return ResponseInterface
      */
-    final protected function json($data, int $status = 200) : ResponseInterface
+    public function json($data, int $status = 200) : ResponseInterface
     {
-        return (new ResponseFactory)->createJsonResponse($status, $data);
+        return $this->createJsonResponse($status, $data);
     }
 
     /**
@@ -56,7 +60,7 @@ abstract class AbstractRequestHandler
      *
      * @return ResponseInterface
      */
-    final protected function ok($data, int $status = 200) : ResponseInterface
+    public function ok($data, int $status = 200) : ResponseInterface
     {
         return $this->json([
             'status' => 'ok',
@@ -73,7 +77,7 @@ abstract class AbstractRequestHandler
      *   required={"status", "data"},
      *   properties={
      *     "status": @OpenApi\SchemaReference(
-     *       class="App\Http\AbstractRequestHandler",
+     *       class="App\Http\ResponseFactory",
      *       method="ok",
      *     ),
      *     "data": @OpenApi\Schema(
@@ -89,7 +93,7 @@ abstract class AbstractRequestHandler
      *   content={
      *     "application/json": @OpenApi\MediaType(
      *       schema=@OpenApi\SchemaReference(
-     *         class="App\Http\AbstractRequestHandler",
+     *         class="App\Http\ResponseFactory",
      *         method="emptyOk",
      *       ),
      *     ),
@@ -100,7 +104,7 @@ abstract class AbstractRequestHandler
      *
      * @return ResponseInterface
      */
-    final protected function emptyOk(int $status = 200) : ResponseInterface
+    public function emptyOk(int $status = 200) : ResponseInterface
     {
         return $this->ok([], $status);
     }
@@ -148,7 +152,7 @@ abstract class AbstractRequestHandler
      *   content={
      *     "application/json": @OpenApi\MediaType(
      *       schema=@OpenApi\SchemaReference(
-     *         class="App\Http\AbstractRequestHandler",
+     *         class="App\Http\ResponseFactory",
      *         method="error",
      *       ),
      *     ),
@@ -161,30 +165,12 @@ abstract class AbstractRequestHandler
      *
      * @return ResponseInterface
      */
-    final protected function error(string $message, array $errors = [], int $status = 500) : ResponseInterface
+    public function error(string $message, array $errors = [], int $status = 500) : ResponseInterface
     {
         return $this->json([
             'status' => 'error',
             'message' => $message,
             'errors' => $errors,
         ], $status);
-    }
-
-    /**
-     * Returns HTML response
-     *
-     * @param string $body
-     * @param int $status
-     *
-     * @return ResponseInterface
-     */
-    final protected function html(string $body, int $status = 200) : ResponseInterface
-    {
-        $response = $this->empty($status)
-            ->withHeader('Content-Type', 'text/html; charset=UTF-8');
-
-        $response->getBody()->write($body);
-
-        return $response;
     }
 }

@@ -5,7 +5,8 @@ namespace App\Controller\Entry;
 /**
  * Import classes
  */
-use App\Http\AbstractRequestHandler;
+use App\ContainerAwareTrait;
+use App\Http\ResponseFactory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -30,7 +31,7 @@ use Psr\Http\Server\RequestHandlerInterface;
  *             required={"status", "data"},
  *             properties={
  *               "status": @OpenApi\SchemaReference(
- *                 class="App\Http\AbstractRequestHandler",
+ *                 class="App\Http\ResponseFactory",
  *                 method="ok",
  *               ),
  *               "data": @OpenApi\Schema(
@@ -45,14 +46,15 @@ use Psr\Http\Server\RequestHandlerInterface;
  *       },
  *     ),
  *     "default": @OpenApi\ResponseReference(
- *       class="App\Http\AbstractRequestHandler",
+ *       class="App\Http\ResponseFactory",
  *       method="error",
  *     ),
  *   },
  * )
  */
-final class ListController extends AbstractRequestHandler implements RequestHandlerInterface
+final class ListController implements RequestHandlerInterface
 {
+    use ContainerAwareTrait;
 
     /**
      * {@inheritDoc}
@@ -65,6 +67,6 @@ final class ListController extends AbstractRequestHandler implements RequestHand
     {
         $service = $this->container->get('service.entry');
 
-        return $this->ok($service->getAll(), 200);
+        return (new ResponseFactory)->ok($service->getAll(), 200);
     }
 }

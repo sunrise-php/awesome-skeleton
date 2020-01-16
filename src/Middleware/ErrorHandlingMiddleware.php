@@ -5,7 +5,8 @@ namespace App\Middleware;
 /**
  * Import classes
  */
-use App\Http\AbstractRequestHandler;
+use App\ContainerAwareTrait;
+use App\Http\ResponseFactory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -26,8 +27,9 @@ use function implode;
 /**
  * ErrorHandlingMiddleware
  */
-final class ErrorHandlingMiddleware extends AbstractRequestHandler implements MiddlewareInterface
+final class ErrorHandlingMiddleware implements MiddlewareInterface
 {
+    use ContainerAwareTrait;
 
     /**
      * {@inheritDoc}
@@ -68,7 +70,7 @@ final class ErrorHandlingMiddleware extends AbstractRequestHandler implements Mi
         ServerRequestInterface $request,
         BadRequestException $exception
     ) : ResponseInterface {
-        return $this->error($exception->getMessage(), $exception->getViolations(), 400);
+        return (new ResponseFactory)->error($exception->getMessage(), $exception->getViolations(), 400);
     }
 
     /**
@@ -83,7 +85,7 @@ final class ErrorHandlingMiddleware extends AbstractRequestHandler implements Mi
         ServerRequestInterface $request,
         MethodNotAllowedException $exception
     ) : ResponseInterface {
-        return $this->error($exception->getMessage(), [], 405)
+        return (new ResponseFactory)->error($exception->getMessage(), [], 405)
             ->withHeader('Allow', implode(',', $exception->getAllowedMethods()));
     }
 
@@ -99,7 +101,7 @@ final class ErrorHandlingMiddleware extends AbstractRequestHandler implements Mi
         ServerRequestInterface $request,
         RouteNotFoundException $exception
     ) : ResponseInterface {
-        return $this->error($exception->getMessage(), [], 404);
+        return (new ResponseFactory)->error($exception->getMessage(), [], 404);
     }
 
     /**
@@ -114,7 +116,7 @@ final class ErrorHandlingMiddleware extends AbstractRequestHandler implements Mi
         ServerRequestInterface $request,
         UnsupportedMediaTypeException $exception
     ) : ResponseInterface {
-        return $this->error($exception->getMessage(), [], 415)
+        return (new ResponseFactory)->error($exception->getMessage(), [], 415)
             ->withHeader('Accept', implode(',', $exception->getSupportedTypes()));
     }
 
@@ -137,7 +139,7 @@ final class ErrorHandlingMiddleware extends AbstractRequestHandler implements Mi
         ]);
 
         if (!$this->container->get('app.display_errors')) {
-            return $this->empty(500);
+            return (new ResponseFactory)->createResponse(500);
         }
 
         $whoops = new Whoops();
@@ -146,6 +148,6 @@ final class ErrorHandlingMiddleware extends AbstractRequestHandler implements Mi
         $whoops->writeToOutput(false);
         $whoops->pushHandler(new PrettyPageHandler());
 
-        return $this->html($whoops->handleException($exception), 500);
+        return (new ResponseFactory)->html($whoops->handleException($exception), 500);
     }
 }

@@ -5,7 +5,8 @@ namespace App\Controller;
 /**
  * Import classes
  */
-use App\Http\AbstractRequestHandler;
+use App\ContainerAwareTrait;
+use App\Http\ResponseFactory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -26,8 +27,9 @@ use Psr\Http\Server\RequestHandlerInterface;
  *   },
  * )
  */
-final class HomeController extends AbstractRequestHandler implements RequestHandlerInterface
+final class HomeController implements RequestHandlerInterface
 {
+    use ContainerAwareTrait;
 
     /**
      * {@inheritDoc}
@@ -38,6 +40,8 @@ final class HomeController extends AbstractRequestHandler implements RequestHand
      */
     public function handle(ServerRequestInterface $request) : ResponseInterface
     {
-        return $this->html($this->container->get('twig')->render('welcome.html'));
+        $html = $this->container->get('twig')->render('welcome.html');
+
+        return (new ResponseFactory)->html($html, 200);
     }
 }

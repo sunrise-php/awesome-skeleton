@@ -5,7 +5,8 @@ namespace App\Controller;
 /**
  * Import classes
  */
-use App\Http\AbstractRequestHandler;
+use App\ContainerAwareTrait;
+use App\Http\ResponseFactory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -27,8 +28,9 @@ use Psr\Http\Server\RequestHandlerInterface;
  *   },
  * )
  */
-final class HomeRedirectController extends AbstractRequestHandler implements RequestHandlerInterface
+final class HomeRedirectController implements RequestHandlerInterface
 {
+    use ContainerAwareTrait;
 
     /**
      * {@inheritDoc}
@@ -41,6 +43,7 @@ final class HomeRedirectController extends AbstractRequestHandler implements Req
     {
         $uri = $this->container->get('router')->generateUri('home', []);
 
-        return $this->empty(301)->withHeader('Location', $uri);
+        return (new ResponseFactory)->createResponse(301)
+            ->withHeader('Location', $uri);
     }
 }

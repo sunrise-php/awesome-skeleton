@@ -5,7 +5,8 @@ namespace App\Controller\Entry;
 /**
  * Import classes
  */
-use App\Http\AbstractRequestHandler;
+use App\ContainerAwareTrait;
+use App\Http\ResponseFactory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -40,18 +41,19 @@ use Psr\Http\Server\RequestHandlerInterface;
  *   ),
  *   responses={
  *     200: @OpenApi\ResponseReference(
- *       class="App\Http\AbstractRequestHandler",
+ *       class="App\Http\ResponseFactory",
  *       method="emptyOk",
  *     ),
  *     "default": @OpenApi\ResponseReference(
- *       class="App\Http\AbstractRequestHandler",
+ *       class="App\Http\ResponseFactory",
  *       method="error",
  *     ),
  *   },
  * )
  */
-final class UpdateController extends AbstractRequestHandler implements RequestHandlerInterface
+final class UpdateController implements RequestHandlerInterface
 {
+    use ContainerAwareTrait;
 
     /**
      * {@inheritDoc}
@@ -67,11 +69,11 @@ final class UpdateController extends AbstractRequestHandler implements RequestHa
         $service = $this->container->get('service.entry');
 
         if (!$service->existsById($id)) {
-            return $this->error('The requested entry was not found.', [], 404);
+            return (new ResponseFactory)->error('The requested entry was not found.', [], 404);
         }
 
         $service->updateById($id, $request->getParsedBody());
 
-        return $this->emptyOk(200);
+        return (new ResponseFactory)->emptyOk(200);
     }
 }
