@@ -10,8 +10,6 @@ use App\Http\ResponseFactory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Sunrise\Http\Router\OpenApi\Object\Info;
-use Sunrise\Http\Router\OpenApi\OpenApi;
 
 /**
  * @Route(
@@ -42,14 +40,7 @@ final class OpenApiController implements RequestHandlerInterface
      */
     public function handle(ServerRequestInterface $request) : ResponseInterface
     {
-        $info = new Info(
-            $this->container->get('app.name'),
-            $this->container->get('app.version')
-        );
-
-        $openapi = new OpenApi($info);
-
-        $openapi->addRoute(...$this->container->get('router')->getRoutes());
+        $openapi = $this->container->get('openapi');
 
         return (new ResponseFactory)->json($openapi->toArray(), 200);
     }
