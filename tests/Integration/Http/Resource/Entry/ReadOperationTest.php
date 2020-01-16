@@ -7,8 +7,8 @@ namespace App\Tests\Integration\Http\Resource\Entry;
  */
 use App\Controller\Entry\ReadController;
 use App\Tests\ContainerAwareTrait;
-use App\Tests\DatabaseHelpersTrait;
-use App\Tests\ResponseBodyValidationTestCase;
+use App\Tests\DatabaseHelperTrait;
+use App\Tests\ResponseBodyValidationTestCaseTrait;
 use PHPUnit\Framework\TestCase;
 use Sunrise\Http\ServerRequest\ServerRequestFactory;
 
@@ -18,8 +18,8 @@ use Sunrise\Http\ServerRequest\ServerRequestFactory;
 class ReadOperationTest extends TestCase
 {
     use ContainerAwareTrait;
-    use DatabaseHelpersTrait;
-    use ResponseBodyValidationTestCase;
+    use DatabaseHelperTrait;
+    use ResponseBodyValidationTestCaseTrait;
 
     /**
      * @runInSeparateProcess
@@ -41,7 +41,11 @@ class ReadOperationTest extends TestCase
         $response = $container->get('router')->handle((new ServerRequestFactory)
             ->createServerRequest('GET', '/api/v1/entry/1'));
 
-        $this->assertValidResponseBody(200, 'application/json', ReadController::class, $response);
+        $this->assertValidResponseBody(
+            200,
+            'application/json',
+            ReadController::class,
+            $response
+        );
     }
 }
-

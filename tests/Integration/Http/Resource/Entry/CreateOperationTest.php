@@ -7,8 +7,8 @@ namespace App\Tests\Integration\Http\Resource\Entry;
  */
 use App\Controller\Entry\CreateController;
 use App\Tests\ContainerAwareTrait;
-use App\Tests\DatabaseHelpersTrait;
-use App\Tests\ResponseBodyValidationTestCase;
+use App\Tests\DatabaseHelperTrait;
+use App\Tests\ResponseBodyValidationTestCaseTrait;
 use PHPUnit\Framework\TestCase;
 use Sunrise\Http\ServerRequest\ServerRequestFactory;
 
@@ -18,8 +18,8 @@ use Sunrise\Http\ServerRequest\ServerRequestFactory;
 class CreateOperationTest extends TestCase
 {
     use ContainerAwareTrait;
-    use DatabaseHelpersTrait;
-    use ResponseBodyValidationTestCase;
+    use DatabaseHelperTrait;
+    use ResponseBodyValidationTestCaseTrait;
 
     /**
      * @runInSeparateProcess
@@ -43,7 +43,11 @@ class CreateOperationTest extends TestCase
 
         $this->assertSame(1, $container->get('service.entry')->countAll());
 
-        $this->assertValidResponseBody(201, 'application/json', CreateController::class, $response);
+        $this->assertValidResponseBody(
+            201,
+            'application/json',
+            CreateController::class,
+            $response
+        );
     }
 }
-
