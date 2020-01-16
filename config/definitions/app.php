@@ -51,6 +51,7 @@ return [
      * The application commands
      */
     'commands' => [
+        autowire(App\Command\GenerateOpenApiDocumentationCommand::class),
         create(App\Command\GenerateRoadRunnerSystemdUnitCommand::class),
     ],
 
