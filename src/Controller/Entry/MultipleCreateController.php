@@ -29,6 +29,7 @@ use Psr\Http\Server\RequestHandlerInterface;
  *       "application/json": @OpenApi\MediaType(
  *         schema=@OpenApi\Schema(
  *           type="array",
+ *           minItems=1,
  *           items=@OpenApi\Schema(
  *             type="object",
  *             required={"name"},
