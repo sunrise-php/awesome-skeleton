@@ -5,7 +5,7 @@ namespace App\Tests\Integration\Http\Resource\Entry;
 /**
  * Import classes
  */
-use App\Controller\Entry\ReadController;
+use App\Controller\Entry\DeleteController;
 use App\Tests\ContainerAwareTrait;
 use App\Tests\DatabaseHelperTrait;
 use App\Tests\ResponseBodyValidationTestCaseTrait;
@@ -13,9 +13,9 @@ use PHPUnit\Framework\TestCase;
 use Sunrise\Http\ServerRequest\ServerRequestFactory;
 
 /**
- * ReadOperationTest
+ * DeleteOperationTest
  */
-class ReadOperationTest extends TestCase
+class DeleteOperationTest extends TestCase
 {
     use ContainerAwareTrait;
     use DatabaseHelperTrait;
@@ -26,7 +26,7 @@ class ReadOperationTest extends TestCase
      *
      * @return void
      */
-    public function testRead() : void
+    public function testDelete() : void
     {
         $container = $this->getContainer();
 
@@ -41,12 +41,14 @@ class ReadOperationTest extends TestCase
         $this->assertSame(1, $container->get('service.entry')->countAll());
 
         $response = $container->get('router')->handle((new ServerRequestFactory)
-            ->createServerRequest('GET', '/api/v1/entry/1'));
+            ->createServerRequest('DELETE', '/api/v1/entry/1'));
+
+        $this->assertSame(0, $container->get('service.entry')->countAll());
 
         $this->assertValidResponseBody(
             200,
             'application/json',
-            ReadController::class,
+            DeleteController::class,
             $response
         );
     }
@@ -56,7 +58,7 @@ class ReadOperationTest extends TestCase
      *
      * @return void
      */
-    public function testReadNonexistent() : void
+    public function testDeleteNonexistent() : void
     {
         $container = $this->getContainer();
 
@@ -65,12 +67,12 @@ class ReadOperationTest extends TestCase
         $this->assertSame(0, $container->get('service.entry')->countAll());
 
         $response = $container->get('router')->handle((new ServerRequestFactory)
-            ->createServerRequest('GET', '/api/v1/entry/1'));
+            ->createServerRequest('DELETE', '/api/v1/entry/1'));
 
         $this->assertValidResponseBody(
             404,
             'application/json',
-            ReadController::class,
+            DeleteController::class,
             $response
         );
     }

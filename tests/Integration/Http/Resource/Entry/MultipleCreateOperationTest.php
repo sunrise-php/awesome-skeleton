@@ -5,7 +5,7 @@ namespace App\Tests\Integration\Http\Resource\Entry;
 /**
  * Import classes
  */
-use App\Controller\Entry\CreateController;
+use App\Controller\Entry\MultipleCreateController;
 use App\Tests\ContainerAwareTrait;
 use App\Tests\DatabaseHelperTrait;
 use App\Tests\ResponseBodyValidationTestCaseTrait;
@@ -19,9 +19,9 @@ use Sunrise\Http\Router\Exception\BadRequestException;
 use function str_repeat;
 
 /**
- * CreateOperationTest
+ * MultipleCreateOperationTest
  */
-class CreateOperationTest extends TestCase
+class MultipleCreateOperationTest extends TestCase
 {
     use ContainerAwareTrait;
     use DatabaseHelperTrait;
@@ -32,7 +32,7 @@ class CreateOperationTest extends TestCase
      *
      * @return void
      */
-    public function testCreate() : void
+    public function testMultipleCreate() : void
     {
         $container = $this->getContainer();
 
@@ -41,18 +41,23 @@ class CreateOperationTest extends TestCase
         $this->assertSame(0, $container->get('service.entry')->countAll());
 
         $response = $container->get('router')->handle((new ServerRequestFactory)
-            ->createServerRequest('POST', '/api/v1/entry')
+            ->createServerRequest('PUT', '/api/v1/entry')
             ->withHeader('Content-Type', 'application/json')
             ->withParsedBody([
-                'name' => 'foo',
+                [
+                    'name' => 'foo',
+                ],
+                [
+                    'name' => 'bar',
+                ],
             ]));
 
-        $this->assertSame(1, $container->get('service.entry')->countAll());
+        $this->assertSame(2, $container->get('service.entry')->countAll());
 
         $this->assertValidResponseBody(
             201,
             'application/json',
-            CreateController::class,
+            MultipleCreateController::class,
             $response
         );
     }
@@ -66,14 +71,14 @@ class CreateOperationTest extends TestCase
      *
      * @return void
      */
-    public function testCreateWithInvalidBody($invalidBody) : void
+    public function testMultipleCreateWithInvalidBody($invalidBody) : void
     {
         $container = $this->getContainer();
 
         $this->expectException(BadRequestException::class);
 
         $container->get('router')->handle((new ServerRequestFactory)
-            ->createServerRequest('POST', '/api/v1/entry')
+            ->createServerRequest('PUT', '/api/v1/entry')
             ->withHeader('Content-Type', 'application/json')
             ->withParsedBody($invalidBody));
     }
@@ -86,17 +91,28 @@ class CreateOperationTest extends TestCase
         return [
             [
                 [
-                    // empty
+                    // empty body
                 ],
             ],
             [
                 [
-                    'name' => '',
+                    [
+                        // empty resource
+                    ],
                 ],
             ],
             [
                 [
-                    'name' => str_repeat('1', 256),
+                    [
+                        'name' => '',
+                    ],
+                ],
+            ],
+            [
+                [
+                    [
+                        'name' => str_repeat('1', 256),
+                    ],
                 ],
             ],
         ];

@@ -5,7 +5,7 @@ namespace App\Tests\Integration\Http\Resource\Entry;
 /**
  * Import classes
  */
-use App\Controller\Entry\CreateController;
+use App\Controller\Entry\MultipleDeleteController;
 use App\Tests\ContainerAwareTrait;
 use App\Tests\DatabaseHelperTrait;
 use App\Tests\ResponseBodyValidationTestCaseTrait;
@@ -14,14 +14,9 @@ use Sunrise\Http\ServerRequest\ServerRequestFactory;
 use Sunrise\Http\Router\Exception\BadRequestException;
 
 /**
- * Import functions
+ * MultipleDeleteOperationTest
  */
-use function str_repeat;
-
-/**
- * CreateOperationTest
- */
-class CreateOperationTest extends TestCase
+class MultipleDeleteOperationTest extends TestCase
 {
     use ContainerAwareTrait;
     use DatabaseHelperTrait;
@@ -32,7 +27,7 @@ class CreateOperationTest extends TestCase
      *
      * @return void
      */
-    public function testCreate() : void
+    public function testMultipleDelete() : void
     {
         $container = $this->getContainer();
 
@@ -40,19 +35,31 @@ class CreateOperationTest extends TestCase
 
         $this->assertSame(0, $container->get('service.entry')->countAll());
 
+        $container->get('service.entry')->multipleCreate(
+            [
+                'name' => 'foo',
+            ],
+            [
+                'name' => 'bar',
+            ]
+        );
+
+        $this->assertSame(2, $container->get('service.entry')->countAll());
+
         $response = $container->get('router')->handle((new ServerRequestFactory)
-            ->createServerRequest('POST', '/api/v1/entry')
+            ->createServerRequest('DELETE', '/api/v1/entry')
             ->withHeader('Content-Type', 'application/json')
             ->withParsedBody([
-                'name' => 'foo',
+                1,
+                2,
             ]));
 
-        $this->assertSame(1, $container->get('service.entry')->countAll());
+        $this->assertSame(0, $container->get('service.entry')->countAll());
 
         $this->assertValidResponseBody(
-            201,
+            200,
             'application/json',
-            CreateController::class,
+            MultipleDeleteController::class,
             $response
         );
     }
@@ -66,14 +73,14 @@ class CreateOperationTest extends TestCase
      *
      * @return void
      */
-    public function testCreateWithInvalidBody($invalidBody) : void
+    public function testMultipleDeleteWithInvalidBody($invalidBody) : void
     {
         $container = $this->getContainer();
 
         $this->expectException(BadRequestException::class);
 
         $container->get('router')->handle((new ServerRequestFactory)
-            ->createServerRequest('POST', '/api/v1/entry')
+            ->createServerRequest('DELETE', '/api/v1/entry')
             ->withHeader('Content-Type', 'application/json')
             ->withParsedBody($invalidBody));
     }
@@ -86,17 +93,22 @@ class CreateOperationTest extends TestCase
         return [
             [
                 [
-                    // empty
+                    // empty body
                 ],
             ],
             [
                 [
-                    'name' => '',
+                    null,
                 ],
             ],
             [
                 [
-                    'name' => str_repeat('1', 256),
+                    0,
+                ],
+            ],
+            [
+                [
+                    'foo',
                 ],
             ],
         ];
