@@ -69,7 +69,7 @@ final class ResponseFactory extends BaseResponseFactory
     }
 
     /**
-     * Returns empty JSON response to inform the client about success
+     * Returns empty JSON response to inform the client about success (without data)
      *
      * @OpenApi\Schema(
      *   refName="FullEmptyStatusOk",
