@@ -76,7 +76,8 @@ trait ResponseBodyValidationTestCaseTrait
         );
 
         $jsonSchemaBuilder = new JsonSchemaBuilder(new ReflectionClass($operationSourceClass));
-        $jsonSchema = $jsonSchemaBuilder->forResponseBody($responseStatus, $responseMediaType);
+        $jsonSchema = $jsonSchemaBuilder->forResponseBody($responseStatus, $responseMediaType) ??
+                      $jsonSchemaBuilder->forResponseBody('default', $responseMediaType);
         $this->assertNotNull(
             $jsonSchema,
             'No JSON schema found'
