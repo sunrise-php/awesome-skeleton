@@ -9,9 +9,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\SchemaTool;
 
 /**
- * DatabaseHelpersTrait
+ * DatabaseHelperTrait
  */
-trait DatabaseHelpersTrait
+trait DatabaseHelperTrait
 {
 
     /**
