@@ -3,11 +3,6 @@
 namespace App\Entity;
 
 /**
- * Import classes
- */
-use App\Domain\EntryInterface;
-
-/**
  * Entry
  *
  * @Table(
@@ -34,7 +29,7 @@ use App\Domain\EntryInterface;
  *   },
  * )
  */
-final class Entry implements EntryInterface
+final class Entry
 {
 
     /**

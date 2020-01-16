@@ -5,7 +5,6 @@ namespace App\Repository;
 /**
  * Import classes
  */
-use App\Domain\EntryInterface;
 use App\Entity\Entry;
 use Doctrine\ORM\EntityRepository;
 
@@ -39,7 +38,7 @@ final class EntryRepository extends EntityRepository
     /**
      * Gets all entries
      *
-     * @return EntryInterface[]
+     * @return Entry[]
      */
     public function getAll() : array
     {
@@ -56,7 +55,7 @@ final class EntryRepository extends EntityRepository
      *
      * @param int ...$ids
      *
-     * @return EntryInterface[]
+     * @return Entry[]
      */
     public function findByIds(int ...$ids) : array
     {
@@ -74,9 +73,9 @@ final class EntryRepository extends EntityRepository
      *
      * @param int $id
      *
-     * @return null|EntryInterface
+     * @return null|Entry
      */
-    public function findById(int $id) : ?EntryInterface
+    public function findById(int $id) : ?Entry
     {
         $dql = sprintf('select t from %s t where t.id = :id', Entry::class);
 
