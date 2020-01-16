@@ -4,4 +4,6 @@
 
     <file>src</file>
     <file>tests</file>
+
+    <exclude-pattern>*/src/Migration/*</exclude-pattern>
 </ruleset>
