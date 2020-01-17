@@ -1,0 +1,39 @@
+#!/usr/bin/env php
+<?php
+
+use Spiral\Goridge\StreamRelay;
+use Spiral\RoadRunner\PSR7Client as Client;
+use Spiral\RoadRunner\Worker;
+use Sunrise\Http\Factory\ServerRequestFactory;
+use Sunrise\Http\Factory\StreamFactory;
+use Sunrise\Http\Factory\UploadedFileFactory;
+use Sunrise\Http\Router\RequestHandler\QueueableRequestHandler;
+
+require __DIR__ . '/../config/bootstrap.php';
+
+$container = require __DIR__ . '/../config/container.php';
+
+$relay = new StreamRelay(STDIN, STDOUT);
+
+$client = new Client(
+    new Worker($relay),
+    new ServerRequestFactory(),
+    new StreamFactory(),
+    new UploadedFileFactory()
+);
+
+$router = $container->get('router');
+$middlewares = $container->get('middlewares');
+
+while ($request = $client->acceptRequest()) {
+    $handler = new QueueableRequestHandler($router);
+    $handler->add(...$middlewares);
+
+    $client->respond($handler->handle($request));
+
+    $entityManager = $container->get('entityManager');
+    $entityManager->clear();
+    $entityManager->getConnection()->close();
+
+    gc_collect_cycles();
+}

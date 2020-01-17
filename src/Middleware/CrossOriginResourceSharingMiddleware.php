@@ -1,22 +1,26 @@
 <?php declare(strict_types=1);
 
-namespace App\Http\Controller;
+namespace App\Middleware;
 
 /**
  * Import classes
  */
+use App\ContainerAwareTrait;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 /**
- * @Route(id="home", path="/", methods={"GET"})
+ * CrossOriginResourceSharingMiddleware
  */
-class HomeController implements MiddlewareInterface
+final class CrossOriginResourceSharingMiddleware implements MiddlewareInterface
 {
+    use ContainerAwareTrait;
 
     /**
+     * {@inheritDoc}
+     *
      * @param ServerRequestInterface $request
      * @param RequestHandlerInterface $handler
      *
@@ -24,10 +28,7 @@ class HomeController implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
     {
-        $response = $handler->handle($request);
-
-        $response->getBody()->write('Welcome');
-
-        return $response;
+        return $handler->handle($request)
+            ->withHeader('Access-Control-Allow-Origin', '*');
     }
 }

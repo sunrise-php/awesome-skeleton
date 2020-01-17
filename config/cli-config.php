@@ -1,11 +1,9 @@
 <?php declare(strict_types=1);
 
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Console\ConsoleRunner;
 
-chdir(dirname(__DIR__));
-require_once 'vendor/autoload.php';
-$container = require 'config/container.php';
+$container = require __DIR__ . '/container.php';
 
-$entityManager = $container->get(EntityManager::class);
-return ConsoleRunner::createHelperSet($entityManager);
+return ConsoleRunner::createHelperSet(
+    $container->get('entityManager')
+);

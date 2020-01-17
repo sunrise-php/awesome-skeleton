@@ -1,0 +1,9 @@
+<?php declare(strict_types=1);
+
+use function DI\string;
+
+return [
+    'doctrine.configuration.connection' => [
+        'url' => string('sqlite:///{app.root}/db/test.sqlite'),
+    ],
+];

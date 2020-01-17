@@ -2,10 +2,7 @@ language: php
 
 matrix:
   include:
-    - php: 7.1
-    - php: 7.2
     - php: 7.3
-    - php: nightly
   fast_finish: true
 
 before_install:
@@ -14,4 +11,4 @@ before_install:
 install:
   - travis_retry composer install --no-interaction --prefer-source --no-suggest
 
-script: composer test
+script: php vendor/bin/phpunit --colors=always --coverage-text

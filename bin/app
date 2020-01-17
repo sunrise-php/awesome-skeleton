@@ -1,0 +1,19 @@
+#!/usr/bin/env php
+<?php
+
+use Symfony\Component\Console\Application;
+
+require __DIR__ . '/../config/bootstrap.php';
+
+$container = require __DIR__ . '/../config/container.php';
+
+$application = new Application(
+    $container->get('app.name'),
+    $container->get('app.version')
+);
+
+$application->addCommands(
+    $container->get('commands')
+);
+
+$application->run();
