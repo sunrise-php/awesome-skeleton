@@ -6,7 +6,8 @@ namespace App\Middleware;
  * Import classes
  */
 use App\ContainerAwareTrait;
-use App\Http\ResponseFactory;
+use App\Exception\InvalidEntityException;
+use Arus\Http\Response\ResponseFactoryAwareTrait;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -15,6 +16,8 @@ use Sunrise\Http\Router\Exception\BadRequestException;
 use Sunrise\Http\Router\Exception\MethodNotAllowedException;
 use Sunrise\Http\Router\Exception\RouteNotFoundException;
 use Sunrise\Http\Router\Exception\UnsupportedMediaTypeException;
+use Symfony\Component\Validator\ConstraintViolation;
+use Symfony\Component\Validator\ConstraintViolationList;
 use Whoops\Run as Whoops;
 use Whoops\Handler\PrettyPageHandler;
 use Throwable;
@@ -22,7 +25,11 @@ use Throwable;
 /**
  * Import functions
  */
+use function get_class;
 use function implode;
+use function preg_quote;
+use function preg_replace;
+use function sprintf;
 
 /**
  * ErrorHandlingMiddleware
@@ -30,6 +37,7 @@ use function implode;
 final class ErrorHandlingMiddleware implements MiddlewareInterface
 {
     use ContainerAwareTrait;
+    use ResponseFactoryAwareTrait;
 
     /**
      * {@inheritDoc}
@@ -53,6 +61,8 @@ final class ErrorHandlingMiddleware implements MiddlewareInterface
             return $this->handleRouteNotFound($request, $e);
         } catch (UnsupportedMediaTypeException $e) {
             return $this->handleUnsupportedMediaType($request, $e);
+        } catch (InvalidEntityException $e) {
+            return $this->handleInvalidEntity($request, $e);
         } catch (Throwable $e) {
             return $this->handleException($request, $e);
         }
@@ -70,7 +80,24 @@ final class ErrorHandlingMiddleware implements MiddlewareInterface
         ServerRequestInterface $request,
         BadRequestException $exception
     ) : ResponseInterface {
-        return (new ResponseFactory)->error($exception->getMessage(), $exception->getViolations(), 400);
+        $violations = new ConstraintViolationList();
+
+        foreach ($exception->getViolations() as $v) {
+            $violations->add(new ConstraintViolation(
+                $v['message'],
+                null,
+                [],
+                null,
+                $v['property'],
+                null,
+                null,
+                'b187c971-810b-455a-baf3-06dc6a1591f4',
+                null,
+                null
+            ));
+        }
+
+        return $this->violations($violations, 400);
     }
 
     /**
@@ -85,8 +112,12 @@ final class ErrorHandlingMiddleware implements MiddlewareInterface
         ServerRequestInterface $request,
         MethodNotAllowedException $exception
     ) : ResponseInterface {
-        return (new ResponseFactory)->error($exception->getMessage(), [], 405)
-            ->withHeader('Allow', implode(',', $exception->getAllowedMethods()));
+        return $this->error(
+            $exception->getMessage(),
+            $request->getUri()->getPath(),
+            '7d8f78d7-c689-409b-8031-8401ab5836b6',
+            405
+        )->withHeader('Allow', implode(',', $exception->getAllowedMethods()));
     }
 
     /**
@@ -101,7 +132,12 @@ final class ErrorHandlingMiddleware implements MiddlewareInterface
         ServerRequestInterface $request,
         RouteNotFoundException $exception
     ) : ResponseInterface {
-        return (new ResponseFactory)->error($exception->getMessage(), [], 404);
+        return $this->error(
+            $exception->getMessage(),
+            $request->getUri()->getPath(),
+            '979775e6-a43b-414f-bb72-cbe0133f621e',
+            404
+        );
     }
 
     /**
@@ -116,8 +152,27 @@ final class ErrorHandlingMiddleware implements MiddlewareInterface
         ServerRequestInterface $request,
         UnsupportedMediaTypeException $exception
     ) : ResponseInterface {
-        return (new ResponseFactory)->error($exception->getMessage(), [], 415)
-            ->withHeader('Accept', implode(',', $exception->getSupportedTypes()));
+        return $this->error(
+            $exception->getMessage(),
+            $request->getUri()->getPath(),
+            '87255179-5041-4f1b-a469-b891ad5dc623',
+            415
+        )->withHeader('Accept', implode(',', $exception->getSupportedTypes()));
+    }
+
+    /**
+     * Returns a response with the given processed exception
+     *
+     * @param ServerRequestInterface $request
+     * @param InvalidEntityException $exception
+     *
+     * @return ResponseInterface
+     */
+    private function handleInvalidEntity(
+        ServerRequestInterface $request,
+        InvalidEntityException $exception
+    ) : ResponseInterface {
+        return $this->violations($exception->getEntityViolations(), 400);
     }
 
     /**
@@ -139,7 +194,17 @@ final class ErrorHandlingMiddleware implements MiddlewareInterface
         ]);
 
         if (!$this->container->get('app.display_errors')) {
-            return (new ResponseFactory)->createResponse(500);
+            return $this->error(
+                sprintf(
+                    'Caught the exception %s in the file %s on line %d.',
+                    get_class($exception),
+                    $this->hideRoot($exception->getFile()),
+                    $exception->getLine()
+                ),
+                $request->getUri()->getPath(),
+                '594358d2-b5f1-4cfc-8c60-df43cfd720b3',
+                500
+            );
         }
 
         $whoops = new Whoops();
@@ -148,6 +213,21 @@ final class ErrorHandlingMiddleware implements MiddlewareInterface
         $whoops->writeToOutput(false);
         $whoops->pushHandler(new PrettyPageHandler());
 
-        return (new ResponseFactory)->html($whoops->handleException($exception), 500);
+        return $this->html($whoops->handleException($exception), 500);
+    }
+
+    /**
+     * Hides the application root from the given path
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    private function hideRoot(string $path) : string
+    {
+        $root = preg_quote($this->container->get('app.root'), '/');
+        $path = preg_replace('/^' . $root . '/ui', '', $path);
+
+        return $path;
     }
 }

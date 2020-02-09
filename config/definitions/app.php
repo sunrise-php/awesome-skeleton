@@ -24,7 +24,14 @@ return [
      *
      * Use only ASCII without whitespace characters
      */
-    'app.name' => 'Acme',
+    'app.name' => 'acme',
+
+    /**
+     * The application summary
+     *
+     * Use only markdown markup to format text
+     */
+    'app.summary' => 'Awesome Skeleton',
 
     /**
      * The application version
@@ -33,7 +40,7 @@ return [
      *
      * @link https://semver.org/
      */
-    'app.version' => '0.0.1',
+    'app.version' => '0.1.0',
 
     /**
      * The application signature
@@ -60,8 +67,8 @@ return [
      */
     'middlewares' => [
         autowire(App\Middleware\ErrorHandlingMiddleware::class),
-        autowire(App\Middleware\DoctrinePersistentEntityManagerMiddleware::class),
-        autowire(App\Middleware\CrossOriginResourceSharingMiddleware::class),
+        autowire(App\Middleware\CorsMiddleware::class),
+        create(Middlewares\ResponseTime::class),
         create(Middlewares\JsonPayload::class),
         create(Middlewares\UrlEncodePayload::class),
     ],
@@ -69,5 +76,5 @@ return [
     /**
      * The application services
      */
-    'service.entry' => autowire(App\Service\EntryService::class),
+    'validator.service' => autowire(App\Service\ValidatorService::class),
 ];

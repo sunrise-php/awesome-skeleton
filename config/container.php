@@ -1,9 +1,6 @@
 <?php declare(strict_types=1);
 
 use DI\ContainerBuilder;
-use Symfony\Component\Dotenv\Dotenv;
-
-(new Dotenv(true))->load(__DIR__ . '/../.env');
 
 $env = getenv('APP_ENV') ?: 'dev';
 

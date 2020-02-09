@@ -6,7 +6,7 @@ namespace App\Controller;
  * Import classes
  */
 use App\ContainerAwareTrait;
-use App\Http\ResponseFactory;
+use Arus\Http\Response\ResponseFactoryAwareTrait;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -17,19 +17,11 @@ use Psr\Http\Server\RequestHandlerInterface;
  *   path="/",
  *   methods={"GET"},
  * )
- *
- * @OpenApi\Operation(
- *   summary="Home page",
- *   responses={
- *     200: @OpenApi\Response(
- *       description="OK",
- *     ),
- *   },
- * )
  */
 final class HomeController implements RequestHandlerInterface
 {
     use ContainerAwareTrait;
+    use ResponseFactoryAwareTrait;
 
     /**
      * {@inheritDoc}
@@ -40,8 +32,6 @@ final class HomeController implements RequestHandlerInterface
      */
     public function handle(ServerRequestInterface $request) : ResponseInterface
     {
-        $html = $this->container->get('twig')->render('welcome.html');
-
-        return (new ResponseFactory)->html($html, 200);
+        return $this->html($this->container->get('twig')->render('home.html.twig'));
     }
 }

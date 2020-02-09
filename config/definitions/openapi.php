@@ -1,13 +1,24 @@
 <?php declare(strict_types=1);
 
-use App\Factory\OpenApiFactory;
+use Sunrise\Http\Router\OpenApi\Object\Info;
+use Sunrise\Http\Router\OpenApi\OpenApi;
 
 use function DI\factory;
-use function DI\get;
 
 return [
-    'openapi' => factory([OpenApiFactory::class, 'createOpenApi'])
-        ->parameter('params', get('openapi.configuration')),
+    'openapi' => factory(function ($container) {
+        $info = new Info(
+            $container->get('app.name'),
+            $container->get('app.version')
+        );
 
-    'openapi.configuration' => [],
+        $info->setDescription(
+            $container->get('app.summary')
+        );
+
+        $openapi = new OpenApi($info);
+        $openapi->includeUndescribedOperations(false);
+
+        return $openapi;
+    }),
 ];

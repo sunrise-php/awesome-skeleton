@@ -3,7 +3,7 @@
 use function DI\string;
 
 return [
-    'doctrine.configuration.connection' => [
-        'url' => string('sqlite:///{app.root}/db/test.sqlite'),
+    'doctrine.configuration.default.connection' => [
+        'url' => string('sqlite:///{app.root}/tests/db/default.sqlite'),
     ],
 ];

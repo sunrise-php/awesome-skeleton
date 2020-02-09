@@ -9,19 +9,19 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\SchemaTool;
 
 /**
- * DatabaseHelperTrait
+ * DatabaseSchemaToolTrait
  */
-trait DatabaseHelperTrait
+trait DatabaseSchemaToolTrait
 {
 
     /**
-     * Creates a schema instance for the current database
+     * Creates a database schema associated with the given entity manager
      *
      * @param EntityManagerInterface $entityManager
      *
      * @return void
      */
-    private function createSchema(EntityManagerInterface $entityManager) : void
+    private function createDatabaseSchema(EntityManagerInterface $entityManager) : void
     {
         $schema = new SchemaTool($entityManager);
 

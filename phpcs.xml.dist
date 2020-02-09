@@ -2,8 +2,7 @@
 <ruleset name="Sunrise Coding Standard">
     <rule ref="./vendor/sunrise/coding-standard/ruleset.xml"/>
 
+    <file>config</file>
     <file>src</file>
     <file>tests</file>
-
-    <exclude-pattern>*/src/Migration/*</exclude-pattern>
 </ruleset>

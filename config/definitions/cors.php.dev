@@ -1,0 +1,9 @@
+<?php declare(strict_types=1);
+
+use function DI\add;
+
+return [
+    // Assign the Swagger UI address here
+    'cors.configuration.allowed_origins' => add([
+    ]),
+];

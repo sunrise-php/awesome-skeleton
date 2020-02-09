@@ -12,28 +12,28 @@
 ## Installation
 
 ```bash
-composer create-project 'sunrise/awesome-skeleton:^2.0' app
-```
-
-## Setup
-
-```bash
-php vendor/bin/doctrine orm:schema-tool:create
+composer create-project 'sunrise/awesome-skeleton:^3.0' app
 ```
 
 ## Run CLI
+
+> including: Doctrine DBAL, Doctrine ORM, Doctrine Migrations.
 
 ```bash
 php bin/app
 ```
 
-## Run via PHP (listen 0.0.0.0:3000)
+## Run via PHP
+
+> listen 0.0.0.0:3000
 
 ```bash
 composer serve
 ```
 
-## Run via RoadRunner (listen 0.0.0.0:3000)
+## Run via RoadRunner
+
+> listen 0.0.0.0:3000
 
 ```bash
 rr -dv serve
@@ -72,10 +72,16 @@ php bin/app app:openapi:generate-documentation --pretty > openapi.json
 ## Used stack
 
 * https://github.com/PHP-DI/PHP-DI
+* https://github.com/Seldaek/monolog
 * https://github.com/sunrise-php/http-router
 * https://github.com/doctrine/orm
 * https://github.com/doctrine/migrations
+* https://github.com/symfony/console
+* https://github.com/symfony/validator
+* https://github.com/neomerx/cors-psr7
 * https://github.com/justinrainbow/json-schema
+* https://github.com/filp/whoops
+* https://github.com/twigphp/Twig
 
 ## Used technology
 

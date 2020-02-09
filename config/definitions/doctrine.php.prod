@@ -1,0 +1,11 @@
+<?php declare(strict_types=1);
+
+use Doctrine\Common\Cache\ApcuCache;
+
+use function DI\create;
+
+return [
+    'doctrine.configuration.default.default_cache' => create(ApcuCache::class),
+
+    'doctrine.configuration.default.proxy_auto_generate' => false,
+];
