@@ -19,6 +19,10 @@ return [
         $openapi = new OpenApi($info);
         $openapi->includeUndescribedOperations(false);
 
+        $openapi->addRoute(
+            ...$container->get('router')->getRoutes()
+        );
+
         return $openapi;
     }),
 ];

@@ -61,11 +61,7 @@ final class GenerateOpenApiDocumentationCommand extends Command
             $mode |= JSON_UNESCAPED_UNICODE;
         }
 
-        $openapi = $this->container->get('openapi');
-
-        $openapi->addRoute(...$this->container->get('router')->getRoutes());
-
-        $output->writeln(json_encode($openapi->toArray(), $mode));
+        $output->writeln(json_encode($this->container->get('openapi')->toArray(), $mode));
 
         return 0;
     }

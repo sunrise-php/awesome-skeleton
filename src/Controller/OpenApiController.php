@@ -32,10 +32,6 @@ final class OpenApiController implements RequestHandlerInterface
      */
     public function handle(ServerRequestInterface $request) : ResponseInterface
     {
-        $openapi = $this->container->get('openapi');
-
-        $openapi->addRoute(...$this->container->get('router')->getRoutes());
-
-        return $this->json($openapi->toArray());
+        return $this->json($this->container->get('openapi')->toArray());
     }
 }
