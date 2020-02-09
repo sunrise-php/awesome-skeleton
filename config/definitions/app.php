@@ -72,9 +72,4 @@ return [
         create(Middlewares\JsonPayload::class),
         create(Middlewares\UrlEncodePayload::class),
     ],
-
-    /**
-     * The application services
-     */
-    'validator.service' => autowire(App\Service\ValidatorService::class),
 ];
