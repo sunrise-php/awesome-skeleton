@@ -15,7 +15,9 @@
 composer create-project 'sunrise/awesome-skeleton:^3.0' app
 ```
 
-## Run CLI (including Doctrine DBAL, Doctrine ORM, Doctrine Migrations)
+## Run CLI
+
+> including: Doctrine DBAL, Doctrine ORM, Doctrine Migrations.
 
 ```bash
 php bin/app
