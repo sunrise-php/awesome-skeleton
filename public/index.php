@@ -4,7 +4,7 @@ use Sunrise\Http\Router\RequestHandler\QueueableRequestHandler;
 use Sunrise\Http\ServerRequest\ServerRequestFactory;
 use function Sunrise\Http\Router\emit;
 
-require __DIR__ . '/../config/bootstrap.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 $container = require __DIR__ . '/../config/container.php';
 

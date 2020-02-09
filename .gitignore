@@ -1,6 +1,9 @@
-.php_cs.cache
-phpbench.json
-phpcs.xml
-phpunit.xml
-config/definitions/*.php.local
-vendor/
+/.env
+/.php_cs.cache
+/.rr.yml
+/phpbench.json
+/phpcs.xml
+/phpunit.xml
+/config/definitions/*.php.local
+/tests/db/*.sqlite
+/vendor/

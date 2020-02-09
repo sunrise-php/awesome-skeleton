@@ -11,12 +11,9 @@
             <exclude>
                 <directory>./src/Benchmark</directory>
             </exclude>
-            <exclude>
-                <directory>./src/Migration</directory>
-            </exclude>
         </whitelist>
     </filter>
     <php>
-        <env name="APP_ENV" value="test"></env>
+        <env name="APP_ENV" value="test" force="true"></env>
     </php>
 </phpunit>

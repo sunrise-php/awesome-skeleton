@@ -6,7 +6,7 @@ namespace App\Controller;
  * Import classes
  */
 use App\ContainerAwareTrait;
-use App\Http\ResponseFactory;
+use Arus\Http\Response\ResponseFactoryAwareTrait;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -17,19 +17,11 @@ use Psr\Http\Server\RequestHandlerInterface;
  *   path="/openapi",
  *   methods={"GET"},
  * )
- *
- * @OpenApi\Operation(
- *   summary="OpenApi doc",
- *   responses={
- *     200: @OpenApi\Response(
- *       description="OK",
- *     ),
- *   },
- * )
  */
 final class OpenApiController implements RequestHandlerInterface
 {
     use ContainerAwareTrait;
+    use ResponseFactoryAwareTrait;
 
     /**
      * {@inheritDoc}
@@ -42,6 +34,8 @@ final class OpenApiController implements RequestHandlerInterface
     {
         $openapi = $this->container->get('openapi');
 
-        return (new ResponseFactory)->json($openapi->toArray(), 200);
+        $openapi->addRoute(...$this->container->get('router')->getRoutes());
+
+        return $this->json($openapi->toArray());
     }
 }

@@ -9,9 +9,13 @@ use Sunrise\Http\Factory\StreamFactory;
 use Sunrise\Http\Factory\UploadedFileFactory;
 use Sunrise\Http\Router\RequestHandler\QueueableRequestHandler;
 
-require __DIR__ . '/../config/bootstrap.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 $container = require __DIR__ . '/../config/container.php';
+
+$router = $container->get('router');
+$middlewares = $container->get('middlewares');
+$doctrine = $container->get('doctrine');
 
 $relay = new StreamRelay(STDIN, STDOUT);
 
@@ -22,18 +26,14 @@ $client = new Client(
     new UploadedFileFactory()
 );
 
-$router = $container->get('router');
-$middlewares = $container->get('middlewares');
-
 while ($request = $client->acceptRequest()) {
     $handler = new QueueableRequestHandler($router);
     $handler->add(...$middlewares);
 
+    $doctrine->reopenManagers();
+
     $client->respond($handler->handle($request));
 
-    $entityManager = $container->get('entityManager');
-    $entityManager->clear();
-    $entityManager->getConnection()->close();
-
-    gc_collect_cycles();
+    $doctrine->clearManagers();
+    $doctrine->closeConnections();
 }

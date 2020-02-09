@@ -1,0 +1,23 @@
+<?php declare(strict_types=1);
+
+use Arus\Monolog\Handler\TelegramHandler;
+use Monolog\Logger;
+
+use function DI\add;
+use function DI\create;
+use function DI\env;
+use function DI\get;
+
+return [
+    'monolog.configuration.handlers' => add([
+        create(TelegramHandler::class)->constructor(
+            get('monolog.configuration.telegram.token'),
+            get('monolog.configuration.telegram.recipient'),
+            get('monolog.configuration.telegram.level')
+        ),
+    ]),
+
+    'monolog.configuration.telegram.token' => env('TELEGRAM_TOKEN', ''),
+    'monolog.configuration.telegram.recipient' => env('TELEGRAM_RECIPIENT', ''),
+    'monolog.configuration.telegram.level' => env('TELEGRAM_LEVEL', Logger::ERROR),
+];

@@ -1,28 +1,26 @@
 <?php declare(strict_types=1);
 
-use App\Factory\RouterFactory;
+use Sunrise\Http\Router\Loader\AnnotationDirectoryLoader;
+use Sunrise\Http\Router\Loader\CollectableFileLoader;
+use Sunrise\Http\Router\Router;
 
 use function DI\factory;
-use function DI\get;
-use function DI\string;
 
 return [
-    'router' => factory([RouterFactory::class, 'createRouter'])
-        ->parameter('params', get('router.configuration')),
+    'router' => factory(function ($container) {
+        $router = new Router();
 
-    'router.configuration' => [
-        'metadata' => [
-            'sources' => get('router.configuration.metadata.sources'),
-            'cache' => get('router.configuration.metadata.cache'),
-        ],
-        'middlewares' => get('router.configuration.middlewares'),
-    ],
+        $source = realpath(__DIR__ . '/../../src/Controller');
+        $loader = new AnnotationDirectoryLoader();
+        $loader->setContainer($container);
+        $loader->attach($source);
+        $router->load($loader);
 
-    'router.configuration.metadata.sources' => [
-        string('{app.root}/src/Controller'),
-    ],
+        $source = realpath(__DIR__ . '/../../routes');
+        $loader = new CollectableFileLoader();
+        $loader->attach($source);
+        $router->load($loader);
 
-    'router.configuration.metadata.cache' => null,
-
-    'router.configuration.middlewares' => [],
+        return $router;
+    }),
 ];
