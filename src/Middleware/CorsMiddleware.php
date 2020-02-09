@@ -15,17 +15,11 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 /**
- * Import functions
- */
-use function explode;
-use function is_string;
-
-/**
- * CrossOriginResourceSharingMiddleware
+ * Cross Origin Resource Sharing Middleware
  *
  * @see https://github.com/neomerx/cors-psr7
  */
-final class CrossOriginResourceSharingMiddleware implements MiddlewareInterface
+final class CorsMiddleware implements MiddlewareInterface
 {
     use ContainerAwareTrait;
     use ResponseFactoryAwareTrait;
@@ -85,12 +79,6 @@ final class CrossOriginResourceSharingMiddleware implements MiddlewareInterface
      */
     private function createSettings(array $params) : Settings
     {
-        // the setting can be stored in the `.env` file
-        // that doesn't support arrays...
-        if (is_string($params['allowed_origins'])) {
-            $params['allowed_origins'] = explode('|', $params['allowed_origins']);
-        }
-
         $settings = new Settings();
 
         // the object initialization...

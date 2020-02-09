@@ -27,13 +27,14 @@ return [
     // Server Origin URL
     'cors.configuration.server_origin_scheme' => env('CORS_SERVER_ORIGIN_SCHEME', 'http'),
     'cors.configuration.server_origin_host' => env('CORS_SERVER_ORIGIN_HOST', '127.0.0.1'),
-    'cors.configuration.server_origin_port' => env('CORS_SERVER_ORIGIN_PORT', 80),
+    'cors.configuration.server_origin_port' => env('CORS_SERVER_ORIGIN_PORT', 3000),
 
     // Pre-flight cache max period in seconds
     'cors.configuration.pre_flight_cache_max_age' => 0,
 
     // If allowed headers should be added when request headers are 'simple' and
     // non of them is 'Content-Type' (see #6.2.10 CORS)
+    //
     // @see http://www.w3.org/TR/cors/#resource-preflight-requests
     'cors.configuration.force_add_methods' => false,
     'cors.configuration.force_add_headers' => false,
@@ -42,14 +43,16 @@ return [
     'cors.configuration.use_credentials' => false,
 
     // Allowed origins
-    'cors.configuration.all_origins_allowed' => env('CORS_ALL_ORIGINS_ALLOWED', false),
-    'cors.configuration.allowed_origins' => env('CORS_ALLOWED_ORIGINS', []),
+    'cors.configuration.all_origins_allowed' => false,
+    'cors.configuration.allowed_origins' => [],
 
     // Allowed methods
+    //
     // Security Note: you have to remember CORS is not access control system and you should not expect all
     // cross-origin requests will have pre-flights. For so-called 'simple' methods with so-called 'simple'
     // headers request will be made without pre-flight. Thus you can not restrict such requests with CORS
     // and should use other means.
+    //
     // For example method 'GET' without any headers or with only 'simple' headers will not have pre-flight
     // request so disabling it will not restrict access to resource(s).
     // You can read more on 'simple' methods at http://www.w3.org/TR/cors/#simple-method
@@ -65,13 +68,18 @@ return [
     ],
 
     // Allowed headers
+    //
     // Security Note: you have to remember CORS is not access control system and you should not expect all
     // cross-origin requests will have pre-flights. For so-called 'simple' methods with so-called 'simple'
     // headers request will be made without pre-flight. Thus you can not restrict such requests with CORS
     // and should use other means.
+    //
     // For example method 'GET' without any headers or with only 'simple' headers will not have pre-flight
     // request so disabling it will not restrict access to resource(s).
     // You can read more on 'simple' headers at http://www.w3.org/TR/cors/#simple-header
+    //
+    // Swagger recommendations at:
+    // https://swagger.io/docs/open-source-tools/swagger-ui/usage/cors/
     'cors.configuration.all_headers_allowed' => false,
     'cors.configuration.allowed_headers' => [
         'Content-Type',

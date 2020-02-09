@@ -27,6 +27,8 @@ use Throwable;
  */
 use function get_class;
 use function implode;
+use function preg_quote;
+use function preg_replace;
 use function sprintf;
 
 /**
@@ -89,7 +91,7 @@ final class ErrorHandlingMiddleware implements MiddlewareInterface
                 $v['property'],
                 null,
                 null,
-                null,
+                'b187c971-810b-455a-baf3-06dc6a1591f4',
                 null,
                 null
             ));
@@ -110,8 +112,12 @@ final class ErrorHandlingMiddleware implements MiddlewareInterface
         ServerRequestInterface $request,
         MethodNotAllowedException $exception
     ) : ResponseInterface {
-        return $this->error($exception->getMessage(), $request->getUri()->getPath(), 405, 405)
-            ->withHeader('Allow', implode(',', $exception->getAllowedMethods()));
+        return $this->error(
+            $exception->getMessage(),
+            $request->getUri()->getPath(),
+            '7d8f78d7-c689-409b-8031-8401ab5836b6',
+            405
+        )->withHeader('Allow', implode(',', $exception->getAllowedMethods()));
     }
 
     /**
@@ -126,7 +132,12 @@ final class ErrorHandlingMiddleware implements MiddlewareInterface
         ServerRequestInterface $request,
         RouteNotFoundException $exception
     ) : ResponseInterface {
-        return $this->error($exception->getMessage(), $request->getUri()->getPath(), 404, 404);
+        return $this->error(
+            $exception->getMessage(),
+            $request->getUri()->getPath(),
+            '979775e6-a43b-414f-bb72-cbe0133f621e',
+            404
+        );
     }
 
     /**
@@ -141,12 +152,12 @@ final class ErrorHandlingMiddleware implements MiddlewareInterface
         ServerRequestInterface $request,
         UnsupportedMediaTypeException $exception
     ) : ResponseInterface {
-        $this->container->get('logger')->error($exception->getMessage(), [
-            'exception' => $exception,
-        ]);
-
-        return $this->error($exception->getMessage(), $request->getUri()->getPath(), 415, 415)
-            ->withHeader('Accept', implode(',', $exception->getSupportedTypes()));
+        return $this->error(
+            $exception->getMessage(),
+            $request->getUri()->getPath(),
+            '87255179-5041-4f1b-a469-b891ad5dc623',
+            415
+        )->withHeader('Accept', implode(',', $exception->getSupportedTypes()));
     }
 
     /**
@@ -185,13 +196,13 @@ final class ErrorHandlingMiddleware implements MiddlewareInterface
         if (!$this->container->get('app.display_errors')) {
             return $this->error(
                 sprintf(
-                    'Caught the exception "%s" in the file "%s" on line %d.',
+                    'Caught the exception %s in the file %s on line %d.',
                     get_class($exception),
-                    $exception->getFile(),
+                    $this->hideRoot($exception->getFile()),
                     $exception->getLine()
                 ),
                 $request->getUri()->getPath(),
-                500,
+                '594358d2-b5f1-4cfc-8c60-df43cfd720b3',
                 500
             );
         }
@@ -203,5 +214,20 @@ final class ErrorHandlingMiddleware implements MiddlewareInterface
         $whoops->pushHandler(new PrettyPageHandler());
 
         return $this->html($whoops->handleException($exception), 500);
+    }
+
+    /**
+     * Hides the application root from the given path
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    private function hideRoot(string $path) : string
+    {
+        $root = preg_quote($this->container->get('app.root'), '/');
+        $path = preg_replace('/^' . $root . '/ui', '', $path);
+
+        return $path;
     }
 }

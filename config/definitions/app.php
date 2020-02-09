@@ -67,7 +67,7 @@ return [
      */
     'middlewares' => [
         autowire(App\Middleware\ErrorHandlingMiddleware::class),
-        autowire(App\Middleware\CrossOriginResourceSharingMiddleware::class),
+        autowire(App\Middleware\CorsMiddleware::class),
         create(Middlewares\ResponseTime::class),
         create(Middlewares\JsonPayload::class),
         create(Middlewares\UrlEncodePayload::class),
@@ -76,6 +76,5 @@ return [
     /**
      * The application services
      */
-    'post.service' => autowire(App\Service\PostService::class),
     'validator.service' => autowire(App\Service\ValidatorService::class),
 ];

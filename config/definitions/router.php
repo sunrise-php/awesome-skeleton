@@ -16,7 +16,7 @@ return [
         $loader->attach($source);
         $router->load($loader);
 
-        $source = realpath(__DIR__ . '/../../routes');
+        $source = realpath(__DIR__ . '/../../config/routes');
         $loader = new CollectableFileLoader();
         $loader->attach($source);
         $router->load($loader);
