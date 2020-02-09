@@ -23,13 +23,17 @@ composer create-project 'sunrise/awesome-skeleton:^3.0' app
 php bin/app
 ```
 
-## Run via PHP (listen 0.0.0.0:3000)
+## Run via PHP
+
+> listen 0.0.0.0:3000
 
 ```bash
 composer serve
 ```
 
-## Run via RoadRunner (listen 0.0.0.0:3000)
+## Run via RoadRunner
+
+> listen 0.0.0.0:3000
 
 ```bash
 rr -dv serve
