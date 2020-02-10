@@ -5,6 +5,7 @@ use DI\ContainerBuilder;
 $env = getenv('APP_ENV') ?: 'dev';
 
 $builder = new ContainerBuilder();
+$builder->useAutowiring(true);
 $builder->useAnnotations(true);
 
 $builder->addDefinitions(

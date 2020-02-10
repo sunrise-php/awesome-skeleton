@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9ee44c77d51ba68049e63981455b7408",
+    "content-hash": "84db2da916f8a5efdf26dcb98eb086ce",
     "packages": [
         {
             "name": "arus/doctrine-bridge",
-            "version": "v1.5.0",
+            "version": "v1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/autorusltd/doctrine-bridge.git",
-                "reference": "cb5bf420fd89e2a7c2210a40c5c9516eef076c8c"
+                "reference": "c6269b12587afca33b9a7336c8008eb03823cadb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/autorusltd/doctrine-bridge/zipball/cb5bf420fd89e2a7c2210a40c5c9516eef076c8c",
-                "reference": "cb5bf420fd89e2a7c2210a40c5c9516eef076c8c",
+                "url": "https://api.github.com/repos/autorusltd/doctrine-bridge/zipball/c6269b12587afca33b9a7336c8008eb03823cadb",
+                "reference": "c6269b12587afca33b9a7336c8008eb03823cadb",
                 "shasum": ""
             },
             "require": {
@@ -55,7 +55,7 @@
                 "doctrine",
                 "fenric"
             ],
-            "time": "2020-02-07T14:53:47+00:00"
+            "time": "2020-02-10T22:12:53+00:00"
         },
         {
             "name": "arus/http-response-kit",

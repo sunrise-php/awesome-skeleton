@@ -7,6 +7,7 @@ namespace App\Middleware;
  */
 use App\ContainerAwareTrait;
 use App\Exception\InvalidEntityException;
+use App\Exception\ResourceNotFoundException;
 use Arus\Http\Response\ResponseFactoryAwareTrait;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -40,6 +41,16 @@ final class ErrorHandlingMiddleware implements MiddlewareInterface
     use ResponseFactoryAwareTrait;
 
     /**
+     * Error codes
+     */
+    public const BAD_REQUEST_ERROR_CODE = 'b187c971-810b-455a-baf3-06dc6a1591f4';
+    public const METHOD_NOT_ALLOWED_ERROR_CODE = '7d8f78d7-c689-409b-8031-8401ab5836b6';
+    public const ROUTE_NOT_FOUND_ERROR_CODE = '979775e6-a43b-414f-bb72-cbe0133f621e';
+    public const RESOURCE_NOT_FOUND_ERROR_CODE = 'cb378ff8-a1ec-48ba-baad-2c61f47ce95e';
+    public const UNSUPPORTED_MEDIA_TYPE_ERROR_CODE = '87255179-5041-4f1b-a469-b891ad5dc623';
+    public const UNCAUGHT_EXCEPTION_ERROR_CODE = '594358d2-b5f1-4cfc-8c60-df43cfd720b3';
+
+    /**
      * {@inheritDoc}
      *
      * @param ServerRequestInterface $request
@@ -59,6 +70,8 @@ final class ErrorHandlingMiddleware implements MiddlewareInterface
             return $this->handleMethodNotAllowed($request, $e);
         } catch (RouteNotFoundException $e) {
             return $this->handleRouteNotFound($request, $e);
+        } catch (ResourceNotFoundException $e) {
+            return $this->handleResourceNotFound($request, $e);
         } catch (UnsupportedMediaTypeException $e) {
             return $this->handleUnsupportedMediaType($request, $e);
         } catch (InvalidEntityException $e) {
@@ -91,7 +104,7 @@ final class ErrorHandlingMiddleware implements MiddlewareInterface
                 $v['property'],
                 null,
                 null,
-                'b187c971-810b-455a-baf3-06dc6a1591f4',
+                self::BAD_REQUEST_ERROR_CODE,
                 null,
                 null
             ));
@@ -115,7 +128,7 @@ final class ErrorHandlingMiddleware implements MiddlewareInterface
         return $this->error(
             $exception->getMessage(),
             $request->getUri()->getPath(),
-            '7d8f78d7-c689-409b-8031-8401ab5836b6',
+            self::METHOD_NOT_ALLOWED_ERROR_CODE,
             405
         )->withHeader('Allow', implode(',', $exception->getAllowedMethods()));
     }
@@ -135,7 +148,27 @@ final class ErrorHandlingMiddleware implements MiddlewareInterface
         return $this->error(
             $exception->getMessage(),
             $request->getUri()->getPath(),
-            '979775e6-a43b-414f-bb72-cbe0133f621e',
+            self::ROUTE_NOT_FOUND_ERROR_CODE,
+            404
+        );
+    }
+
+    /**
+     * Returns a response with the given processed exception
+     *
+     * @param ServerRequestInterface $request
+     * @param ResourceNotFoundException $exception
+     *
+     * @return ResponseInterface
+     */
+    private function handleResourceNotFound(
+        ServerRequestInterface $request,
+        ResourceNotFoundException $exception
+    ) : ResponseInterface {
+        return $this->error(
+            $exception->getMessage(),
+            $request->getUri()->getPath(),
+            self::RESOURCE_NOT_FOUND_ERROR_CODE,
             404
         );
     }
@@ -155,7 +188,7 @@ final class ErrorHandlingMiddleware implements MiddlewareInterface
         return $this->error(
             $exception->getMessage(),
             $request->getUri()->getPath(),
-            '87255179-5041-4f1b-a469-b891ad5dc623',
+            self::UNSUPPORTED_MEDIA_TYPE_ERROR_CODE,
             415
         )->withHeader('Accept', implode(',', $exception->getSupportedTypes()));
     }
@@ -202,7 +235,7 @@ final class ErrorHandlingMiddleware implements MiddlewareInterface
                     $exception->getLine()
                 ),
                 $request->getUri()->getPath(),
-                '594358d2-b5f1-4cfc-8c60-df43cfd720b3',
+                self::UNCAUGHT_EXCEPTION_ERROR_CODE,
                 500
             );
         }
@@ -226,6 +259,7 @@ final class ErrorHandlingMiddleware implements MiddlewareInterface
     private function hideRoot(string $path) : string
     {
         $root = preg_quote($this->container->get('app.root'), '/');
+
         $path = preg_replace('/^' . $root . '/ui', '', $path);
 
         return $path;

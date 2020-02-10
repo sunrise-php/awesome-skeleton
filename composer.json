@@ -28,7 +28,7 @@
         "justinrainbow/json-schema": "^5.2",
         "filp/whoops": "^2.7",
         "twig/twig": "^3.0",
-        "arus/doctrine-bridge": "^1.5",
+        "arus/doctrine-bridge": "^1.8",
         "arus/monolog-telegram-handler": "^2.0",
         "arus/http-response-kit": "^1.0"
     },
