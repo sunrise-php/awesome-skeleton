@@ -38,8 +38,6 @@ final class GenerateOpenApiDocumentationCommand extends Command
         $this->setDescription('Generates OpenApi documentation');
 
         $this->addOption('pretty', null, null, 'Use whitespace in returned data to format it');
-        $this->addOption('unescaped-slashes', null, null, 'Do not escape /');
-        $this->addOption('unescaped-unicode', null, null, 'Encode multi-byte Unicode characters literally');
     }
 
     /**
@@ -47,18 +45,10 @@ final class GenerateOpenApiDocumentationCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output) : int
     {
-        $mode = 0;
+        $mode = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE;
 
         if ($input->getOption('pretty')) {
             $mode |= JSON_PRETTY_PRINT;
-        }
-
-        if ($input->getOption('unescaped-slashes')) {
-            $mode |= JSON_UNESCAPED_SLASHES;
-        }
-
-        if ($input->getOption('unescaped-unicode')) {
-            $mode |= JSON_UNESCAPED_UNICODE;
         }
 
         $output->writeln(json_encode($this->container->get('openapi')->toArray(), $mode));

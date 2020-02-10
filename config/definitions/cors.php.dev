@@ -3,7 +3,6 @@
 use function DI\add;
 
 return [
-    // Assign the Swagger UI address here
-    'cors.configuration.allowed_origins' => add([
-    ]),
+    // If you use Swagger UI, assign its address here...
+    'cors.configuration.allowedOrigins' => add([]),
 ];

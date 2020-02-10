@@ -17,7 +17,10 @@ use Psr\Http\Server\RequestHandlerInterface;
 /**
  * Cross Origin Resource Sharing Middleware
  *
+ * Based on the following package: neomerx/cors-psr7
+ *
  * @see https://github.com/neomerx/cors-psr7
+ * @see https://www.w3.org/TR/cors/
  */
 final class CorsMiddleware implements MiddlewareInterface
 {
@@ -41,9 +44,7 @@ final class CorsMiddleware implements MiddlewareInterface
         $analyzer = Analyzer::instance($settings);
 
         if ($this->container->get('cors.debug')) {
-            $analyzer->setLogger(
-                $this->container->get('logger')
-            );
+            $analyzer->setLogger($this->container->get('logger'));
         }
 
         $cors = $analyzer->analyze($request);
@@ -73,6 +74,8 @@ final class CorsMiddleware implements MiddlewareInterface
     }
 
     /**
+     * Creates CORS analyzer settings from the given parameters
+     *
      * @param array $params
      *
      * @return Settings
@@ -81,57 +84,43 @@ final class CorsMiddleware implements MiddlewareInterface
     {
         $settings = new Settings();
 
-        // the object initialization...
-        $settings->setAllowedOrigins([]);
-        $settings->setAllowedMethods([]);
-        $settings->setAllowedHeaders([]);
-        $settings->setExposedHeaders([]);
-
-        $settings->setServerOrigin(
-            (string) $params['server_origin_scheme'],
-            (string) $params['server_origin_host'],
-            (int) $params['server_origin_port']
+        $settings->init(
+            $params['serverOriginScheme'],
+            $params['serverOriginHost'],
+            (int) $params['serverOriginPort']
         );
 
         $settings->setPreFlightCacheMaxAge(
-            (int) $params['pre_flight_cache_max_age']
+            (int) $params['preFlightCacheMaxAge']
         );
 
-        $params['force_add_methods'] ?
+        $params['forceAddMethods'] ?
         $settings->enableAddAllowedMethodsToPreFlightResponse() :
         $settings->disableAddAllowedMethodsToPreFlightResponse();
 
-        $params['force_add_headers'] ?
+        $params['forceAddHeaders'] ?
         $settings->enableAddAllowedHeadersToPreFlightResponse() :
         $settings->disableAddAllowedHeadersToPreFlightResponse();
 
-        $params['use_credentials'] ?
+        $params['useCredentials'] ?
         $settings->setCredentialsSupported() :
         $settings->setCredentialsNotSupported();
 
-        $params['all_origins_allowed'] ?
+        $params['allOriginsAllowed'] ?
         $settings->enableAllOriginsAllowed() :
-        $settings->setAllowedOrigins(
-            (array) $params['allowed_origins']
-        );
+        $settings->setAllowedOrigins($params['allowedOrigins']);
 
-        $params['all_methods_allowed'] ?
+        $params['allMethodsAllowed'] ?
         $settings->enableAllMethodsAllowed() :
-        $settings->setAllowedMethods(
-            (array) $params['allowed_methods']
-        );
+        $settings->setAllowedMethods($params['allowedMethods']);
 
-        $params['all_headers_allowed'] ?
+        $params['allHeadersAllowed'] ?
         $settings->enableAllHeadersAllowed() :
-        $settings->setAllowedHeaders(
-            (array) $params['allowed_headers']
-        );
+        $settings->setAllowedHeaders($params['allowedHeaders']);
 
-        $settings->setExposedHeaders(
-            (array) $params['exposed_headers']
-        );
+        $settings->setExposedHeaders($params['exposedHeaders']);
 
-        $params['check_host'] ?
+        $params['checkHost'] ?
         $settings->enableCheckHost() :
         $settings->disableCheckHost();
 
@@ -139,6 +128,8 @@ final class CorsMiddleware implements MiddlewareInterface
     }
 
     /**
+     * Adds the given headers to the given response
+     *
      * @param ResponseInterface $response
      * @param array $headers
      *

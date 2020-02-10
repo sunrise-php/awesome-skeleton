@@ -6,6 +6,7 @@ namespace App\Exception;
  * Import classes
  */
 use Symfony\Component\Validator\ConstraintViolationListInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * Import functions
@@ -48,6 +49,8 @@ final class InvalidEntityException extends AbstractException
     }
 
     /**
+     * Gets an invalid entity
+     *
      * @return object
      */
     public function getInvalidEntity() : object
@@ -56,10 +59,31 @@ final class InvalidEntityException extends AbstractException
     }
 
     /**
+     * Gets an entity violations
+     *
      * @return ConstraintViolationListInterface
      */
     public function getEntityViolations() : ConstraintViolationListInterface
     {
         return $this->entityViolations;
+    }
+
+    /**
+     * Throws the exception if the given entity isn't valid
+     *
+     * @param object $entity
+     * @param ValidatorInterface $validator
+     *
+     * @return void
+     */
+    public static function assert(object $entity, ValidatorInterface $validator) : void
+    {
+        $violations = $validator->validate($entity);
+
+        if (0 === $violations->count()) {
+            return;
+        }
+
+        throw new self($entity, $violations);
     }
 }
