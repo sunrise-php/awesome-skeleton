@@ -66,8 +66,8 @@ return [
      * The application middlewares
      */
     'middlewares' => [
-        autowire(App\Middleware\ErrorHandlingMiddleware::class),
         autowire(App\Middleware\CorsMiddleware::class),
+        autowire(App\Middleware\ErrorHandlingMiddleware::class),
         create(Middlewares\ResponseTime::class),
         create(Middlewares\JsonPayload::class),
         create(Middlewares\UrlEncodePayload::class),
