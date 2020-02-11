@@ -17,4 +17,20 @@ final class ResourceNotFoundException extends AbstractException
     {
         parent::__construct($message ?? 'The requested resource was not found');
     }
+
+    /**
+     * Throws the exception if the given entity is NULL
+     *
+     * @param null|object $entity
+     *
+     * @return void
+     *
+     * @throws self
+     */
+    public static function assert(?object $entity) : void
+    {
+        if (null === $entity) {
+            throw new self($entity, $violations);
+        }
+    }
 }

@@ -75,6 +75,8 @@ final class InvalidEntityException extends AbstractException
      * @param ValidatorInterface $validator
      *
      * @return void
+     *
+     * @throws self
      */
     public static function assert(object $entity, ValidatorInterface $validator) : void
     {

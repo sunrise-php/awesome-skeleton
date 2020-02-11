@@ -37,11 +37,9 @@ final class CorsMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
     {
-        $settings = $this->createSettings(
+        $analyzer = Analyzer::instance($this->createSettings(
             $this->container->get('cors.configuration')
-        );
-
-        $analyzer = Analyzer::instance($settings);
+        ));
 
         if ($this->container->get('cors.debug')) {
             $analyzer->setLogger($this->container->get('logger'));
