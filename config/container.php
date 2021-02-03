@@ -5,7 +5,6 @@ use DI\ContainerBuilder;
 
 return (function () : Container {
     $env = getenv('APP_ENV') ?: 'dev';
-    $root = realpath(__DIR__ . '/..');
 
     $builder = new ContainerBuilder();
     $builder->useAutowiring(true);
@@ -24,9 +23,9 @@ return (function () : Container {
     );
 
     if ('prod' === $env) {
-        $builder->enableCompilation($root . '/cache');
+        $builder->enableCompilation(__DIR__ . '/../cache');
         $builder->enableDefinitionCache('container');
-        $builder->writeProxiesToFile(true, $root . '/cache');
+        $builder->writeProxiesToFile(true, __DIR__ . '/../cache');
     }
 
     return $builder->build();
