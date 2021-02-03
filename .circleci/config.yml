@@ -11,6 +11,7 @@ jobs:
       - checkout
       - run: php -v
       - run: composer install --no-interaction --prefer-source --no-suggest
+      - run: cp .env.example .env
       - run: php vendor/bin/phpunit --colors=always
   php80:
     docker:
@@ -19,6 +20,7 @@ jobs:
       - checkout
       - run: php -v
       - run: composer install --no-interaction --prefer-source --no-suggest
+      - run: cp .env.example .env
       - run: php vendor/bin/phpunit --colors=always
 workflows:
   version: 2

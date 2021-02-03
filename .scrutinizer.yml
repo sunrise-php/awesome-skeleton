@@ -6,6 +6,8 @@ build:
           - php-scrutinizer-run
     coverage:
       tests:
+        before:
+          - command: cp .env.example .env
         override:
           - command: php vendor/bin/phpunit --coverage-clover coverage.xml
             coverage:
