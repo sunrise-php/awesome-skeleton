@@ -1,6 +1,6 @@
 ## Awesome Skeleton for modern development on PHP 7.4+ (incl. PHP 8)
 
-[![Build Status](https://scrutinizer-ci.com/g/sunrise-php/awesome-skeleton/badges/build.png?b=master)](https://scrutinizer-ci.com/g/sunrise-php/awesome-skeleton/build-status/master)
+[![Build Status](https://circleci.com/gh/sunrise-php/awesome-skeleton.svg?style=shield)](https://circleci.com/gh/sunrise-php/awesome-skeleton)
 [![Code Coverage](https://scrutinizer-ci.com/g/sunrise-php/awesome-skeleton/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/sunrise-php/awesome-skeleton/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sunrise-php/awesome-skeleton/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/sunrise-php/awesome-skeleton/?branch=master)
 [![Total Downloads](https://poser.pugx.org/sunrise/awesome-skeleton/downloads?format=flat)](https://packagist.org/packages/sunrise/awesome-skeleton)
@@ -55,7 +55,7 @@ composer bench
 
 ## Useful commands
 
-#### Generate Systemd unit file for RoadRunner 
+#### Generate Systemd unit for RoadRunner 
 
 ```bash
 php bin/app app:roadrunner:generate-systemd-unit > app.service
@@ -71,6 +71,8 @@ php bin/app app:openapi:generate-documentation --pretty > openapi.json
 
 ## Used stack
 
+> see composer.json
+
 * https://github.com/PHP-DI/PHP-DI
 * https://github.com/Seldaek/monolog
 * https://github.com/sunrise-php/http-router
@@ -78,10 +80,7 @@ php bin/app app:openapi:generate-documentation --pretty > openapi.json
 * https://github.com/doctrine/migrations
 * https://github.com/symfony/console
 * https://github.com/symfony/validator
-* https://github.com/neomerx/cors-psr7
 * https://github.com/justinrainbow/json-schema
-* https://github.com/filp/whoops
-* https://github.com/twigphp/Twig
 
 ## Used technology
 
