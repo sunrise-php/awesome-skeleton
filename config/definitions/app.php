@@ -85,6 +85,5 @@ return [
         autowire(App\Middleware\ErrorHandlingMiddleware::class),
         create(Middlewares\ResponseTime::class),
         create(Middlewares\JsonPayload::class),
-        create(Middlewares\UrlEncodePayload::class),
     ],
 ];
