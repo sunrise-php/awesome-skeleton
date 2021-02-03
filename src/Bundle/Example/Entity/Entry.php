@@ -61,7 +61,7 @@ class Entry
      * @Assert\Length(min=1, max=128)
      *
      * @OpenApi\Schema(
-     *   refName="Entry_name",
+     *   refName="EntryName",
      *   type="string",
      *   minLength=1,
      *   maxLength=128,
@@ -82,7 +82,7 @@ class Entry
      * @Assert\Length(min=1, max=128)
      *
      * @OpenApi\Schema(
-     *   refName="Entry_slug",
+     *   refName="EntrySlug",
      *   type="string",
      *   minLength=1,
      *   maxLength=128,

@@ -32,7 +32,7 @@ final class InvalidEntityException extends BadRequestException
      */
     public static function assert(object $entity, ValidatorInterface $validator) : void
     {
-        $violations = self::convertViolationsToArray($validator->validate($entity));
+        $violations = self::normalizeViolations($validator->validate($entity));
         if ([] === $violations) {
             return;
         }
@@ -49,7 +49,7 @@ final class InvalidEntityException extends BadRequestException
      *
      * @return array
      */
-    private static function convertViolationsToArray(ConstraintViolationListInterface $violations) : array
+    private static function normalizeViolations(ConstraintViolationListInterface $violations) : array
     {
         $result = [];
         foreach ($violations as $violation) {
