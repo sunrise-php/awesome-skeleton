@@ -2,39 +2,36 @@
     "type": "project",
     "name": "sunrise/awesome-skeleton",
     "homepage": "https://github.com/sunrise-php/awesome-skeleton",
-    "description": "Awesome Skeleton for modern development on PHP 7.3+",
+    "description": "Awesome Skeleton for modern development on PHP 7.4+ (incl. PHP 8)",
     "license": "MIT",
     "keywords": [
-        "fenric",
         "sunrise",
         "skeleton"
     ],
     "require": {
-        "php": "^7.3",
-        "spiral/roadrunner": "^1.5",
-        "php-di/php-di": "^6.0",
-        "monolog/monolog": "^2.0",
-        "sunrise/http-factory": "^1.0",
-        "sunrise/http-router": "^2.2",
-        "sunrise/http-router-openapi": "^1.3",
-        "doctrine/orm": "^2.7",
+        "php": "^7.4|^8.0",
+        "spiral/roadrunner": "^1.9",
+        "php-di/php-di": "^6.3",
+        "monolog/monolog": "^2.2",
+        "sunrise/http-factory": "^1.1",
+        "sunrise/http-router": "^2.6",
+        "sunrise/http-router-openapi": "^1.8",
+        "doctrine/orm": "^2.8",
         "doctrine/migrations": "^2.2",
         "symfony/dotenv": "^5.0",
         "symfony/console": "^5.0",
+        "symfony/cache": "^5.0",
         "symfony/validator": "^5.0",
         "middlewares/payload": "^3.0",
         "middlewares/response-time": "^2.0",
-        "neomerx/cors-psr7": "^2.0",
         "justinrainbow/json-schema": "^5.2",
-        "filp/whoops": "^2.7",
-        "twig/twig": "^3.0",
-        "arus/doctrine-bridge": "^1.8",
-        "arus/monolog-telegram-handler": "^2.0",
-        "arus/http-response-kit": "^1.0"
+        "arus/doctrine-bridge": "^1.17",
+        "arus/monolog-telegram-handler": "^2.1",
+        "arus/http-response-kit": "^1.3"
     },
     "require-dev": {
-        "phpbench/phpbench": "^0.17.0",
-        "phpunit/phpunit": "7.5.20",
+        "phpbench/phpbench": "^1.0.0-alpha4",
+        "phpunit/phpunit": "^9.5",
         "sunrise/coding-standard": "1.0.0"
     },
     "autoload": {
@@ -53,7 +50,7 @@
     "scripts": {
         "test": [
             "phpunit --colors=always --coverage-text",
-            "phpcs --ignore=src/Migration"
+            "phpcs"
         ],
         "bench": [
             "phpbench run --report='generator: \"table\", cols: [\"groups\", \"subject\", \"mean\", \"diff\"], sort: {mean: \"asc\"}'"

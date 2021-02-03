@@ -17,6 +17,14 @@ use Psr\Http\Server\RequestHandlerInterface;
  *   path="/",
  *   methods={"GET"},
  * )
+ *
+ * @OpenApi\Operation(
+ *   responses={
+ *     200: @OpenApi\Response(
+ *       description="OK",
+ *     ),
+ *   },
+ * )
  */
 final class HomeController implements RequestHandlerInterface
 {
@@ -32,6 +40,6 @@ final class HomeController implements RequestHandlerInterface
      */
     public function handle(ServerRequestInterface $request) : ResponseInterface
     {
-        return $this->html($this->container->get('twig')->render('home.html.twig'));
+        return $this->ok();
     }
 }

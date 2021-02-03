@@ -3,10 +3,20 @@
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Symfony\Component\Dotenv\Dotenv;
 
-set_error_handler(function ($severity, $message, $file, $line) {
-    throw new ErrorException($message, 0, $severity, $file, $line);
-});
+(function () {
+    $root = realpath(__DIR__ . '/..');
 
-AnnotationRegistry::registerLoader('class_exists');
+    chdir($root);
+    setlocale(LC_ALL, 'C.UTF-8');
 
-(new Dotenv(true))->load(__DIR__ . '/../.env');
+    // Enables strict development mode...
+    set_error_handler(function ($severity, $message, $file, $line) {
+        throw new ErrorException($message, 0, $severity, $file, $line);
+    });
+
+    // Enables autoload annotations...
+    /** @scrutinizer ignore-deprecated */ AnnotationRegistry::registerLoader('class_exists');
+
+    // Loads environment variables from the `.env` file...
+    (new Dotenv)->usePutenv()->load($root . '/.env');
+})();

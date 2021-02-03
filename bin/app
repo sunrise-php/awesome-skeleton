@@ -16,8 +16,4 @@ $application->addCommands(
     $container->get('commands')
 );
 
-$application->addCommands(
-    $container->get('doctrine')->getCommands()
-);
-
 $application->run();

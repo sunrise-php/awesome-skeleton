@@ -15,7 +15,12 @@ $handler = new QueueableRequestHandler($router);
 $handler->add(...$middlewares);
 
 $request = ServerRequestFactory::fromGlobals();
+$response = $handler->handle($request);
 
-emit($handler->handle($request));
+emit($response);
+
+if (function_exists('fastcgi_finish_request')) {
+    fastcgi_finish_request();
+}
 
 exit(0);

@@ -14,7 +14,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 /**
  * @Route(
  *   name="openapi",
- *   path="/openapi",
+ *   path="/openapi.json",
  *   methods={"GET"},
  * )
  */

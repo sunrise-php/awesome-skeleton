@@ -1,4 +1,4 @@
-## Awesome Skeleton for modern development on PHP 7.3+
+## Awesome Skeleton for modern development on PHP 7.4+ (incl. PHP 8)
 
 [![Build Status](https://scrutinizer-ci.com/g/sunrise-php/awesome-skeleton/badges/build.png?b=master)](https://scrutinizer-ci.com/g/sunrise-php/awesome-skeleton/build-status/master)
 [![Code Coverage](https://scrutinizer-ci.com/g/sunrise-php/awesome-skeleton/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/sunrise-php/awesome-skeleton/?branch=master)

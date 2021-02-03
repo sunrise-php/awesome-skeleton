@@ -27,13 +27,11 @@ $client = new Client(
 );
 
 while ($request = $client->acceptRequest()) {
+    $doctrine->reopenManagers();
     $handler = new QueueableRequestHandler($router);
     $handler->add(...$middlewares);
-
-    $doctrine->reopenManagers();
-
-    $client->respond($handler->handle($request));
-
+    $response = $handler->handle($request);
+    $client->respond($response);
     $doctrine->clearManagers();
     $doctrine->closeConnections();
 }

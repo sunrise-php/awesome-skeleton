@@ -1,0 +1,11 @@
+#!/bin/bash
+
+git fetch --tags
+git checkout $(git describe --tags $(git rev-list --tags --max-count=1))
+
+composer install --no-dev --classmap-authoritative
+
+find cache/ -type f -not -name '.gitkeep' -delete
+
+php bin/app migrations:migrate --no-interaction
+php bin/app orm:generate-proxies

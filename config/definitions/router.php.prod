@@ -1,0 +1,12 @@
+<?php declare(strict_types=1);
+
+use Symfony\Component\Cache\Adapter\ApcuAdapter;
+use Symfony\Component\Cache\Psr16Cache as Cache;
+
+use function DI\factory;
+
+return [
+    'router.configuration.metadata_cache' => factory(function () {
+        return new Cache(new ApcuAdapter('router'));
+    }),
+];

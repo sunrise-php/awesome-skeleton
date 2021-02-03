@@ -13,11 +13,48 @@ return [
     'app.root' => realpath(__DIR__ . '/../..'),
 
     /**
+     * The application URL
+     *
+     * Must contain scheme, host and port (if not standard)
+     */
+    'app.url' => env('APP_URL', 'http://localhost:3000'),
+
+    /**
      * The application environment
      *
      * Use only the following values: dev, test, stage or prod
      */
     'app.env' => env('APP_ENV', 'dev'),
+
+    /**
+     * If set to true, debug info will be logged
+     *
+     * In the production MUST be set to 0
+     */
+    'app.debug' => env('APP_DEBUG', '1'),
+
+    /**
+     * If set to true, fatal errors will not be displayed
+     *
+     * In the production MUST be set to 1
+     */
+    'app.silent' => env('APP_SILENT', '0'),
+
+    /**
+     * The application version
+     *
+     * Use only the following mask: MAJOR.MINOR.PATCH
+     *
+     * @link https://semver.org/
+     */
+    'app.version' => trim(`echo $(git describe --tags --abbrev=0 || echo 0.1.0) | sed 's/^v//'`),
+
+    /**
+     * The application signature
+     *
+     * Use to accurate identification of the application (for example in logs)
+     */
+    'app.signature' => string('{app.name}@{app.version}-{app.env}'),
 
     /**
      * The application name
@@ -34,39 +71,17 @@ return [
     'app.summary' => 'Awesome Skeleton',
 
     /**
-     * The application version
-     *
-     * Use only the following mask: MAJOR.MINOR.PATCH
-     *
-     * @link https://semver.org/
-     */
-    'app.version' => '0.1.0',
-
-    /**
-     * The application signature
-     *
-     * Use to accurate identification of the application (for example in logs)
-     */
-    'app.signature' => string('{app.name}@{app.version}.{app.env}'),
-
-    /**
-     * If set to false, fatal errors will not be displayed
-     */
-    'app.display_errors' => env('APP_DISPLAY_ERRORS', true),
-
-    /**
      * The application commands
      */
     'commands' => [
         autowire(App\Command\GenerateOpenApiDocumentationCommand::class),
-        create(App\Command\GenerateRoadRunnerSystemdUnitCommand::class),
+        autowire(App\Command\GenerateRoadRunnerSystemdUnitCommand::class),
     ],
 
     /**
      * The application middlewares
      */
     'middlewares' => [
-        autowire(App\Middleware\CorsMiddleware::class),
         autowire(App\Middleware\ErrorHandlingMiddleware::class),
         create(Middlewares\ResponseTime::class),
         create(Middlewares\JsonPayload::class),
