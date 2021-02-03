@@ -9,7 +9,8 @@ use function DI\factory;
 return [
     'validator' => factory(function ($container) : ValidatorInterface {
         return Validation::createValidatorBuilder()
-            ->enableAnnotationMapping()
+            ->enableAnnotationMapping(true)
+            ->addDefaultDoctrineAnnotationReader()
             ->setConstraintValidatorFactory(
                 new ContainerConstraintValidatorFactory($container)
             )
