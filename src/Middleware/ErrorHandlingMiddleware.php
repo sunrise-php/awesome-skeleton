@@ -40,10 +40,10 @@ final class ErrorHandlingMiddleware implements MiddlewareInterface
     ) : ResponseInterface {
         try {
             return $handler->handle($request);
-        } catch (BadRequestException $e) {
-            return $this->handleBadRequest($request, $e);
         } catch (InvalidPayloadException $e) {
             return $this->handleInvalidPayload($request, $e);
+        } catch (BadRequestException $e) {
+            return $this->handleBadRequest($request, $e);
         } catch (PageNotFoundException $e) {
             return $this->handlePageNotFound($request, $e);
         } catch (MethodNotAllowedException $e) {
@@ -57,19 +57,6 @@ final class ErrorHandlingMiddleware implements MiddlewareInterface
 
     /**
      * @param ServerRequestInterface $request
-     * @param BadRequestException $e
-     *
-     * @return ResponseInterface
-     */
-    private function handleBadRequest(
-        ServerRequestInterface $request,
-        BadRequestException $e
-    ) : ResponseInterface {
-        return $this->jsonViolations($e->getViolations(), 400);
-    }
-
-    /**
-     * @param ServerRequestInterface $request
      * @param InvalidPayloadException $e
      *
      * @return ResponseInterface
@@ -79,6 +66,19 @@ final class ErrorHandlingMiddleware implements MiddlewareInterface
         InvalidPayloadException $e
     ) : ResponseInterface {
         return $this->error('Invalid payload', 'requestBody', null, 400);
+    }
+
+    /**
+     * @param ServerRequestInterface $request
+     * @param BadRequestException $e
+     *
+     * @return ResponseInterface
+     */
+    private function handleBadRequest(
+        ServerRequestInterface $request,
+        BadRequestException $e
+    ) : ResponseInterface {
+        return $this->jsonViolations($e->getViolations(), 400);
     }
 
     /**
@@ -118,7 +118,7 @@ final class ErrorHandlingMiddleware implements MiddlewareInterface
         ServerRequestInterface $request,
         UnsupportedMediaTypeException $e
     ) : ResponseInterface {
-        return $this->error($e->getMessage(), 'requestBody', null, 415)
+        return $this->createResponse(415)
             ->withHeader('Accept', $e->getJoinedSupportedTypes());
     }
 

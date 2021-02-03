@@ -30,7 +30,7 @@ final class InvalidEntityException extends BadRequestException
      *
      * @throws self
      */
-    public static function assertValid(object $entity, ValidatorInterface $validator) : void
+    public static function assert(object $entity, ValidatorInterface $validator) : void
     {
         $violations = self::convertViolationsToArray($validator->validate($entity));
         if ([] === $violations) {
