@@ -1,0 +1,9 @@
+#!/bin/bash
+
+VERSION=$(git describe --tags --abbrev=0)
+
+if [ $? -eq 0 ]; then
+    echo $VERSION | sed 's/^v//'
+else
+    echo '0.1.0'
+fi

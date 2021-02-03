@@ -47,7 +47,7 @@ return [
      *
      * @link https://semver.org/
      */
-    'app.version' => trim(`echo $(git describe --tags --abbrev=0 || echo 0.1.0) | sed 's/^v//'`),
+    'app.version' => trim(`bash bin/version`),
 
     /**
      * The application signature
