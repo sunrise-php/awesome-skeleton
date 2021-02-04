@@ -6,7 +6,11 @@
     "license": "MIT",
     "keywords": [
         "sunrise",
-        "skeleton"
+        "skeleton",
+        "php-skeleton",
+        "php7-skeleton",
+        "php8-skeleton",
+        "psr-skeleton",
     ],
     "require": {
         "php": "^7.4|^8.0",
