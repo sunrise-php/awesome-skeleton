@@ -10,7 +10,7 @@
         "php-skeleton",
         "php7-skeleton",
         "php8-skeleton",
-        "psr-skeleton",
+        "psr-skeleton"
     ],
     "require": {
         "php": "^7.4|^8.0",
