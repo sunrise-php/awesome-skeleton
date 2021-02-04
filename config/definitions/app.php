@@ -74,7 +74,7 @@ return [
      * The application commands
      */
     'commands' => [
-        autowire(App\Command\GenerateOpenApiDocumentationCommand::class),
+        autowire(App\Command\GenerateOpenApiDocumentCommand::class),
         autowire(App\Command\GenerateRoadRunnerSystemdUnitCommand::class),
     ],
 

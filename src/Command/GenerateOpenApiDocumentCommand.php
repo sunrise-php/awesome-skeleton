@@ -23,9 +23,9 @@ use const JSON_UNESCAPED_SLASHES;
 use const JSON_UNESCAPED_UNICODE;
 
 /**
- * GenerateOpenApiDocumentationCommand
+ * GenerateOpenApiDocumentCommand
  */
-final class GenerateOpenApiDocumentationCommand extends Command
+final class GenerateOpenApiDocumentCommand extends Command
 {
     use ContainerAwareTrait;
 
@@ -34,10 +34,10 @@ final class GenerateOpenApiDocumentationCommand extends Command
      */
     protected function configure() : void
     {
-        $this->setName('app:openapi:generate-documentation');
-        $this->setDescription('Generates OpenApi documentation');
+        $this->setName('app:openapi:generate-document');
+        $this->setDescription('Generates OpenApi document');
 
-        $this->addOption('pretty', null, null, 'Use whitespace in returned data to format it');
+        $this->addOption('pretty');
     }
 
     /**
