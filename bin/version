@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION=$(git describe --tags --abbrev=0)
+VERSION=$(git describe --tags --abbrev=0 2> /dev/null)
 
 if [ $? -eq 0 ]; then
     echo $VERSION | sed 's/^v//'
