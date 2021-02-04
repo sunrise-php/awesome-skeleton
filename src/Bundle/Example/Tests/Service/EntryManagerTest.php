@@ -27,7 +27,7 @@ class EntryManagerTest extends TestCase
         $container = $this->getContainer();
         $doctrine = $container->get('doctrine');
 
-        $entityManager = $doctrine->getManager('slave');
+        $entityManager = $doctrine->getManager('master');
         $this->createDatabaseSchema($entityManager);
 
         $entryManager = $container->get('entryManager');
@@ -47,12 +47,18 @@ class EntryManagerTest extends TestCase
         $container = $this->getContainer();
         $doctrine = $container->get('doctrine');
 
-        $entityManager = $doctrine->getManager('slave');
+        $entityManager = $doctrine->getManager('master');
         $this->createDatabaseSchema($entityManager);
 
         $entryManager = $container->get('entryManager');
         $this->assertSame([], $entryManager->getList(null, null));
 
-        // to be continued...
+        $foo = $entryManager->create(['name' => 'foo', 'slug' => 'foo']);
+        $bar = $entryManager->create(['name' => 'bar', 'slug' => 'bar']);
+
+        $entries = $entryManager->getList(null, null);
+        $this->assertCount(2, $entries);
+        $this->assertSame($foo->getId()->toString(), (string) $entries[1]->getId());
+        $this->assertSame($bar->getId()->toString(), (string) $entries[0]->getId());
     }
 }
