@@ -78,7 +78,7 @@ final class ErrorHandlingMiddleware implements MiddlewareInterface
         ServerRequestInterface $request,
         BadRequestException $e
     ) : ResponseInterface {
-        return $this->jsonViolations($e->getViolations(), 400);
+        return $this->violations($e->getViolations(), 400);
     }
 
     /**
