@@ -17,30 +17,6 @@ final class EntrySerializer
 
     /**
      * @OpenApi\Schema(
-     *   refName="EntryList",
-     *   type="array",
-     *   items=@OpenApi\SchemaReference(
-     *     class="App\Bundle\Example\Service\EntrySerializer",
-     *     method="serialize",
-     *   ),
-     * )
-     *
-     * @param Entry ...$entries
-     *
-     * @return array
-     */
-    public function listSerialize(Entry ...$entries) : array
-    {
-        $result = [];
-        foreach ($entries as $entry) {
-            $result[] = $this->serialize($entry);
-        }
-
-        return $result;
-    }
-
-    /**
-     * @OpenApi\Schema(
      *   refName="Entry",
      *   type="object",
      *   properties={
@@ -77,12 +53,36 @@ final class EntrySerializer
     public function serialize(Entry $entry) : array
     {
         return [
-            'id' => $entry->getId(),
+            'id' => (string) $entry->getId(),
             'name' => $entry->getName(),
             'slug' => $entry->getSlug(),
             'createdAt' => $this->dateTimeSerialize($entry->getCreatedAt()),
             'updatedAt' => $this->dateTimeSerialize($entry->getUpdatedAt()),
         ];
+    }
+
+    /**
+     * @OpenApi\Schema(
+     *   refName="EntryList",
+     *   type="array",
+     *   items=@OpenApi\SchemaReference(
+     *     class="App\Bundle\Example\Service\EntrySerializer",
+     *     method="serialize",
+     *   ),
+     * )
+     *
+     * @param Entry ...$entries
+     *
+     * @return array
+     */
+    public function serializeList(Entry ...$entries) : array
+    {
+        $result = [];
+        foreach ($entries as $entry) {
+            $result[] = $this->serialize($entry);
+        }
+
+        return $result;
     }
 
     /**
