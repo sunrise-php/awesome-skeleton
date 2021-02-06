@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "06a4687af29c510e9938167011417679",
+    "content-hash": "838af139a633d2ecb9951de5229a9eb3",
     "packages": [
         {
             "name": "arus/doctrine-bridge",
@@ -3291,6 +3291,67 @@
                 "source": "https://github.com/sunrise-php/http-header-collection/tree/v1.1.0"
             },
             "time": "2020-12-25T23:20:27+00:00"
+        },
+        {
+            "name": "sunrise/http-header-kit",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sunrise-php/http-header-kit.git",
+                "reference": "0fb4377633ca511b35c7e82ffb564c95c0c1775d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sunrise-php/http-header-kit/zipball/0fb4377633ca511b35c7e82ffb564c95c0c1775d",
+                "reference": "0fb4377633ca511b35c7e82ffb564c95c0c1775d",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1|^8.0",
+                "psr/http-message": "^1.0",
+                "sunrise/http-header": "^1.1",
+                "sunrise/http-header-collection": "^1.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "7.5.20|9.5.0",
+                "sunrise/coding-standard": "1.0.0",
+                "sunrise/http-factory": "1.1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Sunrise\\Http\\Header\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anatoly Fenric",
+                    "email": "anatoly@fenric.ru",
+                    "homepage": "https://anatoly.fenric.ru/"
+                }
+            ],
+            "description": "Sunrise HTTP header kit for PHP 7.1+ based on PSR-7",
+            "homepage": "https://github.com/sunrise-php/http-header-kit",
+            "keywords": [
+                "PHP7",
+                "fenric",
+                "header",
+                "http",
+                "http-header-kit",
+                "kit",
+                "php8",
+                "psr-7",
+                "sunrise"
+            ],
+            "support": {
+                "issues": "https://github.com/sunrise-php/http-header-kit/issues",
+                "source": "https://github.com/sunrise-php/http-header-kit/tree/v1.1.0"
+            },
+            "time": "2020-12-26T08:33:57+00:00"
         },
         {
             "name": "sunrise/http-message",

@@ -18,6 +18,7 @@
         "php-di/php-di": "^6.3",
         "monolog/monolog": "^2.2",
         "sunrise/http-factory": "^1.1",
+        "sunrise/http-header-kit": "^1.1",
         "sunrise/http-router": "^2.6",
         "sunrise/http-router-openapi": "^1.9",
         "doctrine/orm": "^2.8",
