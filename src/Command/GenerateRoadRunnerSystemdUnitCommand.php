@@ -61,7 +61,7 @@ EOT;
      */
     protected function execute(InputInterface $input, OutputInterface $output) : int
     {
-        $rr = trim(`which rr`);
+        $rr = '/usr/local/bin/rr';
         $cwd = trim(`pwd`);
         $user = trim(`id -u -n`);
         $group = trim(`id -g -n`);
