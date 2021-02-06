@@ -84,6 +84,6 @@ final class EntryCreateController implements RequestHandlerInterface
     {
         $entry = $this->container->get('entryManager')->create($request->getParsedBody());
 
-        return $this->ok($this->container->get('entrySerializer')->serialize($entry));
+        return $this->ok($this->container->get('entrySerializer')->serialize($entry), [], 201);
     }
 }
