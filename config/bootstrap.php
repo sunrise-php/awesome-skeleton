@@ -3,18 +3,17 @@
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Symfony\Component\Dotenv\Dotenv;
 
-(function () {
-    chdir(__DIR__ . '/..');
-    setlocale(LC_ALL, 'C.UTF-8');
+chdir(__DIR__ . '/..');
+setlocale(LC_ALL, 'C.UTF-8');
 
-    // enables strict development mode...
-    set_error_handler(function ($severity, $message, $file, $line) {
-        throw new ErrorException($message, 0, $severity, $file, $line);
-    });
+// enables strict development mode...
+// good code shouldn't contain notices, warnings and etc.
+set_error_handler(function ($severity, $message, $file, $line) {
+    throw new ErrorException($message, 0, $severity, $file, $line);
+});
 
-    // enables annotations autoload...
-    /** @scrutinizer ignore-deprecated */ AnnotationRegistry::registerLoader('class_exists');
+// enables annotations autoload...
+/** @scrutinizer ignore-deprecated */ AnnotationRegistry::registerLoader('class_exists');
 
-    // loads environment variables from the `.env` file...
-    (new Dotenv)->usePutenv()->load(__DIR__ . '/../.env');
-})();
+// loads environment variables from the `.env` file...
+(new Dotenv)->usePutenv()->load(__DIR__ . '/../.env');
