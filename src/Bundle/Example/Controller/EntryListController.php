@@ -54,7 +54,7 @@ use Psr\Http\Server\RequestHandlerInterface;
  *             properties={
  *               "data": @OpenApi\SchemaReference(
  *                 class="App\Bundle\Example\Service\EntrySerializer",
- *                 method="listSerialize",
+ *                 method="serializeList",
  *               ),
  *             },
  *           ),
@@ -79,15 +79,21 @@ final class EntryListController implements RequestHandlerInterface
     public function handle(ServerRequestInterface $request) : ResponseInterface
     {
         $q = $request->getQueryParams();
-        $limit = (int) ($q['limit'] ?? 100);
-        $offset = (int) ($q['offset'] ?? 0);
+
+        $limit = 10;
+        $offset = 0;
+
+        if (isset($q['limit'])) {
+            $limit = (int) $q['limit'];
+        }
+
+        if (isset($q['offset'])) {
+            $offset = (int) $q['offset'];
+        }
 
         $entries = $this->container->get('entryManager')->getList($limit, $offset);
-        $total = $this->container->get('entryManager')->countAll();
-        $data = $this->container->get('entrySerializer')->listSerialize(...$entries);
+        $data = $this->container->get('entrySerializer')->serializeList(...$entries);
 
-        return $this->ok($data, [
-            'total' => $total,
-        ]);
+        return $this->ok($data);
     }
 }
