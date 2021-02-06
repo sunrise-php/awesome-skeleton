@@ -21,6 +21,8 @@ final class RequestHeaderValidationMiddleware extends BaseRequestHeaderValidatio
 
     /**
      * {@inheritDoc}
+     *
+     * @codeCoverageIgnore
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
     {
