@@ -7,12 +7,6 @@ namespace App\Exception;
  */
 use Sunrise\Http\Router\Exception\BadRequestException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Component\Validator\ConstraintViolationListInterface;
-
-/**
- * Import functions
- */
-use function get_class;
 
 /**
  * InvalidEntityException
@@ -32,33 +26,13 @@ final class InvalidEntityException extends BadRequestException
      */
     public static function assert(object $entity, ValidatorInterface $validator) : void
     {
-        $violations = self::normalizeViolations($validator->validate($entity));
-        if ([] === $violations) {
+        $violations = $validator->validate($entity);
+        if (0 === $violations->count()) {
             return;
         }
 
-        throw new self('Invalid Entity ' . get_class($entity), [
-            'violations' => $violations,
+        throw new self('Invalid Entity', [
+            'violations' => $violations->getIterator()->getArrayCopy(),
         ]);
-    }
-
-    /**
-     * Converts the given violation list object to array
-     *
-     * @param ConstraintViolationListInterface $violations
-     *
-     * @return array
-     */
-    private static function normalizeViolations(ConstraintViolationListInterface $violations) : array
-    {
-        $result = [];
-        foreach ($violations as $violation) {
-            $result[] = [
-                'message' => $violation->getMessage(),
-                'property' => $violation->getPropertyPath(),
-            ];
-        }
-
-        return $result;
     }
 }
