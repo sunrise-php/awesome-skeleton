@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3157387c1e83553d5fa4743f8e189d3b",
+    "content-hash": "06a4687af29c510e9938167011417679",
     "packages": [
         {
             "name": "arus/doctrine-bridge",
@@ -69,16 +69,16 @@
         },
         {
             "name": "arus/http-response-kit",
-            "version": "v1.3.0",
+            "version": "v1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/autorusltd/http-response-kit.git",
-                "reference": "d563b05b5d5e352e0da07b72ddb0292e8d2661d6"
+                "reference": "858f0645a2d73e29eef8eb04e6352c55f4beb468"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/autorusltd/http-response-kit/zipball/d563b05b5d5e352e0da07b72ddb0292e8d2661d6",
-                "reference": "d563b05b5d5e352e0da07b72ddb0292e8d2661d6",
+                "url": "https://api.github.com/repos/autorusltd/http-response-kit/zipball/858f0645a2d73e29eef8eb04e6352c55f4beb468",
+                "reference": "858f0645a2d73e29eef8eb04e6352c55f4beb468",
                 "shasum": ""
             },
             "require": {
@@ -120,9 +120,9 @@
             ],
             "support": {
                 "issues": "https://github.com/autorusltd/http-response-kit/issues",
-                "source": "https://github.com/autorusltd/http-response-kit/tree/v1.3.0"
+                "source": "https://github.com/autorusltd/http-response-kit/tree/v1.4.0"
             },
-            "time": "2021-02-02T14:49:08+00:00"
+            "time": "2021-02-06T02:15:53+00:00"
         },
         {
             "name": "arus/monolog-telegram-handler",
@@ -3448,16 +3448,16 @@
         },
         {
             "name": "sunrise/http-router-openapi",
-            "version": "v1.8.0",
+            "version": "v1.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sunrise-php/http-router-openapi.git",
-                "reference": "ce2b0853862a9e222ddf8ec59aff1aa77d746715"
+                "reference": "b4d02447d3dc86a3724dd5eee63e2ff9e4404538"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sunrise-php/http-router-openapi/zipball/ce2b0853862a9e222ddf8ec59aff1aa77d746715",
-                "reference": "ce2b0853862a9e222ddf8ec59aff1aa77d746715",
+                "url": "https://api.github.com/repos/sunrise-php/http-router-openapi/zipball/b4d02447d3dc86a3724dd5eee63e2ff9e4404538",
+                "reference": "b4d02447d3dc86a3724dd5eee63e2ff9e4404538",
                 "shasum": ""
             },
             "require": {
@@ -3469,7 +3469,8 @@
             "require-dev": {
                 "justinrainbow/json-schema": "5.2.10",
                 "phpunit/phpunit": "7.5.20||9.5.0",
-                "sunrise/coding-standard": "1.0.0"
+                "sunrise/coding-standard": "1.0.0",
+                "sunrise/http-factory": "1.1.0"
             },
             "type": "library",
             "autoload": {
@@ -3503,9 +3504,9 @@
             ],
             "support": {
                 "issues": "https://github.com/sunrise-php/http-router-openapi/issues",
-                "source": "https://github.com/sunrise-php/http-router-openapi/tree/v1.8.0"
+                "source": "https://github.com/sunrise-php/http-router-openapi/tree/v1.9.0"
             },
-            "time": "2021-02-01T06:43:33+00:00"
+            "time": "2021-02-06T05:45:54+00:00"
         },
         {
             "name": "sunrise/http-server-request",
