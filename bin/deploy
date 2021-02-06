@@ -7,5 +7,5 @@ composer install --no-dev --classmap-authoritative
 
 find cache/ -type f -not -name '.gitkeep' -delete
 
-php bin/app migrations:migrate --no-interaction
-php bin/app orm:generate-proxies
+php bin/app migrations:migrate --service 'master' --no-interaction
+php bin/app orm:generate-proxies --service 'master'
