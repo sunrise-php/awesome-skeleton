@@ -1,0 +1,9 @@
+<?php declare(strict_types=1);
+
+use App\Doctrine\QueryLogger;
+
+use function DI\autowire;
+
+return [
+    'doctrine.configuration.default.sql_logger' => autowire(QueryLogger::class),
+];
