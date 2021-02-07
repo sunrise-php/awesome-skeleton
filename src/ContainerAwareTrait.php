@@ -26,8 +26,6 @@ trait ContainerAwareTrait
      * Gets the application container
      *
      * @return ContainerInterface
-     *
-     * @codeCoverageIgnore
      */
     public function getContainer() : ContainerInterface
     {
