@@ -21,8 +21,6 @@ final class RequestQueryValidationMiddleware extends BaseRequestQueryValidationM
 
     /**
      * {@inheritDoc}
-     *
-     * @codeCoverageIgnore
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
     {

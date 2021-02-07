@@ -21,7 +21,6 @@ final class InvalidEntityException extends BadRequestException
      * @param ValidatorInterface $validator
      *
      * @return void
-     *
      * @throws self
      */
     public static function assert(object $entity, ValidatorInterface $validator) : void

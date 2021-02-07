@@ -17,14 +17,6 @@ use Psr\Http\Server\RequestHandlerInterface;
  *   path="/",
  *   methods={"GET"},
  * )
- *
- * @OpenApi\Operation(
- *   responses={
- *     200: @OpenApi\Response(
- *       description="OK",
- *     ),
- *   },
- * )
  */
 final class HomeController implements RequestHandlerInterface
 {

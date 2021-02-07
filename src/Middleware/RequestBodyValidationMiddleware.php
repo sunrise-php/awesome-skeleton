@@ -21,8 +21,6 @@ final class RequestBodyValidationMiddleware extends BaseRequestBodyValidationMid
 
     /**
      * {@inheritDoc}
-     *
-     * @codeCoverageIgnore
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
     {
