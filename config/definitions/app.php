@@ -8,7 +8,23 @@ use function DI\string;
 return [
 
     /**
+     * The application name
+     *
+     * Use only ASCII without whitespace characters
+     */
+    'app.name' => 'acme',
+
+    /**
+     * The application summary (short description)
+     *
+     * Use only markdown markup to format text
+     */
+    'app.summary' => 'Awesome Skeleton',
+
+    /**
      * The application root
+     *
+     * Must contain the root path of the application
      */
     'app.root' => realpath(__DIR__ . '/../..'),
 
@@ -55,20 +71,6 @@ return [
      * Use to accurate identification of the application (for example in logs)
      */
     'app.signature' => string('{app.name}@{app.version}-{app.env}'),
-
-    /**
-     * The application name
-     *
-     * Use only ASCII without whitespace characters
-     */
-    'app.name' => 'acme',
-
-    /**
-     * The application summary
-     *
-     * Use only markdown markup to format text
-     */
-    'app.summary' => 'Awesome Skeleton',
 
     /**
      * The application commands
