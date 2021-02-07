@@ -85,7 +85,7 @@ return [
      */
     'middlewares' => [
         autowire(App\Middleware\ErrorHandlingMiddleware::class),
-        autowire(App\Middleware\MaintenanceMiddleware::class),
+        autowire(App\Middleware\DoormanMiddleware::class),
         create(Middlewares\ResponseTime::class),
         create(Middlewares\JsonPayload::class),
     ],
