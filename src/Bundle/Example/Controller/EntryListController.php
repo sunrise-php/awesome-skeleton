@@ -83,11 +83,11 @@ final class EntryListController implements RequestHandlerInterface
         $limit = 10;
         $offset = 0;
 
-        if (isset($q['limit'])) {
+        if (!empty($q['limit'])) {
             $limit = (int) $q['limit'];
         }
 
-        if (isset($q['offset'])) {
+        if (!empty($q['offset'])) {
             $offset = (int) $q['offset'];
         }
 

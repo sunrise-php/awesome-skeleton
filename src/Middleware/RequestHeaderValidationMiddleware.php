@@ -10,12 +10,12 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Sunrise\Http\Router\OpenApi\Middleware\RequestHeaderValidationMiddleware as BaseRequestHeaderValidationMiddleware;
+use Sunrise\Http\Router\OpenApi\Middleware\RequestHeaderValidationMiddleware as BaseMiddleware;
 
 /**
  * RequestHeaderValidationMiddleware
  */
-final class RequestHeaderValidationMiddleware extends BaseRequestHeaderValidationMiddleware implements MiddlewareInterface
+final class RequestHeaderValidationMiddleware extends BaseMiddleware implements MiddlewareInterface
 {
     use ContainerAwareTrait;
 
