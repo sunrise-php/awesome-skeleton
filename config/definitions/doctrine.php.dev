@@ -1,9 +1,10 @@
 <?php declare(strict_types=1);
 
-use App\Doctrine\QueryLogger;
+use Arus\Doctrine\Bridge\SQLLogger;
 
-use function DI\autowire;
+use function DI\create;
+use function DI\get;
 
 return [
-    'doctrine.configuration.default.sql_logger' => autowire(QueryLogger::class),
+    'doctrine.configuration.default.sql_logger' => create(SQLLogger::class)->constructor(get('logger')),
 ];
