@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "838af139a633d2ecb9951de5229a9eb3",
+    "content-hash": "ed107cbfa999fee3aa8f561600d4236b",
     "packages": [
         {
             "name": "arus/doctrine-bridge",
-            "version": "v1.17.0",
+            "version": "v1.18.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/autorusltd/doctrine-bridge.git",
-                "reference": "7f11257f6869dbde44a1abacc5044b894f18805d"
+                "reference": "d2d892b82a92dbebc07c793762f8c316a4a94d45"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/autorusltd/doctrine-bridge/zipball/7f11257f6869dbde44a1abacc5044b894f18805d",
-                "reference": "7f11257f6869dbde44a1abacc5044b894f18805d",
+                "url": "https://api.github.com/repos/autorusltd/doctrine-bridge/zipball/d2d892b82a92dbebc07c793762f8c316a4a94d45",
+                "reference": "d2d892b82a92dbebc07c793762f8c316a4a94d45",
                 "shasum": ""
             },
             "require": {
@@ -31,6 +31,7 @@
                 "arus/php-coding-standard": "^1.0",
                 "doctrine/migrations": "^2.2",
                 "doctrine/orm": "^2.7",
+                "monolog/monolog": "^2.0",
                 "php-di/php-di": "^6.0",
                 "phpunit/phpunit": "7.5.20|9.5.0",
                 "symfony/validator": "^5.0"
@@ -63,9 +64,9 @@
             ],
             "support": {
                 "issues": "https://github.com/autorusltd/doctrine-bridge/issues",
-                "source": "https://github.com/autorusltd/doctrine-bridge/tree/v1.17.0"
+                "source": "https://github.com/autorusltd/doctrine-bridge/tree/v1.18.0"
             },
-            "time": "2021-02-02T21:14:37+00:00"
+            "time": "2021-02-07T00:26:22+00:00"
         },
         {
             "name": "arus/http-response-kit",

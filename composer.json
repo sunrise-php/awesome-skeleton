@@ -30,7 +30,7 @@
         "middlewares/payload": "^3.0",
         "middlewares/response-time": "^2.0",
         "justinrainbow/json-schema": "^5.2",
-        "arus/doctrine-bridge": "^1.17",
+        "arus/doctrine-bridge": "^1.18",
         "arus/monolog-telegram-handler": "^2.1",
         "arus/http-response-kit": "^1.4"
     },
