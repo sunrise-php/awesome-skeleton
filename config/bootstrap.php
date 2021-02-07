@@ -1,6 +1,5 @@
 <?php declare(strict_types=1);
 
-use Doctrine\Common\Annotations\AnnotationRegistry;
 use Symfony\Component\Dotenv\Dotenv;
 
 chdir(__DIR__ . '/..');
