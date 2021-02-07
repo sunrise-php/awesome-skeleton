@@ -13,7 +13,7 @@ return [
         create(TelegramHandler::class)->constructor(
             get('monolog.configuration.telegram.token'),
             get('monolog.configuration.telegram.recipient'),
-            get('monolog.configuration.telegram.level')
+            get('monolog.configuration.telegram.level'),
         ),
     ]),
 

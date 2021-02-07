@@ -2,8 +2,6 @@
 
 use Sunrise\Http\Router\OpenApi\OpenApi;
 use Sunrise\Http\Router\OpenApi\Object\Info;
-use Sunrise\Http\Router\OpenApi\Object\SecurityRequirement;
-use Sunrise\Http\Router\OpenApi\Object\SecurityScheme;
 
 use function DI\factory;
 
@@ -20,19 +18,7 @@ return [
 
         $openapi = new OpenApi($info);
         $openapi->includeUndescribedOperations(false);
-
-        $openapi->addRoute(
-            ...$container->get('router')->getRoutes()
-        );
-
-        $basicAuth = new SecurityScheme('basicAuth', 'http');
-        $basicAuth->setScheme('basic');
-
-        $openapi->addComponentObject($basicAuth);
-
-        $openapi->addSecurityRequirement(
-            new SecurityRequirement('basicAuth')
-        );
+        $openapi->addRoute(...$container->get('router')->getRoutes());
 
         return $openapi;
     }),

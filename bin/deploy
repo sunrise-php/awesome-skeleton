@@ -1,0 +1,14 @@
+#!/bin/bash
+
+bash bin/down 'deploying'
+
+git fetch --tags
+git checkout $(git describe --tags $(git rev-list --tags --max-count=1))
+
+find cache/ -type f -not -name '.gitkeep' -delete
+composer install --no-dev --classmap-authoritative
+
+php bin/app migrations:migrate --service 'master' --no-interaction
+php bin/app orm:generate-proxies --service 'master'
+
+bash bin/up

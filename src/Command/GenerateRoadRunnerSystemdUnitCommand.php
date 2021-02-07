@@ -61,26 +61,26 @@ EOT;
      */
     protected function execute(InputInterface $input, OutputInterface $output) : int
     {
-        $rr = trim(`which rr`);
+        $rr = '/usr/local/bin/rr';
         $cwd = trim(`pwd`);
         $user = trim(`id -u -n`);
         $group = trim(`id -g -n`);
         $questioner = $this->getHelper('question');
         $replacements = [];
 
-        $format = 'The RoadRunner path [<fg=yellow>%s</>]: ';
+        $format = 'RR path [<fg=yellow>%s</>]: ';
         $question = new Question(sprintf($format, $rr), $rr);
         $replacements['{rr}'] = $questioner->ask($input, $output, $question);
 
-        $format = 'The directory in which the service will be started [<fg=yellow>%s</>]: ';
+        $format = 'App root [<fg=yellow>%s</>]: ';
         $question = new Question(sprintf($format, $cwd), $cwd);
         $replacements['{cwd}'] = $questioner->ask($input, $output, $question);
 
-        $format = 'The user on whose behalf the service will be started [<fg=yellow>%s</>]: ';
+        $format = 'User name [<fg=yellow>%s</>]: ';
         $question = new Question(sprintf($format, $user), $user);
         $replacements['{user}'] = $questioner->ask($input, $output, $question);
 
-        $format = 'The group on whose behalf the service will be started [<fg=yellow>%s</>]: ';
+        $format = 'Group name [<fg=yellow>%s</>]: ';
         $question = new Question(sprintf($format, $group), $group);
         $replacements['{group}'] = $questioner->ask($input, $output, $question);
 

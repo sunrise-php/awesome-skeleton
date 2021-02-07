@@ -25,7 +25,7 @@ return [
     'migrations.configuration.column_name' => null,
     'migrations.configuration.column_length' => null,
     'migrations.configuration.executed_at_column_name' => null,
-    'migrations.configuration.directory' => string('{app.root}/database/migrations'),
+    'migrations.configuration.directory' => string('{app.root}/migrations'),
     'migrations.configuration.namespace' => 'DoctrineMigrations',
     'migrations.configuration.organize_by_year' => null,
     'migrations.configuration.organize_by_year_and_month' => null,

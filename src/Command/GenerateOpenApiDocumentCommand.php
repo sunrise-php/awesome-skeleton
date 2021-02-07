@@ -18,14 +18,13 @@ use function json_encode;
 /**
  * Import constants
  */
-use const JSON_PRETTY_PRINT;
 use const JSON_UNESCAPED_SLASHES;
 use const JSON_UNESCAPED_UNICODE;
 
 /**
- * GenerateOpenApiDocumentationCommand
+ * GenerateOpenApiDocumentCommand
  */
-final class GenerateOpenApiDocumentationCommand extends Command
+final class GenerateOpenApiDocumentCommand extends Command
 {
     use ContainerAwareTrait;
 
@@ -34,10 +33,8 @@ final class GenerateOpenApiDocumentationCommand extends Command
      */
     protected function configure() : void
     {
-        $this->setName('app:openapi:generate-documentation');
-        $this->setDescription('Generates OpenApi documentation');
-
-        $this->addOption('pretty', null, null, 'Use whitespace in returned data to format it');
+        $this->setName('app:openapi:generate-document');
+        $this->setDescription('Generates OpenApi document');
     }
 
     /**
@@ -45,13 +42,9 @@ final class GenerateOpenApiDocumentationCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output) : int
     {
-        $mode = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE;
+        $flags = JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE;
 
-        if ($input->getOption('pretty')) {
-            $mode |= JSON_PRETTY_PRINT;
-        }
-
-        $output->writeln(json_encode($this->container->get('openapi')->toArray(), $mode));
+        $output->writeln(json_encode($this->container->get('openapi')->toArray(), $flags));
 
         return 0;
     }

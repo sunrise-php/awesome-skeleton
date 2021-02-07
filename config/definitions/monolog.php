@@ -10,7 +10,7 @@ return [
     'logger' => create(Logger::class)->constructor(
         get('monolog.configuration.name'),
         get('monolog.configuration.handlers'),
-        get('monolog.configuration.processors')
+        get('monolog.configuration.processors'),
     ),
 
     'monolog.configuration.name' => get('app.signature'),

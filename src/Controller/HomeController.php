@@ -32,6 +32,6 @@ final class HomeController implements RequestHandlerInterface
      */
     public function handle(ServerRequestInterface $request) : ResponseInterface
     {
-        return $this->html($this->container->get('twig')->render('home.html.twig'));
+        return $this->ok();
     }
 }

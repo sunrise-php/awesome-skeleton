@@ -1,26 +1,31 @@
 <?php declare(strict_types=1);
 
-use Sunrise\Http\Router\Loader\AnnotationDirectoryLoader;
-use Sunrise\Http\Router\Loader\CollectableFileLoader;
+use Sunrise\Http\Router\Loader\DescriptorDirectoryLoader;
 use Sunrise\Http\Router\Router;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
+use Symfony\Component\Cache\Psr16Cache as Cache;
 
 use function DI\factory;
+use function DI\string;
 
 return [
     'router' => factory(function ($container) {
-        $router = new Router();
-
-        $source = realpath(__DIR__ . '/../../src/Controller');
-        $loader = new AnnotationDirectoryLoader();
+        $loader = new DescriptorDirectoryLoader();
         $loader->setContainer($container);
-        $loader->attach($source);
-        $router->load($loader);
+        $loader->setCache($container->get('router.configuration.metadata_cache'));
+        $loader->attachArray($container->get('router.configuration.metadata_sources'));
 
-        $source = realpath(__DIR__ . '/../../config/routes');
-        $loader = new CollectableFileLoader();
-        $loader->attach($source);
+        $router = new Router();
         $router->load($loader);
 
         return $router;
     }),
+
+    'router.configuration.metadata_cache' => factory(function () {
+        return new Cache(new ArrayAdapter());
+    }),
+
+    'router.configuration.metadata_sources' => [
+        string('{app.root}/src/Controller'),
+    ],
 ];

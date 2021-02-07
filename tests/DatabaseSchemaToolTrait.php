@@ -24,13 +24,7 @@ trait DatabaseSchemaToolTrait
     private function createDatabaseSchema(EntityManagerInterface $entityManager) : void
     {
         $schema = new SchemaTool($entityManager);
-
-        $schema->dropSchema(
-            $entityManager->getMetadataFactory()->getAllMetadata()
-        );
-
-        $schema->createSchema(
-            $entityManager->getMetadataFactory()->getAllMetadata()
-        );
+        $schema->dropSchema($entityManager->getMetadataFactory()->getAllMetadata());
+        $schema->createSchema($entityManager->getMetadataFactory()->getAllMetadata());
     }
 }

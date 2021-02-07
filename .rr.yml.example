@@ -3,7 +3,7 @@ rpc:
 http:
   address: 0.0.0.0:3000
   workers:
-    command: "php bin/roadrunner-worker pipes"
+    command: "php bin/worker-roadrunner pipes"
     pool:
       numWorkers: 4
-      maxJobs: 0
+      maxJobs: 1000

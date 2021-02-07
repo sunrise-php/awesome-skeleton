@@ -1,9 +1,14 @@
+/.down
 /.env
 /.php_cs.cache
+/.phpunit.result.cache
 /.rr.yml
+/coverage.xml
 /phpbench.json
 /phpcs.xml
 /phpunit.xml
+/cache/*
 /config/definitions/*.php.local
 /tests/db/*.sqlite
 /vendor/
+!.gitkeep
