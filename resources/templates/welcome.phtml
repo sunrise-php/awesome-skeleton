@@ -1,0 +1,17 @@
+<?php
+
+declare(strict_types=1);
+
+use App\Controller\WelcomeController;
+
+?>
+<!DOCTYPE html>
+<html lang="<?= ${WelcomeController::LANGUAGE_CODE_VAR_NAME} ?>">
+<head>
+    <meta charset="utf-8">
+    <title>Awesome Skeleton</title>
+</head>
+<body>
+<h1><?= ${WelcomeController::GREETING_MESSAGE_VAR_NAME} ?></h1>
+</body>
+</html>

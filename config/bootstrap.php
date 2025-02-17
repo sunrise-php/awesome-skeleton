@@ -1,14 +1,13 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use Symfony\Component\Dotenv\Dotenv;
 
-// choices working directory...
-chdir(__DIR__ . '/..');
+require_once __DIR__ . '/../vendor/autoload.php';
 
-// enables strict development mode...
-set_error_handler(function ($code, $message, $file, $line) {
-    throw new ErrorException($message, 0, $code, $file, $line);
+set_error_handler(static function ($severity, $message, $filename, $line): never {
+    throw new ErrorException($message, 0, $severity, $filename, $line);
 });
 
-// loads environment variables...
-(new Dotenv)->usePutenv()->load(__DIR__ . '/../.env');
+(new Dotenv())->loadEnv(__DIR__ . '/../.env');

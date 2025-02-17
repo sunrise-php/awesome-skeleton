@@ -1,5 +1,0 @@
-*.php.dev linguist-language=PHP
-*.php.test linguist-language=PHP
-*.php.stage linguist-language=PHP
-*.php.prod linguist-language=PHP
-*.php.local linguist-language=PHP
