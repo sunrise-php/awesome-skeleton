@@ -1,4 +1,3 @@
-## Awesome Skeleton
+Documentation is available at:
 
-### Awesome Skeleton for modern PHP 8.1+ development.
-
+https://dev.sunrise-studio.io/docs/sunrise/awesome-skeleton/

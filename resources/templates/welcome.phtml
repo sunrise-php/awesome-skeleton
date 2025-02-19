@@ -9,30 +9,10 @@ use App\Controller\WelcomeController;
 <html lang="<?= ${WelcomeController::LANGUAGE_CODE_VAR_NAME} ?>">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Awesome Skeleton</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        h1 {
-            margin-bottom: 1rem;
-        }
-        .greeting-container {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-    </style>
 </head>
 <body>
-<div class="greeting-container">
-    <h1><?= ${WelcomeController::GREETING_MESSAGE_VAR_NAME} ?></h1>
-    <p><a href="https://dev.sunrise-studio.io/">What's next?</a></p>
-</div>
+<h1><?= ${WelcomeController::GREETING_MESSAGE_VAR_NAME} ?></h1>
+<p><a href="https://dev.sunrise-studio.io/">What's next?</a></p>
 </body>
 </html>

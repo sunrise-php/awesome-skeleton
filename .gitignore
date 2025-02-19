@@ -9,7 +9,6 @@
 /phpunit.xml
 /psalm.xml
 /var/cache/*
-/var/lib/*
 /var/log/*
 /var/tmp/*
 /vendor/

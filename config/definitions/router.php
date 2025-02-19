@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Psr\SimpleCache\CacheInterface;
 use Sunrise\Http\Router\OpenApi\OpenApiConfiguration;
 
 use function DI\add;
@@ -12,6 +13,8 @@ return [
     'router.descriptor_loader.resources' => add([
         string('{app.root}/src/Controller'),
     ]),
+
+    'router.descriptor_loader.cache' => get(CacheInterface::class),
 
     'router.error_handling_middleware.produced_languages' => [
     ],

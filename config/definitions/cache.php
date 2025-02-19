@@ -15,6 +15,6 @@ return [
 
     CacheInterface::class => create(Psr16Cache::class)
         ->constructor(
-            pool: get(CacheItemPoolInterface::class),
+            get(CacheItemPoolInterface::class),
         ),
 ];
