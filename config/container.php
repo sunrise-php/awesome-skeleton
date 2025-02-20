@@ -52,6 +52,7 @@ return (static function (): Container {
     $containerBuilder->addDefinitions(
         __DIR__ . '/../vendor/sunrise/translator/resources/definitions/translator_manager.php',
         __DIR__ . '/../vendor/sunrise/http-router/resources/definitions/translators.php',
+        __DIR__ . '/../vendor/sunrise/hydrator/resources/definitions/translators.php',
     );
 
     $containerBuilder->addDefinitions(

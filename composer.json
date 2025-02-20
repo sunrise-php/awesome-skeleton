@@ -6,7 +6,10 @@
   "keywords": [
     "fenric",
     "sunrise",
-    "skeleton"
+    "skeleton",
+    "php-skeleton",
+    "api-skeleton",
+    "api-platform"
   ],
   "require": {
     "php": ">=8.1",
@@ -15,7 +18,7 @@
     "sunrise/coder": "^1.1",
     "sunrise/http-message": "^3.4",
     "sunrise/http-router": "^3.0@RC",
-    "sunrise/hydrator": "^3.15",
+    "sunrise/hydrator": "^3.16",
     "sunrise/translator": "^1.0",
     "symfony/cache": "^6.4",
     "symfony/console": "^6.4",
