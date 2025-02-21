@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
+use App\Dictionary\EnvironmentName;
 use DI\Container;
 use DI\ContainerBuilder;
 
 return (static function (): Container {
-    $appEnv = $_ENV['APP_ENV'] ?? 'dev';
+    $appEnv = $_ENV['APP_ENV'] ?? EnvironmentName::DEV;
 
     $containerBuilder = new ContainerBuilder();
 
@@ -60,7 +61,7 @@ return (static function (): Container {
         ...glob(__DIR__ . '/definitions/' . $appEnv . '/*.php'),
     );
 
-    if ($appEnv === 'prod') {
+    if ($appEnv === EnvironmentName::PROD) {
         $containerBuilder->enableCompilation(__DIR__ . '/../var/cache/container');
     }
 
