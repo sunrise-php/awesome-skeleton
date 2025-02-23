@@ -14,11 +14,14 @@ use function DI\string;
 return [
     'logger.name' => string('{app.name}@{app.env}-{app.version}'),
 
+    'logger.stream_handler.stream_uri' => 'php://stderr',
+    'logger.stream_handler.logging_level' => env('LOGGING_LEVEL'),
+
     'logger.handlers' => [
         create(StreamHandler::class)
             ->constructor(
-                stream: 'php://stderr',
-                level: env('LOGGING_LEVEL'),
+                stream: get('logger.stream_handler.stream_uri'),
+                level: get('logger.stream_handler.logging_level'),
             ),
     ],
 
