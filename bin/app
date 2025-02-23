@@ -12,5 +12,5 @@ require_once __DIR__ . '/../config/bootstrap.php';
 $container = require_once __DIR__ . '/../config/container.php';
 
 $application = new Application();
-$application->addCommands($container->get('commands'));
+$application->addCommands($container->get('app.commands'));
 $application->run();
