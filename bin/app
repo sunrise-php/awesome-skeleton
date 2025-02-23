@@ -11,6 +11,13 @@ require_once __DIR__ . '/../config/bootstrap.php';
 /** @var Container $container */
 $container = require_once __DIR__ . '/../config/container.php';
 
-$application = new Application();
-$application->addCommands($container->get('app.commands'));
+$application = new Application(
+    $container->get('app.name'),
+    $container->get('app.version'),
+);
+
+$application->addCommands(
+    $container->get('app.commands'),
+);
+
 $application->run();

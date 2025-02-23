@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Dictionary\LanguageCode;
+use App\Dictionary\Language;
 use App\Dictionary\MediaType;
 use App\Dictionary\TranslationDomain;
 use Psr\Http\Message\ResponseInterface;
@@ -35,8 +35,8 @@ final class WelcomeController implements RequestHandlerInterface
         $serverRequest = ServerRequest::create($request);
 
         $clientPreferredLanguage = $serverRequest
-            ->getClientPreferredLanguage(...LanguageCode::cases())
-                ?? LanguageCode::English;
+            ->getClientPreferredLanguage(...Language::cases())
+                ?? Language::English;
 
         $clientPreferredMediaType = $serverRequest
             ->getClientPreferredMediaType(...MediaType::cases())

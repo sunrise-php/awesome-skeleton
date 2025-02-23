@@ -9,7 +9,7 @@ use Sunrise\Http\Router\LanguageInterface;
 // TODO: A number of languages like this is rarely used in a real project;
 //       they are all listed here to demonstrate out-of-the-box transliteration.
 //       We recommend keeping only those that you will actually use.
-enum LanguageCode: string implements LanguageInterface
+enum Language: string implements LanguageInterface
 {
     case Afrikaans = 'af';
     case Albanian = 'sq';

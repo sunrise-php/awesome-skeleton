@@ -12,6 +12,8 @@ use function DI\get;
 use function DI\string;
 
 return [
+    'logger.name' => string('{app.name}@{app.env}-{app.version}'),
+
     'logger.handlers' => [
         create(StreamHandler::class)
             ->constructor(
@@ -23,12 +25,16 @@ return [
     'logger.processors' => [
     ],
 
+    'logger.timezone' => create(DateTimeZone::class)
+        ->constructor(
+            get('app.timezone_identifier'),
+        ),
+
     LoggerInterface::class => create(Logger::class)
         ->constructor(
-            name: string('{app.name}@{app.env}'),
+            name: get('logger.name'),
             handlers: get('logger.handlers'),
             processors: get('logger.processors'),
-            timezone: create(DateTimeZone::class)
-                ->constructor(get('app.timezone')),
+            timezone: get('logger.timezone'),
         ),
 ];

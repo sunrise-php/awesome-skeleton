@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Dictionary\LanguageCode;
-use Psr\SimpleCache\CacheInterface;
-use Sunrise\Http\Router\OpenApi\OpenApiConfiguration;
+use App\Dictionary\Language;
 
 use function DI\add;
 use function DI\get;
@@ -15,17 +13,7 @@ return [
         string('{app.root}/src/Controller'),
     ]),
 
-    'router.descriptor_loader.cache' => get(CacheInterface::class),
-
-    'router.error_handling_middleware.produced_languages' => LanguageCode::cases(),
-
-    'router.openapi.initial_document' => [
-        'openapi' => OpenApiConfiguration::VERSION,
-        'info' => [
-            'title' => string('{app.name}@{app.env}'),
-            'version' => '1.0.0',
-        ],
-    ],
+    'router.error_handling_middleware.produced_languages' => Language::cases(),
 
     'router.openapi.document_filename' => string('{app.root}/var/cache/openapi'),
 

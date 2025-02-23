@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-use App\Dictionary\EnvironmentName;
 use DI\Container;
 use DI\ContainerBuilder;
 
 return (static function (): Container {
-    $appEnv = $_ENV['APP_ENV'] ?? EnvironmentName::DEV;
+    $appEnv = $_ENV['APP_ENV'] ?? 'dev';
 
     $containerBuilder = new ContainerBuilder();
 
@@ -28,6 +27,9 @@ return (static function (): Container {
         __DIR__ . '/../vendor/sunrise/http-router/resources/definitions/router.php',
         __DIR__ . '/../vendor/sunrise/http-router/resources/definitions/openapi.php',
         __DIR__ . '/../vendor/sunrise/http-router/resources/definitions/loaders/descriptor_loader.php',
+        __DIR__ . '/../vendor/sunrise/http-router/resources/definitions/commands/router_clear_descriptors_cache_command.php',
+        __DIR__ . '/../vendor/sunrise/http-router/resources/definitions/commands/router_list_routes_command.php',
+        __DIR__ . '/../vendor/sunrise/http-router/resources/definitions/commands/router_open_api_build_document_command.php',
         __DIR__ . '/../vendor/sunrise/http-router/resources/definitions/controllers/openapi_controller.php',
         __DIR__ . '/../vendor/sunrise/http-router/resources/definitions/controllers/swagger_controller.php',
         __DIR__ . '/../vendor/sunrise/http-router/resources/definitions/middlewares/error_handling_middleware.php',
@@ -61,7 +63,7 @@ return (static function (): Container {
         ...glob(__DIR__ . '/definitions/' . $appEnv . '/*.php'),
     );
 
-    if ($appEnv === EnvironmentName::PROD) {
+    if ($appEnv === 'prod') {
         $containerBuilder->enableCompilation(__DIR__ . '/../var/cache/container');
     }
 
