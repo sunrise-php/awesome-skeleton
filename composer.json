@@ -2,7 +2,7 @@
   "type": "project",
   "name": "sunrise/awesome-skeleton",
   "homepage": "https://github.com/sunrise-php/awesome-skeleton",
-  "description": "Awesome Skeleton for modern PHP 8.1+ development.",
+  "description": "An awesome skeleton for modern PHP development.",
   "keywords": [
     "fenric",
     "sunrise",
