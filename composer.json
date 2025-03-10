@@ -17,7 +17,7 @@
     "php-di/php-di": "^7.0",
     "sunrise/coder": "^1.1",
     "sunrise/http-message": "^3.4",
-    "sunrise/http-router": "^3.0@RC",
+    "sunrise/http-router": "^3.0",
     "sunrise/hydrator": "^3.16",
     "sunrise/translator": "^1.0",
     "symfony/cache": "^6.4",
@@ -54,6 +54,5 @@
   },
   "config": {
     "sort-packages": true
-  },
-  "minimum-stability": "RC"
+  }
 }
