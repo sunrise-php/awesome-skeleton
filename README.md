@@ -1,3 +1,5 @@
-Documentation is available at:
+# An awesome skeleton for modern PHP development
 
-https://dev.sunrise-studio.io/docs/sunrise/awesome-skeleton/
+## Resources
+
+- [Documentation](https://dev.sunrise-studio.io/docs/packages/sunrise/awesome-skeleton/)
