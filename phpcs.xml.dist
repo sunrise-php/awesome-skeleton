@@ -1,8 +1,13 @@
 <?xml version="1.0"?>
-<ruleset name="Sunrise Coding Standard">
-    <rule ref="./vendor/sunrise/coding-standard/ruleset.xml"/>
+<ruleset>
+  <rule ref="PSR12" />
+  <rule ref="Generic.PHP.RequireStrictTypes" />
 
-    <file>config</file>
-    <file>src</file>
-    <file>tests</file>
+  <rule ref="Generic.Files.LineLength">
+    <exclude-pattern>config/*</exclude-pattern>
+    <exclude-pattern>resources/*</exclude-pattern>
+  </rule>
+
+  <file>src</file>
+  <file>tests</file>
 </ruleset>

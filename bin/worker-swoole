@@ -1,4 +1,0 @@
-#!/usr/bin/env php
-<?php
-
-echo 'Coming soon...', PHP_EOL;

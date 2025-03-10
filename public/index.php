@@ -1,23 +1,19 @@
-<?php declare(strict_types=1);
+<?php
 
-use Sunrise\Http\Router\RequestHandler\QueueableRequestHandler;
-use Sunrise\Http\ServerRequest\ServerRequestFactory;
+declare(strict_types=1);
+
+use DI\Container;
+use Sunrise\Http\Message\ServerRequestFactory;
+use Sunrise\Http\Router\RouterInterface;
+
 use function Sunrise\Http\Router\emit;
 
-require __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../config/bootstrap.php';
 
-$container = require __DIR__ . '/../config/container.php';
+/** @var Container $container */
+$container = require_once __DIR__ . '/../config/container.php';
 
-$router = $container->get('router');
-$middlewares = $container->get('middlewares');
-
-$handler = new QueueableRequestHandler($router);
-$handler->add(...$middlewares);
-
-$request = ServerRequestFactory::fromGlobals();
-$response = $handler->handle($request);
-
-emit($response);
+emit($container->get(RouterInterface::class)->handle(ServerRequestFactory::fromGlobals()));
 
 if (function_exists('fastcgi_finish_request')) {
     fastcgi_finish_request();
